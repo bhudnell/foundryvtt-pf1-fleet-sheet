@@ -1,0 +1,40 @@
+<form class="{{ cssClass }}" data-tooltip-class="pf1" autocomplete="off">
+  {{! Sheet Navigation }}
+  <nav class="sheet-navigation tabs" data-group="primary">
+    <a class="item" data-tab="summary" data-group="primary">{{localize "PF1.Summary"}}</a>
+    <a class="item" data-tab="features" data-group="primary">{{localize "PF1.Features"}}</a>
+    <a class="item" data-tab="commander" data-group="primary">{{localize "PF1FS.Army.Commander"}}</a>
+    <a class="item" data-tab="conditions" data-group="primary">{{localize "PF1.ConditionPlural"}}</a>
+    <a class="item" data-tab="notes" data-group="primary">{{localize "PF1.Notes"}}</a>
+  </nav>
+
+  {{! Sheet Body }}
+  <section class="primary-body">
+    {{! Summary Tab }}
+    <div class="tab summary" data-group="primary" data-tab="summary">
+      {{!-- {{~> fleet-sheet-summary}} --}}
+    </div>
+
+    {{! Features Tab }}
+    <div class="tab features" data-group="primary" data-tab="features">
+      {{!-- {{~> fleet-sheet-features}} --}}
+    </div>
+
+    {{! Commander Tab }}
+    <div class="tab commander" data-group="primary" data-tab="commander">
+      {{!-- {{~> fleet-sheet-commander}} --}}
+    </div>
+
+    {{! Conditions Tab }}
+    <div class="tab conditions buffs" data-group="primary" data-tab="conditions">
+      {{!-- {{~> fleet-sheet-conditions}} --}}
+    </div>
+
+    {{! Notes Tab }}
+    <div class="tab actor-notes" data-group="primary" data-tab="notes">
+      <div class="primary-content">
+        {{editor enrichedNotes target="system.notes.value" button=true editable=editable engine="prosemirror"}}
+      </div>
+    </div>
+  </section>
+</form>

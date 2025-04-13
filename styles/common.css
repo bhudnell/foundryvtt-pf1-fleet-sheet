@@ -1,0 +1,96 @@
+.app.sheet.kingdom {
+  .sheet-navigation .item.icon {
+    flex: 0 0;
+    padding: 0 8px;
+  }
+
+  .item-controls {
+    flex: 0 0 68px;
+
+    &.one-button {
+      flex: 0 0 32px;
+    }
+
+    &.two-button {
+      flex: 0 0 48px;
+    }
+
+    &.five-button {
+      flex: 0 0 110px;
+    }
+  }
+
+  .item-detail {
+    > select {
+      border-style: none;
+      padding: 0;
+    }
+
+    &.item-number {
+      flex: 0 0 32px;
+    }
+
+    /* building stuff */
+    &.item-building-type {
+      flex: 0 0 120px;
+    }
+
+    /* event stuff */
+    &.item-settlement-name {
+      flex: 0 0 120px;
+    }
+
+    /* army stuff */
+    &.item-army-hp {
+      flex: 0 0 64px;
+    }
+
+    &.item-commander {
+      flex: 0 0 160px;
+    }
+
+    /* leadership stuff */
+    &.item-position {
+      flex: 0 0 120px;
+    }
+
+    &.item-actor {
+      flex: 1;
+    }
+
+    &.item-leader-skill-bonus {
+      flex: 0 0 160px;
+    }
+
+    &.item-leader-bonus {
+      flex: 0 0 100px;
+    }
+
+    &.item-leader-bonus-value {
+      flex: 0 0 20px;
+      border-right: unset;
+    }
+
+    &.item-leader-bonus-type {
+      justify-content: start;
+
+      > span {
+        padding-left: 4px;
+      }
+    }
+  }
+}
+
+.app.sheet.kingdom input[type="number"] {
+  text-align: center;
+}
+
+.app.sheet.kingdom .info-box select {
+  flex: 0 0 21.5px;
+  text-align: -webkit-center;
+  border: unset;
+}
+
+.app.sheet.kingdom :is(span.text-box, input.text-box) {
+  width: unset;
+}

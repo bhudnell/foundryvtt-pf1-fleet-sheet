@@ -1,0 +1,18 @@
+<div class="flexrow buffs-conditions">
+  {{#each conditions}}
+  <div class="condition{{#if active}} active{{/if}}">
+    <a class="checkbox" data-condition-id="{{ id }}">
+      <img src="{{ img }}" width="32" height="32" />
+      <div class="details">
+        <span class="name">{{ label }}</span>
+      </div>
+    </a>
+
+    {{#if compendium}}
+    <a class="compendium-entry" data-compendium-entry="{{ compendium }}">
+      <i class="fas fa-book compendium-icon"></i>
+    </a>
+    {{/if}}
+  </div>
+  {{/each}}
+</div>

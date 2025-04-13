@@ -1,0 +1,82 @@
+<form class="{{ cssClass }} flexcol" autocomplete="off" data-tooltip-class="pf1">
+  <header class="sheet-header flexrow">
+    <img class="profile" src="{{ item.img }}" data-tooltip="{{ item.name }}" data-edit="img" />
+    <div class="header-details flexrow">
+      <h1 class="item-name">
+        <input type="text" name="name" value="{{ item.name }}" />
+      </h1>
+      <ul class="summary">
+        {{#each states}}
+        <li>
+          <label>
+            <input type="checkbox" name="{{ field }}" {{checked value}} />
+            {{ label }}
+          </label>
+        </li>
+        {{/each}}
+      </ul>
+    </div>
+  </header>
+
+  <section class="sidebar">
+    <header>
+      <h3 class="item-type">{{ itemType }}</h3>
+      {{#if subType}}
+      <h4 class="item-subtype">{{ subType }}</h4>
+      {{/if}}
+    </header>
+
+    {{#each sidebarContent}}
+    {{#if isBoolean}}
+    <label class="descriptor checkbox">
+      <input type="checkbox" name="{{ name }}" {{checked value}} {{disabled disabled}} />
+      <span>{{ label }}</span>
+    </label>
+    {{else if isNumber}}
+    <label class="descriptor">
+      <span>{{ label }}</span>
+      <input type="number" name="{{ name }}" value="{{ value }}" {{disabled disabled}} />
+    </label>
+    {{else if isString}}
+    <label class="descriptor">
+      <span>{{ label }}</span>
+      <input type="text" name="{{ name }}" value="{{ value }}" {{disabled disabled}} />
+    </label>
+    {{/if}}
+    {{/each}}
+  </section>
+
+  <nav class="sheet-navigation tabs" data-group="primary">
+    <a class="item" data-tab="description">{{ localize "PF1.Description" }}</a>
+    {{#if showDetails}}
+    <a class="item" data-tab="details">{{ localize "PF1.Details" }}</a>
+    {{/if}}
+    <a class="item" data-tab="changes">{{ localize "PF1.Changes" }}</a>
+  </nav>
+
+  <section class="primary-body">
+    {{~> "systems/pf1/templates/items/parts/item-description.hbs"}}
+
+    {{#if showDetails}}
+    <div class="tab details" data-group="primary" data-tab="details">
+      {{#if isBuilding}}
+      {{~> item-sheet-building}}
+      {{else if isEvent}}
+      {{~> item-sheet-event}}
+      {{else if isImprovement}}
+      {{~> item-sheet-improvement}}
+      {{else if isBoon}}
+      {{~> item-sheet-boon}}
+      {{else if isSpecial}}
+      {{~> item-sheet-special}}
+      {{else if isTactic}}
+      {{~> item-sheet-tactic}}
+      {{/if}}
+    </div>
+    {{/if}}
+
+    <div class="tab changes" data-group="primary" data-tab="changes">
+      {{~> item-sheet-changes}}
+    </div>
+  </section>
+</form>

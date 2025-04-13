@@ -1,0 +1,98 @@
+{
+  "id": "pf1-fleet-sheet",
+  "title": "PF1e Fleet Sheet",
+  "description": "Everything needed to run a fleet from Skulls and Shackles",
+  "version": "This is auto replaced",
+  "authors": [
+    {
+      "name": "Tubbz",
+      "url": "https://github.com/bhudnell",
+      "discord": "_tubbz"
+    }
+  ],
+
+  "esmodules": ["src/main.mjs"],
+  "styles": ["styles/common.css", "styles/actor.css"],
+
+  "documentTypes": {
+    "Actor": {
+      "fleet": {
+        "htmlFields": ["notes.value"]
+      }
+    },
+    "Item": {
+      "boon": {
+        "htmlFields": ["description.value"]
+      }
+    }
+  },
+
+  "packs": [
+    {
+      "name": "boon",
+      "label": "Boons",
+      "path": "packs/boon",
+      "type": "Item",
+      "ownership": {
+        "PLAYER": "OBSERVER"
+      },
+      "system": "pf1"
+    },
+    {
+      "name": "rules",
+      "label": "Rules",
+      "path": "packs/rules",
+      "type": "JournalEntry",
+      "ownership": {
+        "PLAYER": "OBSERVER"
+      }
+    }
+  ],
+  "packFolders": [
+    {
+      "name": "Fleet Battles",
+      "packs": ["boon", "rules"]
+    }
+  ],
+
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+
+  "compatibility": {
+    "minimum": "12",
+    "verified": "12.331",
+    "maximum": "12"
+  },
+  "relationships": {
+    "requires": [
+      {
+        "id": "lib-wrapper",
+        "type": "module"
+      }
+    ],
+    "systems": [
+      {
+        "id": "pf1",
+        "type": "system",
+        "compatibility": {
+          "minimum": "11",
+          "verified": "11.2",
+          "maximum": "11.x"
+        }
+      }
+    ]
+  },
+
+  "license": "LICENSE",
+  "manifest": "This is auto replaced",
+  "download": "This is auto replaced",
+  "url": "This is auto replaced",
+  "readme": "https://github.com/bhudnell/foundryvtt-pf1-fleet-sheet#readme",
+  "bugs": "https://github.com/bhudnell/foundryvtt-pf1-fleet-sheet/issues",
+  "changelog": "https://github.com/bhudnell/foundryvtt-pf1-fleet-sheet/blob/main/CHANGELOG.md"
+}

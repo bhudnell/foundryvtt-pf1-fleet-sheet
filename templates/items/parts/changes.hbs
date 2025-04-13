@@ -1,0 +1,121 @@
+{{!-- Changes --}}
+<ol class="item-groups-list changes-list">
+  <li class="item-list-header change-header flexrow">
+    <h3>{{localize "PF1.Changes"}}</h3>
+    <div class="controls flexrow">
+      <a class="control change-control add-change" data-target="change" data-action="add">
+        <i class="fas fa-plus"></i>
+        {{localize "PF1.Add"}}
+      </a>
+    </div>
+  </li>
+
+  <ol class="item-list changes">
+  {{#each changes}}
+    <li class="change flexrow {{#if isDeferred}}roll{{else}}deterministic{{/if}}" data-change-id="{{id}}">
+      <span class="operator"
+        {{#if isAdd}}
+        data-tooltip="PF1.Application.ChangeEditor.Operator.AddHint">
+        <i class="fa-solid fa-plus-minus fa-fw"></i>
+        {{else if isSet}}
+        data-tooltip="PF1.Application.ChangeEditor.Operator.SetHint">
+        <i class="fa-solid fa-equals fa-fw"></i>
+        {{else}}
+        data-tooltip="PF1.Application.ChangeEditor.Operator.InvalidHint">
+        {{operator}}
+        {{/if}}
+      </span>
+
+      <div class="details">
+        <div class="target">
+          <label>
+            {{#if isAdd}}
+            {{localize "PF1.Application.ChangeEditor.Operator.AddVerb"}}
+            {{else if isSet}}
+            {{localize "PF1.Application.ChangeEditor.Operator.SetVerb"}}
+            {{/if}}
+          </label>
+          <span class="value{{#unless isValid}} invalid{{/unless}}">
+            {{#if isValid}}
+            {{label}}
+            {{else}}
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            {{localize "PF1.Application.ChangeEditor.Invalid"}}{{#if subTarget}} ({{subTarget}}){{/if}}
+            {{/if}}
+          </span>
+        </div>
+
+        <div class="type">
+          <label>{{localize "PF1.Application.ChangeEditor.AsType"}}</label>
+          <span class="type value{{#unless isValidType}} invalid{{/unless}}">
+            {{#if isValidType}}
+            {{typeLabel}}
+            {{else}}
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            {{localize "PF1.Application.ChangeEditor.Invalid"}}{{#if modifier}} ({{modifier}}){{/if}}
+            {{/if}}
+          </span>
+        </div>
+
+        {{#if @root.changePriority}}
+        <div class="priority">
+          <label>{{localize "PF1.Priority"}}</label>
+          <span>{{numberFormat priority sign=true}}</span>
+        </div>
+        {{/if}}
+      </div>
+
+      <div class="value">
+        <input class="formula {{#if isDeferred}}roll{{else}}deterministic{{/if}}"
+          type="text" value="{{formula}}" placeholder="0" readonly>
+      </div>
+
+      <div class="controls">
+        <a class="menu" data-change-id="{{id}}">
+          <i class="fa-solid fa-ellipsis-vertical fa-fw"></i>
+        </a>
+      </div>
+    </li>
+  {{/each}}
+  </ol>
+</ol>
+
+{{! Context Notes }}
+<ol class="item-groups-list contextnotes-list">
+  <li class="item-list-header change-header flexrow">
+    <div class="item-name">
+      <h3>{{localize "PF1.ContextNotes"}}</h3>
+    </div>
+    <div class="item-target flexrow">
+      <h3>{{localize "PF1.Target"}}</h3>
+    </div>
+    {{#if @root.owner}}
+    <div class="item-controls basic flexrow">
+      <a class="context-note-control add-note">
+        <i class="fas fa-plus"></i>
+        {{localize "PF1.Add"}}
+      </a>
+    </div>
+    {{/if}}
+  </li>
+
+  <ol class="item-list context-notes">
+    {{#each contextNotes as |note a|}}
+    <li class="item context-note flexrow" data-note="{{a}}">
+      <div class="item-name flexrow">
+        <textarea class="context-note-text context-text" name="system.contextNotes.{{a}}.text" placeholder="{{localize "PF1.Notes"}}">{{{text}}}</textarea>
+      </div>
+
+      <div class="item-target flexrow">
+        <span class="context-note-target{{#unless isValid}} invalid{{/unless}}">{{label}}</span>
+      </div>
+
+      <div class="item-controls flexrow basic">
+        {{#if @root.owner}}
+        <a class="context-note-control delete-note"><i class="fas fa-trash"></i></a>
+        {{/if}}
+      </div>
+    </li>
+    {{/each}}
+  </ol>
+</ol>

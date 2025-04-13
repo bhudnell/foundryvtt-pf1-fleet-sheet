@@ -1,0 +1,105 @@
+<div class="header">
+  <div>
+    <div class="form-group">
+      <label>{{localize "PF1FS.Army.Commander"}}</label>
+      <div class="form-fields">
+        <select name="system.commander.actor">
+          {{selectOptions commanderOptions selected=actorId blank=''}}
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>{{localize "PF1FS.Army.KingdomLeader"}}</label>
+      <div class="form-fields">
+        <input type="checkbox" name="system.commander.kingdomLeader" {{checked system.commander.kingdomLeader}} />
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box-joined" data-tooltip-extended="commander">
+    <div class="info-box">
+      <h5>{{ localize "PF1.AbilityChaMod" }}</h5>
+      <span class="value">{{ system.commander.chaMod }}</span>
+    </div>
+    <div class="info-box">
+      <h5>{{localize "PF1FS.Army.ProfSoldier" }}</h5>
+      <span class="value">{{ system.commander.profSoldier }}</span>
+    </div>
+    <div class="info-box">
+      <h5>{{localize "PF1FS.Army.Leadership" }}</h5>
+      <span class="value">{{ system.commander.leadership }}</span>
+    </div>
+  </div>
+</div>
+
+<div class="inventory-filters flexrow">
+  {{~> "systems/pf1/templates/internal/item-search.hbs" category="boons"}}
+
+  <ul class="filter-list flexrow" data-category="boons">
+    {{#each sections.boons as |section sid|}}
+    <li class="filter-rule" data-category="boons" data-filter="{{ section.id }}">{{ section.label }}</li>
+    {{/each}}
+  </ul>
+</div>
+
+<ol class="item-groups-list">
+  {{#each sections.commander as |section sid|}}
+  {{#unless section._hidden}}
+  <ol class="item-list">
+    <li class="item-list-header flexrow">
+      <div class="item-name">
+        <h3>{{ section.label }}</h3>
+      </div>
+
+      {{#if @root.owner}}
+      <div class="item-controls">
+        <a class="item-control item-create" data-tooltip="PF1.CreateItem" data-create="{{ section.path }}">
+          <i class="fas fa-plus"></i>
+        </a>
+        <a data-action="browse" data-category="{{ section.id }}" data-tooltip="{{ section.browseLabel }}">
+          <i class="fas fa-folder-plus"></i>
+        </a>
+      </div>
+      {{/if}}
+    </li>
+
+    {{#each section.items as |item iid|}}
+    <li class="item flexrow" data-item-id="{{ item.id }}">
+      <div class="item-name rollable">
+        <div
+          class="item-image"
+          style="background-image: url(&quot;{{ item.img }}&quot;)"
+          data-tooltip="PF1.DisplayInChat"
+        ></div>
+        <h4>{{ item.name }}</h4>
+      </div>
+
+      {{#if @root.owner}}
+      <div class="item-controls">
+        <a class="item-control item-edit" data-tooltip="PF1.EditItem"><i class="fas fa-edit"></i></a>
+        <a class="item-control item-duplicate" data-tooltip="PF1.DuplicateItem"><i class="fas fa-copy"></i></a>
+        <a class="item-control item-delete" data-tooltip="PF1.DeleteItem"><i class="fas fa-trash"></i></a>
+      </div>
+      {{/if}}
+    </li>
+    {{/each}}
+  </ol>
+  {{/unless}}
+  {{/each}}
+</ol>
+
+<hr />
+
+<footer>
+  <div class="info-box-joined">
+    <div class="info-box">
+      <h5>{{ localize "PF1FS.Army.CurrentBoons" }}</h5>
+      <span class="value">{{ system.commander.currBoons }}</span>
+    </div>
+    <div class="info-box">
+      <h5>{{localize "PF1FS.Army.MaxBoons" }}</h5>
+      <span class="value">{{ system.commander.maxBoons }}</span>
+    </div>
+  </div>
+</footer>
