@@ -1,0 +1,93 @@
+{
+  "PF1FS": {
+    "HomePort": "Heimathafen",
+    "Flagship": "Flagschiff",
+    "MaxSquadrons": "Max. Geschwader",
+    "Infamy":"Verruf",
+
+    "Admiral": "Admiral",
+    "Commodore": "Kommodore",
+    "ProfSailor": "Beruf (Seefahrer)",
+    "IsSignificant": "Ist Wichtig?",
+
+    "SigCharacters": "Wichtiger Charakter",
+    "Location": "Aufenthaltsort",
+    "Boon": "Bonus",
+    "AddSigChar": "Erstelle wichtigen Charakter",
+    "DeleteSigChar": "Lösche wichtigen Charakter",
+    "DeleteSigCharConfirmation": "Sind Sie sicher, dass Sie dieses wichtige Charakter löschen wollen?",
+
+    "Squadron": "Geschwader",
+    "Squadrons": "Geschwader",
+    "MoraleScore": "Moral",
+    "Ships": "Schiffe",
+    "Hits": "Treffer",
+    "HitsPerShip":"Treffer pro Schiff",
+    "ShipType": "Schiffstyp",
+    "MaxShips": "Max. Schiffe",
+    "TotalHits": "Treffer gesamt",
+    "DV": "Verteidigung",
+    "AV": "Angriff",
+    "MoraleCheck": "Moral Check",
+    "NewSquadronLabel": "Neues Geschwader {number}",
+    "CreateSquadron": "Geschwader erstellen",
+    "DeleteSquadron": "Geschwader löschen",
+    "DeleteSquadronTitle": "Geschwader löschen: {name}",
+    "DeleteSquadronConfirmation": "Sind Sie sicher, dass Sie dieses Geschwader löschen wollen?",
+    "NewShipLabel": "Neues Schiff {number}",
+    "AddShip": "Schiff hinzufügen",
+    "DeleteShip": "Schiff löschen",
+    "DeleteShipTitle": "Schiff löschen: {name}",
+    "DeleteShipConfirmation": "Sind Sie sicher, dass Sie dieses Schiff löschen möchtest?",
+
+    "Ship": {
+      "Raft": "Floß",
+      "Rowboat":"Ruderboot",
+      "ShipsBoat": "Beiboot",
+      "Keelboat":"Knarr",
+      "Junk":"Dschunke",
+      "Longship":"Langschiff",
+      "SailingShip":"Segelschiff",
+      "Galley":"Galeere",
+      "Warship":"Kriegsschiff"
+    },
+
+    "Boons": {
+      "AdvancedTactics":"Verbesserte Taktiken",
+      "DefensiveTactics":"Defensivtaktiken",
+      "DivineProtection":"Göttlicher Schutz",
+      "Loyalty":"Loyalität",
+      "MagicalArtillery":"Magische Artilllerie",
+      "Overwhelming":"Überwältigend",
+      "RecklessManeuver":"Tollkühne Manöver",
+      "RemorselessAdvance":"Gnadenloses Vorrücken",
+      "SwiftRepairs":"Schnelle Reparatur",
+      "SwiftBattle":"Schnelle Schlachtbereitschaft",
+      "Vengeance":"Vergeltung"
+    },
+
+    "Settings": {
+      "UseInfamy": "Verruf im Einsatz?"
+    },
+
+    "Condition": {
+      "UpperHand": "Oberhand"
+    },
+
+    "Sheet": {
+      "Fleet": "Flottenbogen"
+    },
+
+    "NoKingdomOrArmyItemsOnActor": "This actor cannot have Kingdom or Army items.",
+    "OnlyKingdomItemsOnActor": "Kingdom actors can only have Building, Event, and Terrain Improvement items.",
+    "OnlyArmyItemsOnActor": "Army actors can only have Boon, Special Ability, and Tactic items.",
+    "LibWrapperError": "The PF1 Kingdom Sheet module requires the 'libWrapper' module. Please install and activate it."
+  },
+  "TYPES": {
+    "Actor": {
+      "pf1-fleet-sheet": {
+        "fleet": "Flottenbogen"
+      }
+    }
+  }
+}
