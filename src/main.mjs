@@ -1,12 +1,8 @@
 import { FleetSheet } from "./applications/actors/fleetSheet.mjs";
-import { BoonSheet } from "./applications/items/boonSheet.mjs";
 import * as Config from "./config/_module.mjs";
-import { BoonBrowser } from "./config/compendiumBrowser/boonBrowser.mjs";
 import * as PF1FS from "./config/config.mjs";
 import { FleetModel } from "./dataModels/actors/fleetModel.mjs";
-import { BoonModel } from "./dataModels/items/boonModel.mjs";
 import { FleetActor } from "./documents/actors/fleetActor.mjs";
-import { BaseItem } from "./documents/items/baseItem.mjs";
 import { getChangeFlat } from "./hooks/getChangeFlat.mjs";
 import { moduleToObject } from "./util/utils.mjs";
 
@@ -81,25 +77,16 @@ Hooks.on("pf1GetChangeFlat", getChangeFlat);
 
 Hooks.once("init", () => {
   CONFIG.Actor.documentClasses[PF1FS.fleetId] = FleetActor;
-  CONFIG.Item.documentClasses[PF1FS.boonId] = BaseItem;
 
   pf1.documents.actor.FleetActor = FleetActor;
-  pf1.documents.item.BoonItem = BaseItem;
 
   CONFIG.Actor.dataModels[PF1FS.fleetId] = FleetModel;
-  CONFIG.Item.dataModels[PF1FS.boonId] = BoonModel;
 
   pf1.applications.actor.FleetSheet = FleetSheet;
-  pf1.applications.item.BoonSheet = BoonSheet;
 
   Actors.registerSheet(PF1FS.moduleId, FleetSheet, {
     label: game.i18n.localize("PF1FS.Sheet.Fleet"),
     types: [PF1FS.fleetId],
-    makeDefault: true,
-  });
-  Items.registerSheet(PF1FS.moduleId, BoonSheet, {
-    label: game.i18n.localize("PF1FS.Sheet.Boon"),
-    types: [PF1FS.boonId],
     makeDefault: true,
   });
 
@@ -143,26 +130,13 @@ Hooks.once("ready", () => {
 
   loadTemplates({
     "fleet-sheet-summary": `modules/${PF1FS.moduleId}/templates/actors/fleet/parts/summary.hbs`,
-    "fleet-sheet-features": `modules/${PF1FS.moduleId}/templates/actors/fleet/parts/features.hbs`,
-    "fleet-sheet-commander": `modules/${PF1FS.moduleId}/templates/actors/fleet/parts/commander.hbs`,
-    "fleet-sheet-conditions": `modules/${PF1FS.moduleId}/templates/actors/fleet/parts/conditions.hbs`,
-
-    "item-sheet-boon": `modules/${PF1FS.moduleId}/templates/items/parts/boon-details.hbs`,
-
-    "item-sheet-changes": `modules/${PF1FS.moduleId}/templates/items/parts/changes.hbs`,
+    "fleet-sheet-squadrons": `modules/${PF1FS.moduleId}/templates/actors/fleet/parts/squadrons.hbs`,
+    "fleet-sheet-settings": `modules/${PF1FS.moduleId}/templates/actors/fleet/parts/settings.hbs`,
   });
-
-  pf1.applications.compendiums.boon = new BoonBrowser();
-
-  pf1.applications.compendiumBrowser.boon = BoonBrowser;
-
-  game.model.Item[PF1FS.boonId] = {};
 });
 
 Hooks.once("i18nInit", () => {
-  const toLocalize = [
-    // "settings"
-  ];
+  const toLocalize = ["combatAttributes", "shipTypes", "settings"];
 
   const doLocalize = (obj, cat) => {
     // Create tuples of (key, localized object/string)
@@ -198,5 +172,6 @@ Hooks.once("i18nInit", () => {
     pf1fs.config[o] = doLocalize(pf1fs.config[o], o);
   }
 
+  doLocalizeKeys(pf1fs.config.boons, ["label"]);
   doLocalizeKeys(pf1fs.config.fleetConditions, ["name"]);
 });

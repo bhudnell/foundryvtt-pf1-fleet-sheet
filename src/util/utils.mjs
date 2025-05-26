@@ -34,6 +34,23 @@ export function moduleToObject(module) {
   return result;
 }
 
+function transformArraysToObjects(input) {
+  if (Array.isArray(input)) {
+    const obj = {};
+    input.forEach((item, index) => {
+      obj[index] = transformArraysToObjects(item);
+    });
+    return obj;
+  } else if (input !== null && typeof input === "object") {
+    const result = {};
+    for (const [key, value] of Object.entries(input)) {
+      result[key] = transformArraysToObjects(value);
+    }
+    return result;
+  }
+  return input;
+}
+
 export function keepUpdateArray(sourceObj, targetObj, keepPath) {
   const newValue = foundry.utils.getProperty(targetObj, keepPath);
   if (newValue == null) {
@@ -43,7 +60,7 @@ export function keepUpdateArray(sourceObj, targetObj, keepPath) {
     return;
   }
 
-  const newArray = foundry.utils.deepClone(foundry.utils.getProperty(sourceObj, keepPath) || []);
+  const newArray = transformArraysToObjects(foundry.utils.getProperty(sourceObj, keepPath) || []);
 
   for (const [key, value] of Object.entries(newValue)) {
     if (foundry.utils.getType(value) === "Object") {

@@ -19,25 +19,10 @@
       "fleet": {
         "htmlFields": ["notes.value"]
       }
-    },
-    "Item": {
-      "boon": {
-        "htmlFields": ["description.value"]
-      }
     }
   },
 
   "packs": [
-    {
-      "name": "boon",
-      "label": "Boons",
-      "path": "packs/boon",
-      "type": "Item",
-      "ownership": {
-        "PLAYER": "OBSERVER"
-      },
-      "system": "pf1"
-    },
     {
       "name": "rules",
       "label": "Rules",
@@ -51,7 +36,7 @@
   "packFolders": [
     {
       "name": "Fleet Battles",
-      "packs": ["boon", "rules"]
+      "packs": ["rules"]
     }
   ],
 

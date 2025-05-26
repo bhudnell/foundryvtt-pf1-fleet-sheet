@@ -1,372 +1,81 @@
 {
   "PF1FS": {
-    "Turn": "Turn",
-    "Population": "Population",
-    "Treasury": "Treasury",
-    "ControlDC": "Control DC",
-    "KingdomStat": "Kingdom Stats",
-    "KingdomStatRoll": "{check} Kingdom Stat",
-    "KingdomModifiers": "Kingdom Modifiers",
-    "KingdomModifier": "Kingdom Modifier",
-    "Economy": "Economy",
-    "Loyalty": "Loyalty",
-    "Stability": "Stability",
-    "EconomyLoyalty": "Eco & Loy",
-    "EconomyStability": "Eco & Stab",
-    "LoyaltyStability": "Loy & Stab",
-    "AllStats": "All Stats",
-    "Unrest": "Unrest",
-    "UnrestWarning": "Kingdom loses 1 hex per turn",
-    "UnrestError": "Kingdom is in anarchy!",
-    "UnrestOnDrop": "Unrest (On Drop)",
-    "UnrestContinuous": "Unrest (Continuous)",
-    "Consumption": "Consumption",
-    "BPStorage": "BP Storage",
-    "BonusBP": "Bonus Build Points",
-    "BonusBPShort": "Bonus BP",
-    "Fame": "Fame",
-    "Infamy": "Infamy",
-    "FamyInfamyError": "Base fame + infamy is too high for the kingdom's size",
-    "MissingFamyInfamyError": "Base fame + infamy is too low for the kingdom's size",
+    "HomePort": "Home Port",
+    "Flagship": "Flagship",
+    "MaxSquadrons": "Max Squadrons",
+    "Infamy":"Infamy",
 
-    "GovernmentLabel": "Government",
-    "Government": {
-      "Autocracy": "Autocracy",
-      "Magocracy": "Magocracy",
-      "Oligarchy": "Oligarchy",
-      "Overlord": "Overlord",
-      "Republic": "Republic",
-      "SecretSyndicate": "Secret Syndicate",
-      "Theocracy": "Theocracy"
+    "Admiral": "Admiral",
+    "Commodore": "Commodore",
+    "ProfSailor": "Prof. (Sailor)",
+    "IsSignificant": "Is Significant?",
+
+    "SigCharacters": "Significant Characters",
+    "Location": "Location",
+    "Boon": "Boon",
+    "AddSigChar": "Create Significant Character",
+    "DeleteSigChar": "Delete Significant Character",
+    "DeleteSigCharConfirmation": "Are you sure you want to delete this significant character?",
+
+    "Squadron": "Squadron",
+    "Squadrons": "Squadrons",
+    "MoraleScore": "Morale Score",
+    "Ships": "Ships",
+    "Hits": "Hits",
+    "HitsPerShip":"Hits Per Ship",
+    "ShipType": "Ship Type",
+    "MaxShips": "Max Ships",
+    "TotalHits": "Total Hits",
+    "DV": "Defense Value",
+    "AV": "Attack Value",
+    "MoraleCheck": "Morale Check",
+    "NewSquadronLabel": "New Squadron {number}",
+    "CreateSquadron": "Create Squadron",
+    "DeleteSquadron": "Delete Squadron",
+    "DeleteSquadronTitle": "Delete Squadron: {name}",
+    "DeleteSquadronConfirmation": "Are you sure you want to delete this squadron?",
+    "NewShipLabel": "New Ship {number}",
+    "AddShip": "Add Ship",
+    "DeleteShip": "Delete Ship",
+    "DeleteShipTitle": "Delete Ship: {name}",
+    "DeleteShipConfirmation": "Are you sure you want to delete this ship?",
+
+    "Ship": {
+      "Raft": "Raft",
+      "Rowboat":"Rowboat",
+      "ShipsBoat": "Ship's Boat",
+      "Keelboat":"Keelboat",
+      "Junk":"Junk",
+      "Longship":"Longship",
+      "SailingShip":"Sailing Ship",
+      "Galley":"Galley",
+      "Warship":"Warship"
     },
 
-    "Edicts": "Edicts",
-    "Edict": {
-      "HolidayChange": "Holidays - {value}",
-      "HolidayLabel": "Holiday",
-      "Holiday": {
-        "None": "None",
-        "1": "Annual",
-        "6": "Bimonthly",
-        "12": "Monthly",
-        "24": "Weekly"
-      },
-      "PromotionChange": "Promotion - {value}",
-      "PromotionLabel": "Promotion",
-      "Promotion": {
-        "None": "None",
-        "Token": "Token",
-        "Standard": "Standard",
-        "Aggressive": "Aggressive",
-        "Expansionist": "Expansionist"
-      },
-      "TaxationChange": "Taxation - {value}",
-      "TaxationLabel": "Taxation",
-      "Taxation": {
-        "None": "None",
-        "Light": "Light",
-        "Normal": "Normal",
-        "Heavy": "Heavy",
-        "Overwhelming": "Overwhelming"
-      }
+    "Boons": {
+      "AdvancedTactics":"Advanced Tactics",
+      "DefensiveTactics":"Defensive Tactics",
+      "DivineProtection":"Divine Protection",
+      "Loyalty":"Loyalty",
+      "MagicalArtillery":"Magical Artillery",
+      "Overwhelming":"Overwhelming",
+      "RecklessManeuver":"Reckless Maneuver",
+      "RemorselessAdvance":"Remorseless Advance",
+      "SwiftRepairs":"Swift Repairs",
+      "SwiftBattle":"Swift to Battle",
+      "Vengeance":"Vengeance"
     },
-
-    "ActionsPerTurn": "Actions Per Turn",
-    "HexClaims": "Hex Claims",
-    "SettlementsOrArmies": " Settlements/Armies",
-
-    "LeadershipLabel": "Leadership",
-    "LeaderVacant": "{value} (Vacant)",
-    "LeaderSkillBonus": "{value} (Skill Bonus)",
-    "Leadership": {
-      "Ruler": "Ruler",
-      "Consort": "Consort",
-      "Heir": "Heir",
-      "Councilor": "Councilor",
-      "General": "General",
-      "GrandDiplomat": "Grand Diplomat",
-      "HighPriest": "High Priest",
-      "Magister": "Magister",
-      "Marshal": "Marshal",
-      "RoyalEnforcer": "Royal Enforcer",
-      "Spymaster": "Spymaster",
-      "Treasurer": "Treasurer",
-      "Warden": "Warden",
-      "Viceroy": "Viceroy",
-      "Skills": {
-        "Diplomacy": "Diplomacy",
-        "Intimidate": "Intimidate",
-        "Arcana": "Knowledge (Arcana)",
-        "Engineering": "Knowledge (Engineering)",
-        "Geography": "Knowledge (Geography)",
-        "Local": "Knowledge (Local)",
-        "Nobility": "Knowledge (Nobility)",
-        "Religion": "Knowledge (Religion)",
-        "Merchant": "Profession (Merchant)",
-        "SenseMotive": "Sense Motive",
-        "Soldier": "Profession (Soldier)",
-        "Survival": "Survival"
-      }
-    },
-    "CreateViceroy": "Create Viceroy",
-    "DeleteViceroy": "Delete Viceroy",
-    "DeleteViceroyConfirmation": "Are you sure you want to delete this viceroy?",
-    "Position": "Position",
-    "FilledBy": "Filled By",
-    "SkillBonus": "Skill Bonus",
-
-    "Settlements": "Settlements",
-    "SettlementLabel": "Settlement",
-    "Settlement": {
-      "Sizes": {
-        "Thorpe": "Thorpe",
-        "Hamlet": "Hanlet",
-        "Village": "Village",
-        "SmallTown": "Small Town",
-        "LargeTown": "Large Town",
-        "SmallCity": "Small City",
-        "LargeCity": "Large City",
-        "Metropolis": "Metropolis"
-      }
-    },
-    "NoSettlementBuildings": "Buildings Without Settlements",
-    "CreateSettlement": "Create Settlement",
-    "NewSettlementLabel": "Settlement {number}",
-    "DeleteSettlement": "Delete Settlement",
-    "DeleteSettlementTitle": "Delete Settlement: {name}",
-    "DeleteSettlementConfirmation": "Are you sure you want to delete this settlement?",
-    "SettlementModifiers": "Settlement Modifiers",
-    "Districts": "Districts",
-    "BaseValue": "Base Value",
-    "Danger": "Danger",
-
-    "Corruption": "Corruption",
-    "Crime": "Crime",
-    "Productivity": "Productivity",
-    "Law": "Law",
-    "Lore": "Lore",
-    "Society": "Society",
-
-    "Buildings": "Buildings",
-    "BuildingType": "Building Type",
-    "Lots": "Number of lots",
-    "Cost": "Cost (BP)",
-    "Damaged": "Damaged",
-    "Building": {
-      "Academy": "Academy",
-      "Alchemist": "Alchemist",
-      "Arena": "Arena",
-      "Bank": "Bank",
-      "BardicCollege": "Bardic College",
-      "Barracks": "Barracks",
-      "BlackMarket": "Black Market",
-      "Brewery": "Brewery",
-      "Bridge": "Bridge",
-      "Bureau": "Bureau",
-      "CastersTower": "Caster's Tower",
-      "Castle": "Castle",
-      "Cathedral": "Cathedral",
-      "Cistern": "Cistern",
-      "CityWall": "City Wall",
-      "DanceHall": "Dance Hall",
-      "Dump": "Dump",
-      "EverflowingSpring": "Everflowing Spring",
-      "ExoticArtisan": "Exotic Aritsan",
-      "ForeignQuarter": "Foreign Quarter",
-      "Foundry": "Foundry",
-      "Garrison": "Garrison",
-      "Granary": "Granary",
-      "Graveyard": "Graveyard",
-      "Guildhall": "Guildhall",
-      "Herbalist": " Herbalist",
-      "Hospital": "Hospital",
-      "House": "House",
-      "Inn": "Inn",
-      "Jail": "Jail",
-      "Library": "Library",
-      "LuxuryStore": "Luxury Store",
-      "MagicShop": "Magic Shop",
-      "MagicalAcademy": "Magical Academy",
-      "MagicalStreetlamps": "Magical Streetlamps",
-      "Mansion": "Mansion",
-      "Market": "Market",
-      "Menagerie": "Menagerie",
-      "MilitaryAcademy": "Military Academy",
-      "Mill": "Mill",
-      "Mint": "Mint",
-      "Moat": "Moat",
-      "Monastery": "Monastery",
-      "Monument": "Monument",
-      "Museum": "Museum",
-      "NobleVilla": "Noble Villa",
-      "Observatory": "Observatory",
-      "Orphanage": "Orphanage",
-      "Palace": "Palace",
-      "Park": "Park",
-      "PavedStreets": "Paved Streets",
-      "Pier": "Pier",
-      "SewerSystem": "Sewer System",
-      "Shop": "Shop",
-      "Shrine": "Shrine",
-      "Smithy": "Smithy",
-      "Stable": "Stable",
-      "Stockyard": "Stockyard",
-      "Tannery": "Tannery",
-      "Tavern": "Tavern",
-      "Temple": "Temple",
-      "Tenement": "Tenement",
-      "Theater": "Theater",
-      "TownHall": "Town Hall",
-      "TradeShop": "Trade Shop",
-      "University": "University",
-      "Watchtower": "Watchtower",
-      "Waterfront": "Waterfront",
-      "Watergate": "Watergate",
-      "Waterway": "Waterway",
-      "Custom": "Custom"
-    },
-    "MagicItems": "Magic Items",
-    "MagicItem": {
-      "Minor": "Minor",
-      "Medium": "Medium",
-      "Major": "Major"
-    },
-    "TooManyMagicItems": "Too many magic items. Max is {max}",
-
-    "TerrainLabel": "Terrain",
-    "HexTypes": "Hex Types",
-    "Terrain": {
-      "Cavern": "Cavern",
-      "Coast": "Coast",
-      "Desert": "Desert",
-      "Forest": "Forest",
-      "Hills": "Hills",
-      "Jungle": "Jungle",
-      "Marsh": "Marsh",
-      "Mountains": "Mountains",
-      "Plains": "Plains",
-      "Water": "Water"
-    },
-
-    "Improvements": "Terrain Improvements",
-    "Improvement": {
-      "SubTypes": {
-        "General": "General",
-        "Special": "Special"
-      }
-    },
-
-    "Events": "Events",
-    "EventLabel": "Event",
-    "Event": {
-      "SubTypes": {
-        "Active": "Active",
-        "Misc": "Miscellaneous"
-      }
-    },
-    "EventLastTurn": "Event last turn?",
-    "EventChance": "Event Chance",
-    "EventChanceRoll": "Event Chance: {chance}%",
-    "RollEvent": "Roll Event",
-    "NoEvent": "No Event Occurred",
-    "EventOccurred": "Event Occurred",
-
-    "Armies": "Armies",
-    "Army": {
-      "ACR": "ACR",
-      "ConsumptionPerWeek": "Consumption (per week)",
-      "SpeedWithUnits": "Speed (hexes)",
-      "SpeedUnit": "Hexes",
-      "AttributeRoll": "{check} Check",
-      "Morale": "Morale",
-      "DV": "DV",
-      "OM": "OM",
-      "Commander": "Commander",
-      "KingdomLeader": "Kingdom Leader?",
-      "ProfSoldier": "Profession (Soldier)",
-      "MoraleBonus": "Morale Bonus",
-      "Leadership": "Leadership",
-      "CurrentBoons": "Current Boons",
-      "MaxBoons": "Max Boons",
-      "StrategyLabel": "Strategy",
-      "Strategy": {
-        "Defensive": "Defensive",
-        "Cautious": "Cautious",
-        "Standard": "Standard",
-        "Aggressive": "Aggressive",
-        "Reckless": "Reckless"
-      },
-      "ResourcesLabel": "Resources",
-      "Resources": {
-        "Potions": "Healing Potions",
-        "ImpArmor": "Improved Armor",
-        "MagArmor": "Magic Armor",
-        "ImpWeapons": "Improved Weapons",
-        "MagWeapons": "Magic Weapons",
-        "Mounts": "Mounts",
-        "Ranged": "Ranged Weapons",
-        "Siege": "Siege Engines"
-      },
-      "Tactics": "Tactics",
-      "CurrentTactics": " Current Tactics",
-      "MaxTactics": "Max Tactics",
-      "BonusTactic": "Bonus Tactic",
-      "Special": "Special Abilities",
-      "Boons": "Boons"
-    },
-    "CreateArmy": "Create Army",
-    "NewArmy": "New Army",
-    "EditArmy": "Edit Army",
-    "DeleteArmy": "Delete Army",
-    "DeleteArmyTitle": "Delete Army: {name}",
-    "DeleteArmyConfirmation": "Are you sure you want to delete this army?",
 
     "Settings": {
-      "SecondRuler": "Second Ruler",
-      "CollapseTooltips": "Collapse Tooltips",
-      "KingdomModifiers": "Kingdomwide Settlement Modifiers",
-      "FameInfamy": "Fame and Infamy",
-      "GovernmentForms": "Forms of Government",
-      "LeadershipSkills": "Leadership Skills",
-      "SettlementSizes": "Alternative Settlement Size Modifiers"
+      "UseInfamy": "Use Infamy"
     },
-
-    "Continuous": "Continuous",
-
-    "ArmyAttributes": "Army Attributes",
 
     "Condition": {
-      "AdvantageousTerrain": "Advantageous Terrain",
-      "Ambush": "Ambush",
-      "BattlefieldAdvantage": "Battlefield Advantage",
-      "Darkness": "Darkness",
-      "DimLight": "Dim Light",
-      "Fog": "Fog",
-      "Fortifications": "Fortifications",
-      "Rain": "Rain",
-      "Sandstorm": "Sandstorm",
-      "Snow": "Snow",
-      "Wind": "Wind"
-    },
-
-    "Browse": {
-      "Boons": "Browse Boons",
-      "Buildings": "Browse Buildings",
-      "Events": "Browse Events",
-      "Improvements": "Browse Terrain Improvements",
-      "Tactics": "Browse Tactics",
-      "Special": "Browse Special Abilities"
+      "UpperHand": "Upper Hand"
     },
 
     "Sheet": {
-      "Kingdom": "Kingdom Sheet",
-      "Army": "Army Sheet",
-      "Building": "Building",
-      "Event": "Event",
-      "Improvement": "Terrain Improvement",
-      "Boon": "Boon",
-      "Special": "Special Ability",
-      "Tactic": "Tactic"
+      "Fleet": "Fleet Sheet"
     },
 
     "NoKingdomOrArmyItemsOnActor": "This actor cannot have Kingdom or Army items.",
@@ -378,55 +87,6 @@
     "Actor": {
       "pf1-fleet-sheet": {
         "fleet": "Fleet Sheet"
-      }
-    },
-    "Item": {
-      "pf1-fleet-sheet": {
-        "boon": "Boon"
-      }
-    }
-  },
-  "PF1": {
-    "Subtypes": {
-      "Item": {
-        "pf1-kingdom-sheet": {
-          "boon": {
-            "Single": "Boon",
-            "Plural": "Boons"
-          },
-          "special": {
-            "Single": "Special Ability",
-            "Plural": "Special Abilities"
-          },
-          "tactic": {
-            "Single": "Tactic",
-            "Plural": "Tactics"
-          },
-          "building": {
-            "Single": "Building",
-            "Plural": "Buildings"
-          },
-          "event": {
-            "active": {
-              "Single": "Active Event",
-              "Plural": "Active"
-            },
-            "misc": {
-              "Single": "Miscellaneous Event",
-              "Plural": "Miscellaneous"
-            }
-          },
-          "improvement": {
-            "general": {
-              "Single": "Terrain Improvement",
-              "Plural": "Terrain Improvements"
-            },
-            "special": {
-              "Single": "Special Terrain",
-              "Plural": "Special Terrain"
-            }
-          }
-        }
       }
     }
   }

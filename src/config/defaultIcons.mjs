@@ -1,10 +1,7 @@
-import { fleetId, boonId } from "./config.mjs";
+import { fleetId, moduleId } from "./config.mjs";
 
 export const defaultIcons = {
   actors: {
-    [fleetId]: "icons/svg/city.svg",
-  },
-  items: {
-    [boonId]: "icons/svg/upgrade.svg",
+    [fleetId]: `modules/${moduleId}/assets/caravel.svg`,
   },
 };

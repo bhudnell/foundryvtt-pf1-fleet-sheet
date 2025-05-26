@@ -1,16 +1,12 @@
-.app.sheet.kingdom.actor {
+.app.sheet.fleet.actor {
   .tab.summary {
     .character-summary {
       > div:nth-child(2) {
         border-right: none;
       }
 
-      > div:nth-child(3n) {
-        border-right: var(--pf1-border-groove);
-      }
-
-      > div.large {
-        flex: 0 0 66%;
+      > div {
+        flex: 0 0 50%;
       }
     }
 
@@ -25,40 +21,79 @@
         flex: 1;
       }
     }
-  }
 
-  .tab.terrain {
-    .info-box-joined {
-      flex-wrap: wrap;
+    .buffs-conditions {
+      flex: 0;
+      border: none;
 
-      .info-box {
-        flex: 0 0 20%;
-      }
+      .condition {
+        border: 1px transparent;
+        border-radius: 10px;
 
-      :nth-child(-n + 5) {
-        border-bottom-style: unset;
-      }
+        a.checkbox {
+          display: flex;
+          flex-flow: row nowrap;
+          gap: 4px;
 
-      > :first-of-type {
-        border-radius: 0.3em 0 0 0;
+          align-items: center;
+          color: var(--color-text-dark-primary);
+
+          > img {
+            border: none;
+            &[src*=".svg"] {
+              filter: invert(1);
+            }
+          }
+
+          > .details {
+            display: flex;
+            flex-flow: row wrap;
+          }
+
+          .name {
+            flex: 1 100%;
+          }
+        }
+
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        &.active {
+          font-weight: 600;
+          background-color: rgba(0, 0, 0, 0.1);
+          text-shadow: 0 0 8px red;
+
+          &:hover {
+            background-color: rgba(0, 0, 0, 0.15);
+          }
+        }
+
+        &.active a.checkbox > img {
+          filter: unset;
+
+          &[src*=".svg"] {
+            background: black;
+          }
+        }
       }
-      > :nth-of-type(5) {
-        border-radius: 0 0.3em 0 0;
-        border-right-style: solid;
-      }
-      > :nth-of-type(6) {
-        border-radius: 0 0 0 0.3em;
-      }
-      > :last-of-type {
-        border-radius: 0 0 0.3em 0;
+    }
+
+    .subdetails-body {
+      gap: 8px;
+
+      h3 {
+        border: unset;
+        margin: 0;
       }
     }
   }
 
-  .tab.settlements {
+  .tab.squadrons {
     .header {
       flex: 0;
       display: flex;
+      gap: 3px;
 
       /* > img {
         height: 100%;
@@ -66,7 +101,7 @@
       } */
 
       > h1 {
-        flex: 1;
+        flex: 3 0 300px;
         margin: 0;
         line-height: 1.5em;
 
@@ -75,60 +110,15 @@
         }
       }
 
-      .settlement-controls {
+      .inputs {
+        flex: 2 0 100px;
+        gap: 1px;
+      }
+
+      .squadron-controls {
         flex: 0 0 42px;
         display: flex;
         justify-content: center;
-        align-items: center;
-      }
-    }
-
-    .item-groups-list {
-      overflow: unset;
-    }
-
-    .magic-item-section {
-      display: flex;
-      gap: 8px;
-
-      .magic-item-container {
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
-        flex: 1;
-
-        > h3 {
-          margin: 0;
-          color: #f0f0e0;
-          text-shadow: #000000 1px 1px 0;
-          background: var(--pf1-bg-dark-2);
-          text-align: center;
-        }
-
-        .magic-item {
-          position: relative;
-
-          > input {
-            padding-right: 22px;
-          }
-
-          > .magic-item-delete {
-            width: 16px;
-            text-align: center;
-            position: absolute;
-            right: 6px;
-            top: 6px;
-          }
-        }
-      }
-    }
-  }
-
-  .tab.events {
-    .event-chance {
-      flex: 0;
-
-      .rollable {
         align-items: center;
       }
     }
@@ -139,54 +129,5 @@
       list-style: none;
       flex: 0;
     }
-  }
-
-  .subdetails-body {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-
-    .resources {
-      flex: 0;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-template-rows: repeat(2, 1fr);
-      gap: 4px 8px;
-      margin-right: 8px;
-
-      > * {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-      }
-
-      .siege > * {
-        flex: 1;
-      }
-    }
-  }
-
-  .tab.commander {
-    .header {
-      flex: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-
-    .form-group label {
-      flex: 0 0 120px;
-      text-align: right;
-    }
-
-    .form-group select {
-      flex: 0 0 400px;
-    }
-  }
-
-  .fa-triangle-exclamation {
-    color: var(--pf1-color-text-error);
-    text-shadow: 0 0 3px var(--pf1-faint);
   }
 }

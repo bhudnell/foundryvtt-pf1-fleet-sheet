@@ -1,0 +1,11 @@
+<h2>{{localize "PF1.BaseSetup"}}</h2>
+<ul>
+  {{#each settings}}
+  <li>
+    <label class="checkbox">
+      <input class="{{ name }}" type="checkbox" name="system.settings.{{ name }}" {{checked value}} />
+      {{ label }}
+    </label>
+  </li>
+  {{/each}}
+</ul>

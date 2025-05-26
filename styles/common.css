@@ -1,4 +1,4 @@
-.app.sheet.kingdom {
+.app.sheet.fleet {
   .sheet-navigation .item.icon {
     flex: 0 0;
     padding: 0 8px;
@@ -24,73 +24,48 @@
     > select {
       border-style: none;
       padding: 0;
+      height: 24px;
     }
 
-    &.item-number {
-      flex: 0 0 32px;
-    }
-
-    /* building stuff */
-    &.item-building-type {
-      flex: 0 0 120px;
-    }
-
-    /* event stuff */
-    &.item-settlement-name {
-      flex: 0 0 120px;
-    }
-
-    /* army stuff */
-    &.item-army-hp {
-      flex: 0 0 64px;
-    }
-
-    &.item-commander {
-      flex: 0 0 160px;
-    }
-
-    /* leadership stuff */
-    &.item-position {
-      flex: 0 0 120px;
-    }
-
+    /* sig char stuff */
     &.item-actor {
       flex: 1;
     }
 
-    &.item-leader-skill-bonus {
-      flex: 0 0 160px;
+    &.item-location {
+      flex: 0 0 150px;
+    }
+    
+    &.item-boon {
+      flex: 0 0 150px;
+    }
+    
+    &.item-squadron {
+      flex: 0 0 150px;
     }
 
-    &.item-leader-bonus {
-      flex: 0 0 100px;
-    }
+    /* squadron stuff */
+    &.item-ship-name {
+      flex: 1;
 
-    &.item-leader-bonus-value {
-      flex: 0 0 20px;
-      border-right: unset;
-    }
-
-    &.item-leader-bonus-type {
-      justify-content: start;
-
-      > span {
-        padding-left: 4px;
+      .disabled {
+        text-decoration: line-through;
+        color: var(--pf1-tan);
       }
     }
   }
 }
 
-.app.sheet.kingdom input[type="number"] {
+.app.sheet.fleet input[type="number"] {
   text-align: center;
 }
 
-.app.sheet.kingdom .info-box select {
+.app.sheet.fleet .info-box select {
   flex: 0 0 21.5px;
   text-align: -webkit-center;
   border: unset;
 }
 
-.app.sheet.kingdom :is(span.text-box, input.text-box) {
-  width: unset;
+.app.sheet.fleet :is(span.text-box, input.text-box) {
+  width: 100%;
 }

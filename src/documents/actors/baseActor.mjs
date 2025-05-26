@@ -17,20 +17,11 @@ export class BaseActor extends pf1.documents.actor.ActorBasePF {
      * @type {object}
      */
     Object.defineProperties(this, {
-      // itemFlags: { // TODO needed?
-      //   value: { boolean: {}, dictionary: {} },
-      //   writable: false,
-      // },
       _rollData: {
         value: null,
         enumerable: false,
         writable: true,
       },
-      // _visionSharingSheet: { // TODO needed?
-      //   value: null,
-      //   enumerable: false,
-      //   writable: true,
-      // },
     });
   }
 
@@ -337,12 +328,6 @@ export class BaseActor extends pf1.documents.actor.ActorBasePF {
     /* ----------------------------- */
     /* Set the following data on a refresh
     /* ----------------------------- */
-
-    // Add item dictionary flags
-    // result.dFlags = this.itemFlags?.dictionary ?? {}; // TODO needed?
-    // result.bFlags = Object.fromEntries(
-    //   Object.entries(this.itemFlags?.boolean ?? {}).map(([key, { sources }]) => [key, sources.length > 0 ? 1 : 0])
-    // );
 
     if (options.cache) {
       this._rollData = result;
