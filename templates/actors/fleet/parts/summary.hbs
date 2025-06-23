@@ -23,10 +23,10 @@
 
     <div class="character-summary flexrow">
       <div>
-        <input type="text" name="system.homePort" value="{{ system.homePort }}" data-tooltip="PF1FS.HomePort" placeholder="{{localize "PF1FS.HomePort"}}" />
+        <input type="text" name="system.homePort" value="{{ system.homePort }}" data-tooltip="PF1FS.HomePort" />
       </div>
       <div>
-        <input type="text" name="system.flagship" value="{{ system.flagship }}" data-tooltip="PF1FS.Flagship" placeholder="{{localize "PF1FS.Flagship"}}" />
+        <input type="text" name="system.flagship" value="{{ system.flagship }}" data-tooltip="PF1FS.Flagship" />
       </div>
     </div>
 
@@ -60,19 +60,19 @@
     </select>
 
     <div class="info-box-joined">
-      <div class="info-box">
+      <div class="info-box" data-tooltip-extended="chaMod">
         <h5>{{ localize "PF1.AbilityChaMod" }}</h5>
         <span class="value">{{ system.admiral.chaMod }}</span>
       </div>
-      <div class="info-box">
+      <div class="info-box" data-tooltip-extended="profSailor">
         <h5>{{localize "PF1FS.ProfSailor" }}</h5>
         <span class="value">{{ system.admiral.profSailor }}</span>
       </div>
-      <div class="info-box">
+      <div class="info-box" data-tooltip-extended="init">
         <h5>{{ localize "PF1.Initiative" }}</h5>
         <span class="value">{{ system.init.total }}</span>
       </div>
-      <div class="info-box">
+      <div class="info-box" data-tooltip-extended="maxSquadrons">
         <h5>{{ localize "PF1FS.MaxSquadrons" }}</h5>
         <span class="value">{{ system.maxSquadrons.total }}</span>
       </div>
@@ -81,64 +81,67 @@
   <div>
     <h3>{{localize "PF1FS.SigCharacters"}}</h3>
     <ol class="item-groups-list">
-    <ol class="item-list">
-      <li class="item-list-header flexrow">
-      <div class="item-detail item-actor">
-        <label>{{localize "PF1FS.SigCharacters"}}</label>
-      </div>
-      <div class="item-detail item-location">
-        <label>{{localize "PF1FS.Location"}}</label>
-      </div>
-      <div class="item-detail item-boon">
-        <label>{{localize "PF1FS.Boon"}}</label>
-      </div>
-      <div class="item-detail item-squadron">
-        <label>{{localize "PF1FS.Squadron"}}</label>
-      </div>
-      {{#if @root.owner}}
-      <div class="item-controls one-button">
-        <a class="sig-char-create" data-tooltip="PF1FS.AddSigChar">
-          <i class="fa-solid fa-plus"></i>
-        </a>
-      </div>
-      {{/if}}
-    </li>
+      <ol class="item-list">
+        <li class="item-list-header flexrow">
+          <div class="item-detail item-actor">
+            <label>{{localize "PF1FS.SigCharacters"}}</label>
+          </div>
+          <div class="item-detail item-location">
+            <label>{{localize "PF1FS.Location"}}</label>
+          </div>
+          <div class="item-detail item-boon">
+            <label>{{localize "PF1FS.Boon"}}</label>
+          </div>
+          <div class="item-detail item-squadron">
+            <label>{{localize "PF1FS.Squadron"}}</label>
+          </div>
+          {{#if @root.owner}}
+          <div class="item-controls one-button">
+            <a class="sig-char-create" data-tooltip="PF1FS.AddSigChar">
+              <i class="fa-solid fa-plus"></i>
+            </a>
+          </div>
+          {{/if}}
+        </li>
 
-    {{#each sigChars as |sigChar idx|}}
-    <li class="flexrow item" data-item-id="{{ id }}">
-      <div class="item-detail item-actor">
-        <select name="system.significantCharacters.{{ idx }}.actor">
-          {{selectOptions @root.actorOptions selected=actorId}}
-        </select>
-      </div>
-      <div class="item-detail item-location">
-        <span class="text-box direct" name="system.significantCharacters.{{ idx }}.location" data-dtype="String">{{ location }}</span>
-        {{!-- <input type="text" name="system.significantCharacters.{{ idx }}.location" value="{{ location }}"/> --}}
-      </div>
-      <div class="item-detail item-boon">
-        <select name="system.significantCharacters.{{ idx }}.boon.key">
-          {{selectOptions @root.boonOptions selected=boonKey}}
-        </select>
-      </div>
-      <div class="item-detail item-squadron">
-        {{#if showSquadron}}
-        <select name="system.significantCharacters.{{ idx }}.boon.squadronId">
-          {{selectOptions @root.squadronOptions selected=squadronId}}
-        </select>
-        {{else if (eq boonKey 'ven')}}
-        <input type="checkbox" name="system.vengeanceActive" {{checked @root.system.vengeanceActive}} data-tooltip={{localize "PF1.Active"}} />
-        {{else}}
-        <span>-</span>
-        {{/if}}
-      </div>
-      <div class="item-controls one-button">
-        <a class="sig-char-delete" data-tooltip="PF1FS.DeleteSigChar">
-          <i class="fa-solid fa-trash"></i>
-        </a>
-      </div>
-    </li>
-    {{/each}}
-    </ol>
+        {{#each sigChars as |sigChar idx|}}
+        <li class="flexrow item" data-item-id="{{ id }}">
+          <div class="item-detail item-actor">
+            <select name="system.significantCharacters.{{ idx }}.actor">
+              {{selectOptions @root.actorOptions selected=actorId}}
+            </select>
+          </div>
+          <div class="item-detail item-location">
+            <span class="text-box direct" name="system.significantCharacters.{{ idx }}.location" data-dtype="String">{{
+              location
+            }}</span>
+          </div>
+          <div class="item-detail item-boon">
+            <select name="system.significantCharacters.{{ idx }}.boon.key">
+              {{selectOptions boonOptions selected=boonKey}}
+            </select>
+          </div>
+          <div class="item-detail item-squadron">
+            {{#if showSquadron}}
+            <select name="system.significantCharacters.{{ idx }}.boon.squadronId">
+              {{selectOptions @root.squadronOptions selected=squadronId}}
+            </select>
+            {{else if (eq boonKey 'loy')}}
+            <input type="checkbox" name="system.loyaltyActive" {{checked @root.system.loyaltyActive}} />
+            {{else if (eq boonKey 'ven')}}
+            <input type="checkbox" name="system.vengeanceActive" {{checked @root.system.vengeanceActive}} />
+            {{else}}
+            <span>-</span>
+            {{/if}}
+          </div>
+          <div class="item-controls one-button">
+            <a class="sig-char-delete" data-tooltip="PF1FS.DeleteSigChar">
+              <i class="fa-solid fa-trash"></i>
+            </a>
+          </div>
+        </li>
+        {{/each}}
+      </ol>
     </ol>
   </div>
 </section>
