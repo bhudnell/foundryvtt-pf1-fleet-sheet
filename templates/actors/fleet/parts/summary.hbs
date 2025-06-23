@@ -23,10 +23,10 @@
 
     <div class="character-summary flexrow">
       <div>
-        <input type="text" name="system.homePort" value="{{ system.homePort }}" data-tooltip="PF1FS.HomePort" />
+        <input type="text" name="system.homePort" value="{{ system.homePort }}" data-tooltip="PF1FS.HomePort" placeholder="{{localize "PF1FS.HomePort"}}" />
       </div>
       <div>
-        <input type="text" name="system.flagship" value="{{ system.flagship }}" data-tooltip="PF1FS.Flagship" />
+        <input type="text" name="system.flagship" value="{{ system.flagship }}" data-tooltip="PF1FS.Flagship" placeholder="{{localize "PF1FS.Flagship"}}" />
       </div>
     </div>
 
@@ -127,9 +127,9 @@
               {{selectOptions @root.squadronOptions selected=squadronId}}
             </select>
             {{else if (eq boonKey 'loy')}}
-            <input type="checkbox" name="system.loyaltyActive" {{checked @root.system.loyaltyActive}} />
+            <input type="checkbox" name="system.loyaltyActive" {{checked @root.system.loyaltyActive}} data-tooltip={{localize "PF1.Active"}} />
             {{else if (eq boonKey 'ven')}}
-            <input type="checkbox" name="system.vengeanceActive" {{checked @root.system.vengeanceActive}} />
+            <input type="checkbox" name="system.vengeanceActive" {{checked @root.system.vengeanceActive}} data-tooltip={{localize "PF1.Active"}} />
             {{else}}
             <span>-</span>
             {{/if}}
