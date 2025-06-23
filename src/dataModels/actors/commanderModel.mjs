@@ -29,6 +29,6 @@ export class CommanderModel extends foundry.abstract.DataModel {
       return 0;
     }
 
-    return this.actor.system.skills.pro.subSkills.sailor?.rank ?? 0;
+    return this.actor.system.skills.pro.subSkills?.sailor?.mod ?? 0;
   }
 }

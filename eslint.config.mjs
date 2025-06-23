@@ -25,6 +25,7 @@ export default [
         Collection: "readonly",
         Hooks: "readonly",
         fromUuid: "readonly",
+        fromUuidSync: "readonly",
         renderTemplate: "readonly",
         loadTemplates: "readonly",
         Actors: "readonly",

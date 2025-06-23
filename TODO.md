@@ -1,3 +1,8 @@
-misses still deal 1d4 - 1 damage
-nat 20 always hits (attacker assigns damage) and +1 morale score
-nat 1 always misses (no damage) and -1 morale score
+- More than 6 Squadrons are hard to see as the window size needs to be adjusted. (sources tab on items has similar problem and uses second row to fix it)
+- module setting to set the profession sailor tag (default to "sailor")
+- boons that affect squadrons cant affect the same squadron twice
+- admirals and commodores must be unique
+- put below behind "strict mode" setting
+    - boons that are only 1 per fleet are enforced
+    - books that affect squadrons cant affect the same squadron twice
+    - admirals and commodores are all unique

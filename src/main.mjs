@@ -75,6 +75,23 @@ Hooks.once("libWrapper.Ready", () => {
 
 Hooks.on("pf1GetChangeFlat", getChangeFlat);
 
+Hooks.on("renderChatMessage", (message, jq) => {
+  if (message.flags?.[PF1FS.moduleId]?.attackCard) {
+    const card = jq.find(".pf1fs.attack-card")[0];
+    const actorId = card.dataset.actorId;
+    const actor = fromUuidSync(`Actor.${actorId}`);
+    const squadId = card.dataset.squadId;
+    jq.find("button.roll-hit").on("click", (e) => {
+      e.preventDefault();
+      actor.rollDamage(true, squadId);
+    });
+    jq.find("button.roll-miss").on("click", (e) => {
+      e.preventDefault();
+      actor.rollDamage(false, squadId);
+    });
+  }
+});
+
 Hooks.once("init", () => {
   CONFIG.Actor.documentClasses[PF1FS.fleetId] = FleetActor;
 

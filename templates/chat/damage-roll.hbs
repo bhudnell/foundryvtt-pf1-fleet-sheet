@@ -1,0 +1,24 @@
+<span class="flavor-text">
+  {{ flavor }}
+</span>
+
+<div class="dice-roll">
+  <div class="dice-result">
+    <h3
+      class="roll-total dice-total has-details"
+      data-natural="{{ natural }}"
+      data-bonus="{{ bonus }}"
+      data-total="{{ total }}"
+    >
+      <i class="fa-solid fa-dice-d20" inert></i>
+      <span class="natural">{{ d20 }}</span>
+      <span class="bonus">{{numberFormat bonus sign=true}}</span>
+      <span class="equals">⇒</span>
+      <span class="total">{{ total }}</span>
+    </h3>
+  </div>
+</div>
+
+{{#each properties}}
+{{> "systems/pf1/templates/chat/parts/item-notes.hbs" css=css cssExtra="general-notes" header=header notes=value}}
+{{/each}}

@@ -13,6 +13,7 @@ export class FleetModel extends foundry.abstract.TypeDataModel {
       homePort: new fields.StringField(),
       significantCharacters: new fields.ArrayField(new fields.EmbeddedDataField(SignificantCharacterModel)),
       squadrons: new fields.ArrayField(new fields.EmbeddedDataField(SquadronModel)),
+      loyaltyActive: new fields.BooleanField({ initial: false }),
       vengeanceActive: new fields.BooleanField({ initial: false }),
 
       notes: new fields.SchemaField({
@@ -30,20 +31,12 @@ export class FleetModel extends foundry.abstract.TypeDataModel {
       total: 0,
     };
     this.maxSquadrons = {
-      total: 0,
+      total: 3,
     };
   }
 
   prepareDerivedData() {
     this.squadrons.forEach((s) => s.prepareDerivedData());
-
-    this.init.total = this.admiral.chaMod;
-
-    if (this.settings.useInfamy) {
-      this.maxSquadrons.total = Math.floor(this.infamy / 10) + this.admiral.chaMod;
-    } else {
-      this.maxSquadrons.total = 3 + this.admiral.chaMod;
-    }
   }
 
   get skills() {

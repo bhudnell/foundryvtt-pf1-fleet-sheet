@@ -46,9 +46,6 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
     };
 
     // selectors
-    data.boonOptions = { "": "" };
-    Object.entries(pf1fs.config.boons).forEach(([key, value]) => (data.boonOptions[key] = value.label));
-
     data.squadronOptions = { "": "" };
     actorData.squadrons.forEach((squadron) => (data.squadronOptions[squadron.id] = squadron.name));
 
@@ -76,11 +73,21 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
     data.sigChars = actorData.significantCharacters.map((character) => {
       const boon = pf1fs.config.boons[character.boon.key];
 
+      // TODO maybe this is only on when "strict mode" or something is checked
+      const existingBoons = actorData.significantCharacters.map((char) => char.boon.key);
+      const boonOptions = { "": "" };
+      Object.entries(pf1fs.config.boons).forEach(([key, value]) => {
+        if (!existingBoons.includes(key) || pf1fs.config.boons[key].takeMultiple || key === character.boon.key) {
+          boonOptions[key] = value.label;
+        }
+      });
+
       return {
         id: character.id,
         actorId: character.actorId,
         location: character.location,
         boonKey: character.boon.key,
+        boonOptions,
         showSquadron: boon?.selectSquad ?? false,
         squadronId: character.boon.squadronId,
       };
@@ -131,16 +138,15 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
   async _onRollAttribute(event) {
     event.preventDefault();
     const attribute = event.currentTarget.closest(".attribute").dataset.attribute;
-    this.actor.rollAttribute(attribute, { actor: this.actor });
+    const squadId = event.currentTarget.closest(".squadron").dataset.id;
+    this.actor.rollAttribute(attribute, squadId, { actor: this.actor });
   }
 
   async _onSigCharCreate(event) {
     event.preventDefault();
 
     const sigChars = foundry.utils.duplicate(this.actor.system.significantCharacters ?? []);
-    sigChars.push({
-      isSignificant: true,
-    });
+    sigChars.push({});
 
     await this._onSubmit(event, {
       updateData: { "system.significantCharacters": sigChars },
@@ -272,7 +278,7 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
     const changed = foundry.utils.expandObject(formData);
 
     if (changed.system) {
-      const keepPaths = ["system.squadrons"];
+      const keepPaths = ["system.significantCharacters", "system.squadrons"];
 
       const itemData = this.actor.toObject();
       for (const path of keepPaths) {
@@ -322,20 +328,126 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
     let notes;
 
     const re = /^(?<id>[\w-]+)(?:\.(?<detail>.*))?$/.exec(fullId);
-    const { id } = re?.groups ?? {};
+    const { id, detail } = re?.groups ?? {};
 
     switch (id) {
-      case "damageBonus":
+      case "chaMod":
         paths.push({
-          path: "@damageBonus.total",
-          value: actorData.damageBonus.total,
+          path: "@admiral.chaMod",
+          value: actorData.admiral.chaMod,
+        });
+        break;
+      case "profSailor":
+        paths.push({
+          path: "@admiral.profSailor",
+          value: actorData.admiral.profSailor,
+        });
+        break;
+      case "init":
+        paths.push({
+          path: "@init.total",
+          value: actorData.init.total,
         });
         sources.push({
-          sources: actor.getSourceDetails("system.damageBonus.total"),
+          sources: actor.getSourceDetails("system.init.total"),
           untyped: true,
         });
-        notes = await getNotes(`${pf1fs.config.changePrefix}_damage`);
+        notes = await getNotes([`${pf1fs.config.changePrefix}.initiative`]);
         break;
+      case "maxSquadrons":
+        paths.push({
+          path: "@maxSquadrons.total",
+          value: actorData.maxSquadrons.total,
+        });
+        sources.push({
+          sources: actor.getSourceDetails("system.maxSquadrons.total"),
+          untyped: true,
+        });
+        notes = await getNotes([`${pf1fs.config.changePrefix}.max_squadrons`]);
+        break;
+      case "squad-dv":
+      case "squad-av":
+      case "squad-damageBonus":
+      case "squad-morale":
+      case "squad-chaMod":
+      case "squad-profSailor":
+      case "squad-moraleScore":
+      case "squad-lossCount":
+      case "squad-hits":
+      case "squad-maxShips": {
+        const [, attribute] = id.split("-");
+        const squad = actorData.squadrons[detail];
+
+        // combat
+        if (Object.keys(pf1fs.config.combatAttributes).includes(attribute)) {
+          paths.push({
+            path: `@squadrons.${detail}.combat.${attribute}.total`,
+            value: squad.combat[attribute].total,
+          });
+          sources.push({
+            sources: actor.getSourceDetails(`system.squadrons.${detail}.combat.${attribute}.total`),
+            untyped: true,
+          });
+          notes = await getNotes([
+            `${pf1fs.config.changePrefix}.${attribute}`,
+            `${pf1fs.config.changePrefix}.${attribute}.${squad.id}`,
+          ]);
+        }
+        // commodore
+        else if (["chaMod", "profSailor"].includes(attribute)) {
+          paths.push({
+            path: `@squadrons.${detail}.commodore.${attribute}`,
+            value: squad.commodore[attribute],
+          });
+        }
+        // morale score
+        else if (attribute === "moraleScore") {
+          paths.push({
+            path: `@squadrons.${detail}.moraleScore`,
+            value: squad.moraleScore,
+          });
+          notes = await getNotes([
+            `${pf1fs.config.changePrefix}.morale_score`,
+            `${pf1fs.config.changePrefix}.morale_score.${squad.id}`,
+          ]);
+        }
+        // loss count
+        else if (attribute === "lossCount") {
+          paths.push({
+            path: `@squadrons.${detail}.lossCount`,
+            value: squad.lossCount,
+          });
+        }
+        // hits
+        else if (attribute === "hits") {
+          paths.push(
+            {
+              path: `@squadrons.${detail}.totalHits.current`,
+              value: squad.totalHits.current,
+            },
+            {
+              path: `@squadrons.${detail}.totalHits.max`,
+              value: squad.totalHits.max,
+            }
+          );
+          notes = await getNotes([
+            `${pf1fs.config.changePrefix}.hits`,
+            `${pf1fs.config.changePrefix}.hits.${squad.id}`,
+          ]);
+        }
+        // max ships
+        else if (attribute === "maxShips") {
+          paths.push({
+            path: `@squadrons.${detail}.config.maxShips`,
+            value: squad.config.maxShips,
+          });
+          sources.push({
+            sources: actor.getSourceDetails(`system.squadrons.${detail}.config.maxShips`),
+            untyped: true,
+          });
+        }
+        break;
+      }
 
       default:
         throw new Error(`Invalid extended tooltip identifier "${fullId}"`);

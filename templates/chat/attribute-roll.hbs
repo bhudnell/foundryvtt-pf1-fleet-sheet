@@ -1,0 +1,40 @@
+<div class="pf1fs attack-card" data-actor-id="{{ actorId }}" data-squad-id="{{ squadId }}">
+  <span class="flavor-text">
+    {{ flavor }}
+  </span>
+
+  <div class="dice-roll">
+    <div class="dice-result">
+      <h3
+        class="roll-total dice-total has-details"
+        data-natural="{{ natural }}"
+        data-bonus="{{ bonus }}"
+        data-total="{{ total }}"
+      >
+        <i class="fa-solid fa-dice-d20" inert></i>
+        <span class="natural">{{ d20 }}</span>
+        <span class="bonus">{{numberFormat bonus sign=true}}</span>
+        <span class="equals">⇒</span>
+        <span class="total">{{ total }}</span>
+      </h3>
+    </div>
+  </div>
+
+  {{#if isAttack}}
+  {{#unless isNat1}}
+  {{#if isNat20}}
+  {{localize "PF1FS.Nat20Damage"}}
+  {{/if}}
+  <button class="roll-hit">{{localize "PF1FS.RollHit"}}</button>
+  {{#unless isNat20}}
+  <button class="roll-miss">{{localize "PF1FS.RollMiss"}}</button>
+  {{/unless}}
+  {{else}}
+  {{localize "PF1FS.Nat1Damage"}}
+  {{/unless}}
+  {{/if}}
+
+  {{#each properties}}
+  {{> "systems/pf1/templates/chat/parts/item-notes.hbs" css=css cssExtra="general-notes" header=header notes=value}}
+  {{/each}}
+</div>

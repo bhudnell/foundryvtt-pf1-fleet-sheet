@@ -216,30 +216,38 @@ export class BaseActor extends pf1.documents.actor.ActorBasePF {
   }
 
   get allNotes() {
-    const allNotes = this.items
-      .filter(
-        (item) =>
-          item.type.startsWith(`${pf1fs.config.moduleId}.`) && item.isActive && item.system.contextNotes?.length > 0
-      )
-      .map((item) => ({ notes: item.system.contextNotes, item }));
+    const allNotes = [];
+
+    // add significant character notes
+    for (const char of this.system.significantCharacters) {
+      const boon = pf1fs.config.boons[char.boon.key];
+      const squadId = char.boon.squadronId;
+
+      if (!boon || (boon.selectSquad && !squadId) || !boon.mechanics.contextNotes) {
+        continue;
+      }
+
+      const sigCharNotes = [];
+      for (const note of boon.mechanics.contextNotes) {
+        const noteCopy = { ...note };
+        if (boon.selectSquad) {
+          noteCopy.target += `.${squadId}`;
+        }
+        sigCharNotes.push(new pf1.components.ContextNote(noteCopy, { parent: this }));
+      }
+      allNotes.push({ notes: sigCharNotes, item: null });
+    }
 
     // add condition notes
     for (const [con, v] of Object.entries(this.system.conditions)) {
-      if (!v) {
-        continue;
-      }
       const condition = pf1fs.config.fleetConditions[con];
-      if (!condition) {
-        continue;
-      }
 
-      const mechanic = condition.mechanics;
-      if (!mechanic) {
+      if (!v || !condition || !condition.mechanics.contextNotes) {
         continue;
       }
 
       const conditionNotes = [];
-      for (const note of mechanic.contextNotes ?? []) {
+      for (const note of condition.mechanics.contextNotes) {
         conditionNotes.push(new pf1.components.ContextNote(note, { parent: this }));
       }
       allNotes.push({ notes: conditionNotes, item: null });
@@ -252,7 +260,7 @@ export class BaseActor extends pf1.documents.actor.ActorBasePF {
     const result = this.allNotes;
 
     for (const note of result) {
-      note.notes = note.notes.filter((o) => o.target === context).map((o) => o.text);
+      note.notes = note.notes.filter((o) => context.includes(o.target)).map((o) => o.text);
     }
 
     return result.filter((n) => n.notes.length);

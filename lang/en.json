@@ -3,7 +3,7 @@
     "HomePort": "Home Port",
     "Flagship": "Flagship",
     "MaxSquadrons": "Max Squadrons",
-    "Infamy":"Infamy",
+    "Infamy": "Infamy",
 
     "Admiral": "Admiral",
     "Commodore": "Commodore",
@@ -11,6 +11,7 @@
     "IsSignificant": "Is Significant?",
 
     "SigCharacters": "Significant Characters",
+    "SigCharacter": "Significant Character",
     "Location": "Location",
     "Boon": "Boon",
     "AddSigChar": "Create Significant Character",
@@ -22,13 +23,19 @@
     "MoraleScore": "Morale Score",
     "Ships": "Ships",
     "Hits": "Hits",
-    "HitsPerShip":"Hits Per Ship",
+    "HitsPerShip": "Hits Per Ship",
     "ShipType": "Ship Type",
     "MaxShips": "Max Ships",
+    "TotalShips": "Total Ships",
     "TotalHits": "Total Hits",
+    "IsMercenary": "Is Mercenary?",
+    "MercenarySquadron": "Mercenary Squadron",
     "DV": "Defense Value",
     "AV": "Attack Value",
+    "Damage": "Damage",
     "MoraleCheck": "Morale Check",
+    "Morale": "Morale",
+    "LossCount": "Loss Count",
     "NewSquadronLabel": "New Squadron {number}",
     "CreateSquadron": "Create Squadron",
     "DeleteSquadron": "Delete Squadron",
@@ -40,30 +47,40 @@
     "DeleteShipTitle": "Delete Ship: {name}",
     "DeleteShipConfirmation": "Are you sure you want to delete this ship?",
 
+    "AttributeRoll": "{check} Check",
+    "RollHit": "Roll Hit Damage",
+    "RollMiss": "Roll Miss Damage",
+    "Nat20Damage": "Natural 20! Attacker assigns the damage and gains +1 to their morale score",
+    "Nat1Damage": "Natural 1! Attack doesnt do damage and attacker loses -1 to their morale score",
+    "DamageRoll": "Damage Roll ({type})",
+
+    "Hit": "Hit",
+    "Miss": "Miss",
+
     "Ship": {
       "Raft": "Raft",
-      "Rowboat":"Rowboat",
+      "Rowboat": "Rowboat",
       "ShipsBoat": "Ship's Boat",
-      "Keelboat":"Keelboat",
-      "Junk":"Junk",
-      "Longship":"Longship",
-      "SailingShip":"Sailing Ship",
-      "Galley":"Galley",
-      "Warship":"Warship"
+      "Keelboat": "Keelboat",
+      "Junk": "Junk",
+      "Longship": "Longship",
+      "SailingShip": "Sailing Ship",
+      "Galley": "Galley",
+      "Warship": "Warship"
     },
 
     "Boons": {
-      "AdvancedTactics":"Advanced Tactics",
-      "DefensiveTactics":"Defensive Tactics",
-      "DivineProtection":"Divine Protection",
-      "Loyalty":"Loyalty",
-      "MagicalArtillery":"Magical Artillery",
-      "Overwhelming":"Overwhelming",
-      "RecklessManeuver":"Reckless Maneuver",
-      "RemorselessAdvance":"Remorseless Advance",
-      "SwiftRepairs":"Swift Repairs",
-      "SwiftBattle":"Swift to Battle",
-      "Vengeance":"Vengeance"
+      "AdvancedTactics": "Advanced Tactics",
+      "DefensiveTactics": "Defensive Tactics",
+      "DivineProtection": "Divine Protection",
+      "Loyalty": "Loyalty",
+      "MagicalArtillery": "Magical Artillery",
+      "Overwhelming": "Overwhelming",
+      "RecklessManeuver": "Reckless Maneuver",
+      "RemorselessAdvance": "Remorseless Advance",
+      "SwiftRepairs": "Swift Repairs",
+      "SwiftBattle": "Swift to Battle",
+      "Vengeance": "Vengeance"
     },
 
     "Settings": {
@@ -78,10 +95,9 @@
       "Fleet": "Fleet Sheet"
     },
 
-    "NoKingdomOrArmyItemsOnActor": "This actor cannot have Kingdom or Army items.",
-    "OnlyKingdomItemsOnActor": "Kingdom actors can only have Building, Event, and Terrain Improvement items.",
-    "OnlyArmyItemsOnActor": "Army actors can only have Boon, Special Ability, and Tactic items.",
-    "LibWrapperError": "The PF1 Kingdom Sheet module requires the 'libWrapper' module. Please install and activate it."
+    "NoFleetItemsOnActor": "This actor cannot have Fleet items.",
+    "OnlyFleetItemsOnActor": "Fleet actors can only have Fleet items.",
+    "LibWrapperError": "The PF1 Fleet Sheet module requires the 'libWrapper' module. Please install and activate it."
   },
   "TYPES": {
     "Actor": {

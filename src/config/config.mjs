@@ -3,12 +3,12 @@ export const changePrefix = "pf1fs";
 
 export const fleetId = `${moduleId}.fleet`;
 
-export const boonId = `${moduleId}.boon`;
+export const boonId = `${moduleId}.boon`; // todo remove
 
 export const combatAttributes = {
-  dv: "PF1FS.DefenseValue",
-  av: "PF1FS.AttackValue",
-  damage: "PF1FS.Damage",
+  dv: "PF1FS.DV",
+  av: "PF1FS.AV",
+  damageBonus: "PF1FS.Damage",
   morale: "PF1FS.Morale",
 };
 
@@ -21,7 +21,7 @@ export const fleetConditions = {
       changes: [
         {
           formula: 1,
-          target: `${changePrefix}_av`,
+          target: `${changePrefix}.av`,
           type: "untyped",
         },
       ],
@@ -39,14 +39,14 @@ export const boons = {
       changes: [
         {
           formula: 2,
-          target: `${changePrefix}_av`,
+          target: `${changePrefix}.av`,
           type: "untyped",
         },
       ],
       contextNotes: [
         {
           text: "Attacker chooses what ships to damage",
-          target: `${changePrefix}_damage`,
+          target: `${changePrefix}.damageBonus`,
         },
       ],
     },
@@ -59,7 +59,7 @@ export const boons = {
       changes: [
         {
           formula: 2,
-          target: `${changePrefix}_dv`,
+          target: `${changePrefix}.dv`,
           type: "untyped",
         },
       ],
@@ -72,8 +72,8 @@ export const boons = {
     mechanics: {
       contextNotes: [
         {
-          text: "squadron takes -[[1]] damage when attacked",
-          target: `${changePrefix}_dv`,
+          text: "squadron takes -1 damage when attacked",
+          target: `${changePrefix}.dv`,
         },
       ],
     },
@@ -86,7 +86,7 @@ export const boons = {
       changes: [
         {
           formula: 2,
-          target: `${changePrefix}_morale_check`,
+          target: `${changePrefix}.morale`,
           type: "untyped",
         },
       ],
@@ -100,12 +100,12 @@ export const boons = {
       changes: [
         {
           formula: 1,
-          target: `${changePrefix}_damage`,
+          target: `${changePrefix}.damageBonus`,
           type: "untyped",
         },
         {
           formula: 1,
-          target: `${changePrefix}_morale_check`,
+          target: `${changePrefix}.morale`,
           type: "untyped",
         },
       ],
@@ -119,7 +119,7 @@ export const boons = {
       changes: [
         {
           formula: 1,
-          target: `${changePrefix}_max_squadrons`,
+          target: `${changePrefix}.max_squadrons`,
           type: "untyped",
         },
       ],
@@ -133,12 +133,12 @@ export const boons = {
       changes: [
         {
           formula: -2,
-          target: `${changePrefix}_dv`,
+          target: `${changePrefix}.dv`,
           type: "untyped",
         },
         {
           formula: 4,
-          target: `${changePrefix}_av`,
+          target: `${changePrefix}.av`,
           type: "untyped",
         },
       ],
@@ -152,19 +152,19 @@ export const boons = {
       changes: [
         {
           formula: 2,
-          target: `${changePrefix}_av`,
+          target: `${changePrefix}.av`,
           type: "untyped",
         },
         {
           formula: 2,
-          target: `${changePrefix}_damage`,
+          target: `${changePrefix}.damageBonus`,
           type: "untyped",
         },
       ],
       contextNotes: [
         {
-          text: "+[[1]] at start of battle phase",
-          target: `${changePrefix}_morale_score`,
+          text: "+1 at start of battle phase",
+          target: `${changePrefix}.morale_score`,
         },
       ],
     },
@@ -176,8 +176,8 @@ export const boons = {
     mechanics: {
       contextNotes: [
         {
-          text: "remove [[1d6]] damage from a single squadron after battle phase",
-          target: `${changePrefix}_hits`,
+          text: "remove 1d6 damage from a single squadron after battle phase",
+          target: `${changePrefix}.hits`,
         },
       ],
     },
@@ -190,7 +190,7 @@ export const boons = {
       changes: [
         {
           formula: 4,
-          target: `${changePrefix}_initiative`,
+          target: `${changePrefix}.initiative`,
           type: "untyped",
         },
       ],
@@ -204,12 +204,12 @@ export const boons = {
       changes: [
         {
           formula: 2,
-          target: `${changePrefix}_av`,
+          target: `${changePrefix}.av`,
           type: "untyped",
         },
         {
           formula: 2,
-          target: `${changePrefix}_morale_check`,
+          target: `${changePrefix}.morale`,
           type: "untyped",
         },
       ],
