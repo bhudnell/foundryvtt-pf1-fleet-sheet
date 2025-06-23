@@ -31,7 +31,7 @@ export class FleetModel extends foundry.abstract.TypeDataModel {
       total: 0,
     };
     this.maxSquadrons = {
-      total: 3,
+      total: 0,
     };
   }
 

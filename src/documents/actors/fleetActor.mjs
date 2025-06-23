@@ -236,7 +236,7 @@ export class FleetActor extends BaseActor {
         new DefaultChange(squad.commodore.chaMod, `${pf1fs.config.changePrefix}.morale.${squad.id}`, "PF1FS.Commodore"),
         new DefaultChange(sigCharBonus, `${pf1fs.config.changePrefix}.morale.${squad.id}`, "PF1FS.SigCharacter"),
         new DefaultChange(-squad.lossCount, `${pf1fs.config.changePrefix}.morale.${squad.id}`, "PF1FS.LossCount"),
-        new DefaultChange(-mercPenalty, `${pf1fs.config.changePrefix}.morale.${squad.id}`, "PF1FS.MercenarySquad")
+        new DefaultChange(-mercPenalty, `${pf1fs.config.changePrefix}.morale.${squad.id}`, "PF1FS.MercenarySquadron")
       );
       // max ships
       changes.push(
