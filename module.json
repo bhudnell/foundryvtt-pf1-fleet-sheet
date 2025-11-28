@@ -50,8 +50,7 @@
 
   "compatibility": {
     "minimum": "12",
-    "verified": "12.331",
-    "maximum": "12"
+    "verified": "13.351"
   },
   "relationships": {
     "requires": [
@@ -66,8 +65,7 @@
         "type": "system",
         "compatibility": {
           "minimum": "11",
-          "verified": "11.2",
-          "maximum": "11.x"
+          "verified": "11.8"
         }
       }
     ]

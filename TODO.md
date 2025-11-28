@@ -1,5 +1,7 @@
 - More than 6 Squadrons are hard to see as the window size needs to be adjusted. (sources tab on items has similar problem and uses second row to fix it)
 - module setting to set the profession sailor tag (default to "sailor")
+- pass DC to Moral Check Roll (this should be possible since v12 at least for skills and saves, probably can be adapted for morale checks)
+- Allow rearrangement of squadrones via drag and drop (similar to sources)
 - boons that affect squadrons cant affect the same squadron twice
 - admirals and commodores must be unique
 - put below behind "strict mode" setting

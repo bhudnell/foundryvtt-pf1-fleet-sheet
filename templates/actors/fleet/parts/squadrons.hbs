@@ -1,14 +1,18 @@
 {{!-- Squadrons Navigation --}}
-<nav class="sheet-navigation tabs" data-group="squadrons">
-  {{#each squadrons as |squad idx|}}
-  <a class="item" data-tab="{{ idx }}" data-group="squadrons">{{ squad.name }}</a>
-  {{/each}}
-  {{#if canAddSquadron}}
-  <a class="item icon squadron-create" data-tooltip="PF1FS.CreateSquadron">
+<header>
+  <nav class="sheet-navigation tabs" data-group="squadrons">
+    {{#each squadrons as |squad idx|}}
+    <a class="item" data-tab="{{ idx }}" data-group="squadrons">{{ squad.name }}</a>
+    {{/each}}
+  </nav>
+
+  <a
+    class="item icon squadron-create{{#unless canAddSquadron}} disabled{{/unless}}"
+    data-tooltip="PF1FS.CreateSquadron"
+  >
     <i class="fa-solid fa-plus"></i>
   </a>
-  {{/if}}
-</nav>
+</header>
 
 <section class="squadrons-body">
   {{#each squadrons as |squad idx|}}

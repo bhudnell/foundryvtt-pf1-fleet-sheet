@@ -257,20 +257,19 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
     }
     button.disabled = true;
 
-    try {
-      await Dialog.confirm({
-        title,
-        content,
-        yes: () => {
-          onDelete();
-          button.disabled = false;
-        },
-        no: () => (button.disabled = false),
-        rejectClose: true,
-      });
-    } catch (e) {
-      button.disabled = false;
+    const confirm = await foundry.applications.api.DialogV2.confirm({
+      window: { title, icon: "fa-solid fa-trash" },
+      classes: ["pf1-v2", "delete-item", "pf1fs"],
+      content,
+      rejectClose: false,
+      modal: true, // Require dialog to be resolved
+    });
+
+    if (confirm) {
+      onDelete();
     }
+
+    button.disabled = false;
   }
 
   // overrides
