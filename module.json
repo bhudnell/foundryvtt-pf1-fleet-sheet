@@ -18,6 +18,9 @@
     "Actor": {
       "fleet": {
         "htmlFields": ["notes.value"]
+      },
+      "squadron": {
+        "htmlFields": ["notes.value"]
       }
     }
   },

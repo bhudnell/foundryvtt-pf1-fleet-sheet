@@ -2,6 +2,7 @@ export const moduleId = "pf1-fleet-sheet";
 export const changePrefix = "pf1fs";
 
 export const fleetId = `${moduleId}.fleet`;
+export const squadronId = `${moduleId}.squadron`;
 
 export const boonId = `${moduleId}.boon`; // todo remove
 

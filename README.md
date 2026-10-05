@@ -20,6 +20,7 @@ The list of fleet conditions and their rules are available in the provided compe
 
 - The following images are included in this project:
   - [Caravel](https://game-icons.net/1x1/delapouite/caravel.html) by [Delapouite](https://delapouite.com/) under [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/)
+  - [Ship's Wheel](https://game-icons.net/1x1/delapouite/ship-wheel.html) by [Delapouite](https://delapouite.com/) under [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/)
 
 # Legal
 
