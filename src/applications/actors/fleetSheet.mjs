@@ -13,12 +13,6 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
           initial: "summary",
           group: "primary",
         },
-        {
-          navSelector: "nav.tabs[data-group='squadrons']",
-          contentSelector: "section.squadrons-body",
-          initial: "0",
-          group: "squadrons",
-        },
       ],
     };
   }
@@ -48,9 +42,6 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
     // selectors
     data.squadronOptions = { "": "" };
     actorData.squadrons.forEach((squadron) => (data.squadronOptions[squadron.id] = squadron.name));
-
-    data.shipTypeOptions = foundry.utils.duplicate(pf1fs.config.shipTypes);
-    data.shipTypeOptions.custom = game.i18n.localize("PF1.Custom");
 
     data.actorOptions = { "": "" };
     game.actors
@@ -112,18 +103,11 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
   activateListeners(html) {
     super.activateListeners(html);
 
-    html.find(".item-toggle-data").on("click", (e) => this._itemToggleData(e));
-
-    html.find(".attribute .rollable").on("click", (e) => this._onRollAttribute(e));
-
     html.find(".sig-char-create").on("click", (e) => this._onSigCharCreate(e));
     html.find(".sig-char-delete").on("click", (e) => this._onSigCharDelete(e));
 
     html.find(".squadron-create").on("click", (e) => this._onSquadronCreate(e));
     html.find(".squadron-delete").on("click", (e) => this._onSquadronDelete(e));
-
-    html.find(".ship-create").on("click", (e) => this._onShipCreate(e));
-    html.find(".ship-delete").on("click", (e) => this._onShipDelete(e));
   }
 
   _prepareSquadrons() {
@@ -133,13 +117,6 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
       editShipHits: !Object.keys(pf1fs.config.shipTypes).includes(squadron.config.shipType),
       canAddShip: squadron.ships.length < squadron.config.maxShips,
     }));
-  }
-
-  async _onRollAttribute(event) {
-    event.preventDefault();
-    const attribute = event.currentTarget.closest(".attribute").dataset.attribute;
-    const squadId = event.currentTarget.closest(".squadron").dataset.id;
-    this.actor.rollAttribute(attribute, squadId, { actor: this.actor });
   }
 
   async _onSigCharCreate(event) {
@@ -209,48 +186,6 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
     });
   }
 
-  async _onShipCreate(event) {
-    event.preventDefault();
-
-    const squadronId = event.currentTarget.closest(".squadron").dataset.id;
-    const squadrons = foundry.utils.duplicate(this.actor.system.squadrons ?? []);
-    const squadron = squadrons.find((squadron) => squadron.id === squadronId);
-
-    const maxHits = (this.actor.system.squadrons ?? []).find((squadron) => squadron.id === squadronId).config
-      .maxShipHits;
-
-    const newIdx = squadron.ships.length;
-    squadron.ships.push({
-      name: game.i18n.format("PF1FS.NewShipLabel", { number: newIdx + 1 }),
-      id: foundry.utils.randomID(),
-      currentHits: maxHits,
-    });
-
-    await this._onSubmit(event, {
-      updateData: { "system.squadrons": squadrons },
-    });
-  }
-
-  async _onShipDelete(event) {
-    event.preventDefault();
-
-    const { squadronId, id: shipId } = event.currentTarget.closest(".ship").dataset;
-    const squadrons = foundry.utils.duplicate(this.actor.system.squadrons ?? []);
-    const squadron = squadrons.find((squadron) => squadron.id === squadronId);
-
-    const deletedShip = squadron.ships.findSplice((ship) => ship.id === shipId);
-
-    await this._onDelete({
-      button: event.currentTarget,
-      title: game.i18n.format("PF1FS.DeleteShipTitle", { name: deletedShip.name }),
-      content: `<p>${game.i18n.localize("PF1FS.DeleteShipConfirmation")}</p>`,
-      onDelete: () =>
-        this._onSubmit(event, {
-          updateData: { "system.squadrons": squadrons },
-        }),
-    });
-  }
-
   async _onDelete({ button, title, content, onDelete }) {
     if (button.disabled) {
       return;
@@ -288,12 +223,10 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
     return super._updateObject(event, changed);
   }
 
+  // todo needed?
   _focusTabByItem(item) {
     let tabId;
     switch (item.type) {
-      case pf1fs.config.boonId:
-        tabId = "commander";
-        break;
       default:
         tabId = "summary";
     }
@@ -364,89 +297,6 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
         });
         notes = await getNotes([`${pf1fs.config.changePrefix}.max_squadrons`]);
         break;
-      case "squad-dv":
-      case "squad-av":
-      case "squad-damageBonus":
-      case "squad-morale":
-      case "squad-chaMod":
-      case "squad-profSailor":
-      case "squad-moraleScore":
-      case "squad-lossCount":
-      case "squad-hits":
-      case "squad-maxShips": {
-        const [, attribute] = id.split("-");
-        const squad = actorData.squadrons[detail];
-
-        // combat
-        if (Object.keys(pf1fs.config.combatAttributes).includes(attribute)) {
-          paths.push({
-            path: `@squadrons.${detail}.combat.${attribute}.total`,
-            value: squad.combat[attribute].total,
-          });
-          sources.push({
-            sources: actor.getSourceDetails(`system.squadrons.${detail}.combat.${attribute}.total`),
-            untyped: true,
-          });
-          notes = await getNotes([
-            `${pf1fs.config.changePrefix}.${attribute}`,
-            `${pf1fs.config.changePrefix}.${attribute}.${squad.id}`,
-          ]);
-        }
-        // commodore
-        else if (["chaMod", "profSailor"].includes(attribute)) {
-          paths.push({
-            path: `@squadrons.${detail}.commodore.${attribute}`,
-            value: squad.commodore[attribute],
-          });
-        }
-        // morale score
-        else if (attribute === "moraleScore") {
-          paths.push({
-            path: `@squadrons.${detail}.moraleScore`,
-            value: squad.moraleScore,
-          });
-          notes = await getNotes([
-            `${pf1fs.config.changePrefix}.morale_score`,
-            `${pf1fs.config.changePrefix}.morale_score.${squad.id}`,
-          ]);
-        }
-        // loss count
-        else if (attribute === "lossCount") {
-          paths.push({
-            path: `@squadrons.${detail}.lossCount`,
-            value: squad.lossCount,
-          });
-        }
-        // hits
-        else if (attribute === "hits") {
-          paths.push(
-            {
-              path: `@squadrons.${detail}.totalHits.current`,
-              value: squad.totalHits.current,
-            },
-            {
-              path: `@squadrons.${detail}.totalHits.max`,
-              value: squad.totalHits.max,
-            }
-          );
-          notes = await getNotes([
-            `${pf1fs.config.changePrefix}.hits`,
-            `${pf1fs.config.changePrefix}.hits.${squad.id}`,
-          ]);
-        }
-        // max ships
-        else if (attribute === "maxShips") {
-          paths.push({
-            path: `@squadrons.${detail}.config.maxShips`,
-            value: squad.config.maxShips,
-          });
-          sources.push({
-            sources: actor.getSourceDetails(`system.squadrons.${detail}.config.maxShips`),
-            untyped: true,
-          });
-        }
-        break;
-      }
 
       default:
         throw new Error(`Invalid extended tooltip identifier "${fullId}"`);

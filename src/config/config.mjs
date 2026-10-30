@@ -4,8 +4,6 @@ export const changePrefix = "pf1fs";
 export const fleetId = `${moduleId}.fleet`;
 export const squadronId = `${moduleId}.squadron`;
 
-export const boonId = `${moduleId}.boon`; // todo remove
-
 export const combatAttributes = {
   dv: "PF1FS.DV",
   av: "PF1FS.AV",

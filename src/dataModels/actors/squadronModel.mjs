@@ -1,13 +1,11 @@
 import { CommanderModel } from "./commanderModel.mjs";
 import { ShipModel } from "./shipModel.mjs";
 
-export class SquadronModel extends foundry.abstract.DataModel {
+export class SquadronModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     const fields = foundry.data.fields;
 
     return {
-      id: new fields.StringField({ required: true, nullable: false, blank: false }),
-      name: new fields.StringField(),
       moraleScore: new fields.NumberField({ integer: true, min: 0, max: 10 }),
       config: new fields.SchemaField({
         shipType: new fields.StringField({ blank: true, choices: [...Object.keys(pf1fs.config.shipTypes), "custom"] }),
@@ -17,6 +15,10 @@ export class SquadronModel extends foundry.abstract.DataModel {
       ships: new fields.ArrayField(new fields.EmbeddedDataField(ShipModel)),
       commodore: new fields.EmbeddedDataField(CommanderModel),
       isMercenary: new fields.BooleanField(),
+
+      notes: new fields.SchemaField({
+        value: new fields.HTMLField({ required: false, blank: true }),
+      }),
     };
   }
 

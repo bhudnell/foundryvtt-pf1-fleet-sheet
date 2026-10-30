@@ -16,14 +16,8 @@ Hooks.on("preCreateItem", (item, data, context, user) => {
     return;
   }
 
-  // non module actors
-  if (item.actor.type !== PF1FS.fleetId && item.type === PF1FS.boonId) {
-    ui.notifications.error("PF1FS.NoFleetItemsOnActor", { localize: true });
-    return false;
-  }
-
-  // fleet actors
-  if (item.actor.type === PF1FS.fleetId && item.type !== PF1FS.boonId) {
+  // module actors
+  if ([PF1FS.fleetId, PF1FS.squadronId].includes(item.actor.type)) {
     ui.notifications.error("PF1FS.OnlyFleetItemsOnActor", { localize: true });
     return false;
   }
@@ -52,22 +46,6 @@ Hooks.once("libWrapper.Ready", () => {
         return fleet;
       }
       return core;
-    },
-    libWrapper.MIXED
-  );
-
-  // adds subtypes for improvement and event item creation
-  libWrapper.register(
-    PF1FS.moduleId,
-    "pf1.applications.item.CreateDialog.prototype.getSubtypes",
-    function (wrapper, type) {
-      switch (type) {
-        case PF1FS.boonId:
-          return null;
-
-        default:
-          return wrapper(type);
-      }
     },
     libWrapper.MIXED
   );
@@ -106,18 +84,6 @@ Hooks.once("init", () => {
     types: [PF1FS.fleetId],
     makeDefault: true,
   });
-
-  // remove module buff targets from non module items
-  for (const prop of ["buffTargetCategories", "contextNoteCategories"]) {
-    for (const categoryKey in pf1.config[prop]) {
-      const category = pf1.config[prop][categoryKey];
-      category.filters ??= {};
-      category.filters.item ??= {};
-      category.filters.item.exclude ??= [];
-      category.filters.item.exclude.push(PF1FS.boonId);
-      pf1.config[prop][categoryKey] = category;
-    }
-  }
 
   foundry.utils.mergeObject(pf1.config, Object.assign({}, Config));
   CONFIG.statusEffects.push(

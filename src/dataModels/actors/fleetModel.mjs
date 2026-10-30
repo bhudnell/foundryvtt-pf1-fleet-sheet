@@ -1,6 +1,6 @@
 import { CommanderModel } from "./commanderModel.mjs";
 import { SignificantCharacterModel } from "./significantCharacterModel.mjs";
-import { SquadronModel } from "./squadronModel.mjs";
+import { SquadronModelDeprecated } from "./squadronModelDeprecated.mjs";
 
 export class FleetModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
@@ -12,7 +12,7 @@ export class FleetModel extends foundry.abstract.TypeDataModel {
       flagship: new fields.StringField(),
       homePort: new fields.StringField(),
       significantCharacters: new fields.ArrayField(new fields.EmbeddedDataField(SignificantCharacterModel)),
-      squadrons: new fields.ArrayField(new fields.EmbeddedDataField(SquadronModel)),
+      squadrons: new fields.ArrayField(new fields.EmbeddedDataField(SquadronModelDeprecated)),
       loyaltyActive: new fields.BooleanField({ initial: false }),
       vengeanceActive: new fields.BooleanField({ initial: false }),
 
@@ -35,9 +35,7 @@ export class FleetModel extends foundry.abstract.TypeDataModel {
     };
   }
 
-  prepareDerivedData() {
-    this.squadrons.forEach((s) => s.prepareDerivedData());
-  }
+  prepareDerivedData() {}
 
   get skills() {
     return {};
