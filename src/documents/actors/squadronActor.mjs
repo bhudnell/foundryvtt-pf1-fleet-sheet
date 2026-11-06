@@ -3,7 +3,7 @@ import { DefaultChange } from "../../util/utils.mjs";
 import { BaseActor } from "./baseActor.mjs";
 
 export class SquadronActor extends BaseActor {
-  async rollAttribute(attribute, squadId, options = {}) {
+  async rollAttribute(attribute, options = {}) {
     const {
       skipDialog = pf1.documents.settings.getSkipActionPrompt(),
       staticRoll = null,
@@ -21,13 +21,7 @@ export class SquadronActor extends BaseActor {
 
     const highestChanges = pf1.documents.actor.changes.getHighestChanges(
       this.changes.filter(
-        (c) =>
-          c.value &&
-          c.operator !== "set" &&
-          [
-            `${pf1fs.config.changePrefix}.${attribute}`,
-            `${pf1fs.config.changePrefix}.${attribute}.${squadId}`,
-          ].includes(c.target)
+        (c) => c.value && c.operator !== "set" && c.target === `${pf1fs.config.changePrefix}.${attribute}`
       ),
       { ignoreTarget: true }
     );
@@ -39,10 +33,7 @@ export class SquadronActor extends BaseActor {
     // Add context notes
     const rollData = options.rollData || this.getRollData();
 
-    const notes = await this.getContextNotesParsed(
-      [`${pf1fs.config.changePrefix}.${attribute}`, `${pf1fs.config.changePrefix}.${attribute}.${squadId}`],
-      { rollData }
-    );
+    const notes = await this.getContextNotesParsed(`${pf1fs.config.changePrefix}.${attribute}`, { rollData });
 
     if (notes.length > 0) {
       props.push({ header: game.i18n.localize("PF1.Notes"), value: notes });
@@ -72,7 +63,7 @@ export class SquadronActor extends BaseActor {
     }
 
     const chatTemplate = `modules/${pf1fs.config.moduleId}/templates/chat/attribute-roll.hbs`;
-    const chatTemplateData = { properties: props, isAttack: attribute === "av", actorId: this._id, squadId };
+    const chatTemplateData = { properties: props, isAttack: attribute === "av", actorId: this._id };
 
     const mData = foundry.utils.mergeObject(
       {
@@ -90,7 +81,7 @@ export class SquadronActor extends BaseActor {
     );
   }
 
-  async rollDamage(hit, squadId, options = {}) {
+  async rollDamage(hit, options = {}) {
     const {
       staticRoll = null,
       chatMessage = true,
@@ -107,13 +98,7 @@ export class SquadronActor extends BaseActor {
     if (hit) {
       const highestChanges = pf1.documents.actor.changes.getHighestChanges(
         this.changes.filter(
-          (c) =>
-            c.value &&
-            c.operator !== "set" &&
-            [
-              `${pf1fs.config.changePrefix}.damageBonus`,
-              `${pf1fs.config.changePrefix}.damageBonus.${squadId}`,
-            ].includes(c.target)
+          (c) => c.value && c.operator !== "set" && c.target === `${pf1fs.config.changePrefix}.damageBonus`
         ),
         { ignoreTarget: true }
       );
@@ -128,10 +113,7 @@ export class SquadronActor extends BaseActor {
     // Add context notes
     const rollData = options.rollData || this.getRollData();
 
-    const notes = await this.getContextNotesParsed(
-      [`${pf1fs.config.changePrefix}.damageBonus`, `${pf1fs.config.changePrefix}.damageBonus.${squadId}`],
-      { rollData }
-    );
+    const notes = await this.getContextNotesParsed(`${pf1fs.config.changePrefix}.damageBonus`, { rollData });
 
     if (notes.length > 0) {
       props.push({ header: game.i18n.localize("PF1.Notes"), value: notes });
@@ -202,6 +184,23 @@ export class SquadronActor extends BaseActor {
     changes.push(
       new DefaultChange(system.commodore.chaMod, `${pf1fs.config.changePrefix}.max_ships`, "PF1FS.Commodore")
     );
+
+    // significant character boons
+    const fleet = this.system.fleet.actor;
+    if (fleet) {
+      for (const char of fleet.system.significantCharacters) {
+        const boon = pf1fs.config.boons[char.boon.key];
+        const squadId = char.boon.squadronId;
+
+        if (!boon || !boon.forSquadron || (boon.selectSquad && squadId !== this.id) || !boon.mechanics.changes) {
+          continue;
+        }
+
+        for (const change of boon.mechanics.changes) {
+          changes.push(new pf1.components.ItemChange({ ...change, flavor: boon.label }));
+        }
+      }
+    }
   }
 
   getSourceDetails(path) {
@@ -209,14 +208,12 @@ export class SquadronActor extends BaseActor {
 
     const baseLabel = game.i18n.localize("PF1.Base");
 
-    // todo needs to be regex?
-    if (/^system\.combat\.dv\.total$/.test(path)) {
+    if (path === "system.combat.dv.total") {
       sources.unshift({
         name: baseLabel,
         value: 10,
       });
-    }
-    if (/^system\.config\.maxShips$/.test(path)) {
+    } else if (path === "system.config.maxShips") {
       sources.unshift({
         name: baseLabel,
         value: 3,
@@ -224,5 +221,72 @@ export class SquadronActor extends BaseActor {
     }
 
     return sources;
+  }
+
+  _prepareConditionChanges(changes) {
+    const fleet = this.system.fleet.actor;
+    if (!fleet) {
+      return;
+    }
+
+    for (const [con, v] of Object.entries(fleet.system.conditions)) {
+      const condition = pf1fs.config.fleetConditions[con];
+
+      if (!v || !condition || !condition.forSquadron || !condition.mechanics.changes) {
+        continue;
+      }
+
+      for (const change of condition.mechanics.changes) {
+        changes.push(new pf1.components.ItemChange({ ...change, flavor: condition.name }));
+      }
+    }
+  }
+
+  prepareConditions() {}
+
+  get allNotes() {
+    const allNotes = [];
+
+    const fleet = this.system.fleet.actor;
+    if (!fleet) {
+      return allNotes;
+    }
+
+    // add significant character notes
+    for (const char of fleet.system.significantCharacters) {
+      const boon = pf1fs.config.boons[char.boon.key];
+      const squadId = char.boon.squadronId;
+
+      if (!boon || !boon.forSquadron || (boon.selectSquad && squadId !== this.id) || !boon.mechanics.contextNotes) {
+        continue;
+      }
+
+      const sigCharNotes = [];
+      for (const note of boon.mechanics.contextNotes) {
+        const noteCopy = { ...note };
+        if (boon.selectSquad) {
+          noteCopy.target += `.${squadId}`;
+        }
+        sigCharNotes.push(new pf1.components.ContextNote(noteCopy, { parent: this }));
+      }
+      allNotes.push({ notes: sigCharNotes, item: null });
+    }
+
+    // add condition notes
+    for (const [con, v] of Object.entries(fleet.system.conditions)) {
+      const condition = pf1fs.config.fleetConditions[con];
+
+      if (!v || !condition || !condition.forSquadron || !condition.mechanics.contextNotes) {
+        continue;
+      }
+
+      const conditionNotes = [];
+      for (const note of condition.mechanics.contextNotes) {
+        conditionNotes.push(new pf1.components.ContextNote(note, { parent: this }));
+      }
+      allNotes.push({ notes: conditionNotes, item: null });
+    }
+
+    return allNotes;
   }
 }

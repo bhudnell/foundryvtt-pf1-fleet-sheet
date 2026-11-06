@@ -1,201 +1,171 @@
-{{!-- Squadrons Navigation --}}
-<header>
-  <nav class="sheet-navigation tabs" data-group="squadrons">
-    {{#each squadrons as |squad idx|}}
-    <a class="item" data-tab="{{ idx }}" data-group="squadrons">{{ squad.name }}</a>
-    {{/each}}
-  </nav>
+<div class="summary-header">
+  <img class="profile" src="{{ img }}" data-edit="img" />
 
-  <a
-    class="item icon squadron-create{{#unless canAddSquadron}} disabled{{/unless}}"
-    data-tooltip="PF1FS.CreateSquadron"
-  >
-    <i class="fa-solid fa-plus"></i>
-  </a>
-</header>
-
-<section class="squadrons-body">
-  {{#each squadrons as |squad idx|}}
-  <div class="tab squadron" data-group="squadrons" data-tab="{{ idx }}" data-id="{{ squad.id }}">
-    <div class="header">
-      <h1>
-        <input type="text" name="system.squadrons.{{ idx }}.name" value="{{ squad.name }}" />
+  <div class="flexcol basic-info">
+    <div class="flexrow name-xp">
+      <h1 class="char-name">
+        <input type="text" name="name" value="{{ name }}" />
       </h1>
-      <div class="flexrow inputs">
-        <div class="info-box" data-tooltip-extended="squad-moraleScore.{{ idx }}">
-          <h5>{{localize "PF1FS.MoraleScore" }}</h5>
-          <span class="value text-box direct" name="system.squadrons.{{ idx }}.moraleScore" data-dtype="Number">{{
-            squad.moraleScore
-          }}</span>
-        </div>
-        <div class="info-box" data-tooltip-extended="squad-lossCount.{{ idx }}">
-          <h5>{{localize "PF1FS.LossCount" }}</h5>
-          <span class="value text-box direct" name="system.squadrons.{{ idx }}.lossCount" data-dtype="Number">{{
-            squad.lossCount
-          }}</span>
-        </div>
-        <div class="info-box" data-tooltip-extended="squad-hits.{{ idx }}">
-          <h5>{{localize "PF1FS.TotalHits" }}</h5>
-          <span class="value">{{ squad.totalHits.current }} / {{ squad.totalHits.max }}</span>
-        </div>
-      </div>
-      <div class="squadron-controls">
-        <a class="squadron-delete" data-tooltip="PF1FS.DeleteSquadron">
-          <i class="fa-solid fa-trash fa-xl"></i>
-        </a>
-      </div>
     </div>
+  </div>
+</div>
 
-    {{!-- Commodore --}}
-    <div class="flexcol">
-      <h3>{{localize "PF1FS.Commodore"}}</h3>
-
-      <select name="system.squadrons.{{ idx }}.commodore.actor">
-        {{selectOptions @root.actorOptions selected=squad.commodore.actorId}}
-      </select>
-
-      <div class="info-box-joined">
-        <div class="info-box" data-tooltip-extended="squad-chaMod.{{ idx }}">
-          <h5>{{ localize "PF1.AbilityChaMod" }}</h5>
-          <span class="value">{{ squad.commodore.chaMod }}</span>
-        </div>
-        <div class="info-box" data-tooltip-extended="squad-profSailor.{{ idx }}">
-          <h5>{{localize "PF1FS.ProfSailor" }}</h5>
-          <span class="value">{{ squad.commodore.profSailor }}</span>
-        </div>
-        <div class="info-box">
-          <h5>{{localize "PF1FS.IsSignificant" }}</h5>
-          <div class="value">
-            <input
-              type="checkbox"
-              name="system.squadrons.{{ idx }}.commodore.isSignificant"
-              {{checked
-              squad.commodore.isSignificant}}
-            />
-          </div>
-        </div>
-        <div class="info-box">
-          <h5>{{localize "PF1FS.IsMercenary" }}</h5>
-          <div class="value">
-            <input type="checkbox" name="system.squadrons.{{ idx }}.isMercenary" {{checked squad.isMercenary}} />
-          </div>
-        </div>
-      </div>
+<section class="subdetails-body">
+  <div class="flexrow inputs">
+    <div class="info-box" data-tooltip-extended="moraleScore">
+      <h5>{{localize "PF1FS.MoraleScore" }}</h5>
+      <span class="value text-box direct" name="system.moraleScore" data-dtype="Number">{{ system.moraleScore }}</span>
     </div>
-
-    {{!-- Combat Modifiers --}}
-    <div class="attributes flex0">
-      <div class="info-box-header">
-        <h3>{{localize "PF1.Combat"}}</h3>
-        <div class="info-box-joined">
-          <div class="info-box" data-tooltip-extended="squad-dv.{{ idx }}">
-            <h5>{{localize "PF1FS.DV" }}</h5>
-            <span class="value">{{ squad.combat.dv.total }}</span>
-          </div>
-          <div class="info-box" data-tooltip-extended="squad-av.{{ idx }}">
-            <h5 class="attribute" data-attribute="av">
-              <a class="rollable"></a>
-              <span>{{ localize "PF1FS.AV" }}</span>
-            </h5>
-            <span class="value">{{ numberFormat squad.combat.av.total sign=true }}</span>
-          </div>
-          <div class="info-box" data-tooltip-extended="squad-damageBonus.{{ idx }}">
-            <h5>{{ localize "PF1.DamageBonus" }}</h5>
-            <span class="value">{{ numberFormat squad.combat.damageBonus.total sign=true }}</span>
-          </div>
-          <div class="info-box" data-tooltip-extended="squad-morale.{{ idx }}">
-            <h5 class="attribute" data-attribute="morale">
-              <a class="rollable"></a>
-              <span>{{ localize "PF1FS.MoraleCheck" }}</span>
-            </h5>
-            <span class="value">{{ numberFormat squad.combat.morale.total sign=true }}</span>
-          </div>
-        </div>
-      </div>
+    <div class="info-box" data-tooltip-extended="lossCount">
+      <h5>{{localize "PF1FS.LossCount" }}</h5>
+      <span class="value text-box direct" name="system.lossCount" data-dtype="Number">{{ system.lossCount }}</span>
     </div>
+    <div class="info-box" data-tooltip-extended="hits">
+      <h5>{{localize "PF1FS.TotalHits" }}</h5>
+      <span class="value">{{ system.totalHits.current }} / {{ system.totalHits.max }}</span>
+    </div>
+  </div>
 
-    {{!-- Ships List --}}
-    <ol class="item-groups-list">
-      <ol class="item-list">
-        <li class="item-list-header flexrow">
-          <div class="item-detail item-ship-name">
-            <label>{{localize "PF1FS.Ships"}}</label>
-          </div>
-          <div class="item-detail item-hits">
-            <label>{{localize "PF1FS.Hits"}}</label>
-          </div>
-          <div class="item-detail item-disbled">
-            <label>{{localize "PF1.Disabled"}}</label>
-          </div>
-          <div class="item-controls one-button">
-            {{#if (and squad.canAddShip @root.owner)}}
-            <a class="ship-create" data-tooltip="PF1FS.AddShip">
-              <i class="fa-solid fa-plus"></i>
-            </a>
-            {{/if}}
-          </div>
-        </li>
+  {{!-- Commodore --}}
+  <div class="flexcol">
+    <h3>{{localize "PF1FS.Commodore"}}</h3>
 
-        {{#each ships as |ship sidx|}}
-        <li class="flexrow item ship" data-squadron-id="{{ squad.id }}" data-id="{{ ship.id }}">
-          <div class="item-detail item-ship-name">
-            <span
-              class="value text-box direct{{#if ship.disabled}} disabled{{/if}}"
-              name="system.squadrons.{{ idx }}.ships.{{ sidx }}.name"
-              data-dtype="String"
-              >{{ ship.name }}</span
-            >
-          </div>
-          <div class="item-detail item-hits flexrow">
-            <span
-              class="value text-box direct"
-              name="system.squadrons.{{ idx }}.ships.{{ sidx }}.currentHits"
-              data-dtype="Number"
-              >{{ ship.currentHits }}</span
-            >
-            <span class="flex0">/</span>
-            <span>{{ squad.config.maxShipHits }}</span>
-          </div>
-          <div class="item-detail item-disabled">
-            {{#if ship.disabled}}
-            <i class="fas fa-check"></i>
-            {{else}}
-            <i class="fas fa-times"></i>
-            {{/if}}
-          </div>
-          <div class="item-controls one-button">
-            <a class="ship-delete" data-tooltip="PF1FS.DeleteShip">
-              <i class="fa-solid fa-trash"></i>
-            </a>
-          </div>
-        </li>
-        {{/each}}
-      </ol>
-    </ol>
+    <select name="system.commodore.actor">
+      {{selectOptions @root.actorOptions selected=system.commodore.actorId}}
+    </select>
 
-    {{!-- Ship Configuration --}}
     <div class="info-box-joined">
-      <div class="info-box">
-        <h5>{{localize "PF1FS.ShipType" }}</h5>
-        <select name="system.squadrons.{{ idx }}.config.shipType">
-          {{selectOptions @root.shipTypeOptions selected=squad.config.shipType}}
-        </select>
+      <div class="info-box" data-tooltip-extended="chaMod">
+        <h5>{{ localize "PF1.AbilityChaMod" }}</h5>
+        <span class="value">{{ system.commodore.chaMod }}</span>
+      </div>
+      <div class="info-box" data-tooltip-extended="profSailor">
+        <h5>{{localize "PF1FS.ProfSailor" }}</h5>
+        <span class="value">{{ system.commodore.profSailor }}</span>
       </div>
       <div class="info-box">
-        <h5>{{ localize "PF1FS.HitsPerShip" }}</h5>
-        {{#if squad.editShipHits}}
-        <span class="value text-box direct" name="system.squadrons.{{ idx }}.config.maxShipHits" data-dtype="Number">{{
-          squad.config.maxShipHits
-        }}</span>
-        {{else}}
-        <span class="value">{{ squad.config.maxShipHits }}</span>
-        {{/if}}
+        <h5>{{localize "PF1FS.IsSignificant" }}</h5>
+        <div class="value">
+          <input type="checkbox" name="system.commodore.isSignificant" {{checked system.commodore.isSignificant}} />
+        </div>
       </div>
-      <div class="info-box" data-tooltip-extended="squad-maxShips.{{ idx }}">
-        <h5>{{ localize "PF1FS.MaxShips" }}</h5>
-        <span class="value">{{ squad.config.maxShips }}</span>
+      <div class="info-box">
+        <h5>{{localize "PF1FS.IsMercenary" }}</h5>
+        <div class="value">
+          <input type="checkbox" name="system.isMercenary" {{checked system.isMercenary}} />
+        </div>
       </div>
     </div>
   </div>
-  {{/each}}
+
+  {{!-- Combat Modifiers --}}
+  <div class="attributes flex0">
+    <div class="info-box-header">
+      <h3>{{localize "PF1.Combat"}}</h3>
+      <div class="info-box-joined">
+        <div class="info-box" data-tooltip-extended="dv">
+          <h5>{{localize "PF1FS.DV" }}</h5>
+          <span class="value">{{ system.combat.dv.total }}</span>
+        </div>
+        <div class="info-box" data-tooltip-extended="av">
+          <h5 class="attribute" data-attribute="av">
+            <a class="rollable"></a>
+            <span>{{ localize "PF1FS.AV" }}</span>
+          </h5>
+          <span class="value">{{ numberFormat system.combat.av.total sign=true }}</span>
+        </div>
+        <div class="info-box" data-tooltip-extended="damageBonus">
+          <h5>{{ localize "PF1.DamageBonus" }}</h5>
+          <span class="value">{{ numberFormat system.combat.damageBonus.total sign=true }}</span>
+        </div>
+        <div class="info-box" data-tooltip-extended="morale">
+          <h5 class="attribute" data-attribute="morale">
+            <a class="rollable"></a>
+            <span>{{ localize "PF1FS.MoraleCheck" }}</span>
+          </h5>
+          <span class="value">{{ numberFormat system.combat.morale.total sign=true }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{!-- Ships List --}}
+  <ol class="item-groups-list">
+    <ol class="item-list">
+      <li class="item-list-header flexrow">
+        <div class="item-detail item-ship-name">
+          <label>{{localize "PF1FS.Ships"}}</label>
+        </div>
+        <div class="item-detail item-hits">
+          <label>{{localize "PF1FS.Hits"}}</label>
+        </div>
+        <div class="item-detail item-disbled">
+          <label>{{localize "PF1.Disabled"}}</label>
+        </div>
+        <div class="item-controls one-button">
+          {{#if (and system.canAddShip @root.owner)}}
+          <a class="ship-create" data-tooltip="PF1FS.AddShip">
+            <i class="fa-solid fa-plus"></i>
+          </a>
+          {{/if}}
+        </div>
+      </li>
+
+      {{#each system.ships as |ship sidx|}}
+      <li class="flexrow item ship" data-id="{{ ship.id }}">
+        <div class="item-detail item-ship-name">
+          <span
+            class="value text-box direct{{#if ship.disabled}} disabled{{/if}}"
+            name="system.ships.{{ sidx }}.name"
+            data-dtype="String"
+            >{{ ship.name }}</span
+          >
+        </div>
+        <div class="item-detail item-hits flexrow">
+          <span class="value text-box direct" name="system.ships.{{ sidx }}.currentHits" data-dtype="Number">{{
+            ship.currentHits
+          }}</span>
+          <span class="flex0">/</span>
+          <span>{{ system.config.maxShipHits }}</span>
+        </div>
+        <div class="item-detail item-disabled">
+          {{#if ship.disabled}}
+          <i class="fas fa-check"></i>
+          {{else}}
+          <i class="fas fa-times"></i>
+          {{/if}}
+        </div>
+        <div class="item-controls one-button">
+          <a class="ship-delete" data-tooltip="PF1FS.DeleteShip">
+            <i class="fa-solid fa-trash"></i>
+          </a>
+        </div>
+      </li>
+      {{/each}}
+    </ol>
+  </ol>
+
+  {{!-- Ship Configuration --}}
+  <div class="info-box-joined">
+    <div class="info-box">
+      <h5>{{localize "PF1FS.ShipType" }}</h5>
+      <select name="system.config.shipType">
+        {{selectOptions shipTypeOptions selected=system.config.shipType}}
+      </select>
+    </div>
+    <div class="info-box">
+      <h5>{{ localize "PF1FS.HitsPerShip" }}</h5>
+      {{#if system.editShipHits}}
+      <span class="value text-box direct" name="system.config.maxShipHits" data-dtype="Number">{{
+        system.config.maxShipHits
+      }}</span>
+      {{else}}
+      <span class="value">{{ system.config.maxShipHits }}</span>
+      {{/if}}
+    </div>
+    <div class="info-box" data-tooltip-extended="maxShips">
+      <h5>{{ localize "PF1FS.MaxShips" }}</h5>
+      <span class="value">{{ system.config.maxShips }}</span>
+    </div>
+  </div>
 </section>

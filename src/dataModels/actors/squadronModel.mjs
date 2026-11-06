@@ -1,3 +1,4 @@
+import { ActorProxyModel } from "./actorProxyModel.mjs";
 import { CommanderModel } from "./commanderModel.mjs";
 import { ShipModel } from "./shipModel.mjs";
 
@@ -15,6 +16,8 @@ export class SquadronModel extends foundry.abstract.TypeDataModel {
       ships: new fields.ArrayField(new fields.EmbeddedDataField(ShipModel)),
       commodore: new fields.EmbeddedDataField(CommanderModel),
       isMercenary: new fields.BooleanField(),
+
+      fleet: new fields.EmbeddedDataField(ActorProxyModel, { nullable: true, required: false }),
 
       notes: new fields.SchemaField({
         value: new fields.HTMLField({ required: false, blank: true }),

@@ -60,20 +60,10 @@ export class SquadronSheet extends pf1.applications.actor.ActorSheetPF {
     html.find(".ship-delete").on("click", (e) => this._onShipDelete(e));
   }
 
-  _prepareSquadrons() {
-    return this.actor.system.squadrons.map((squadron) => ({
-      ...squadron,
-      totalHits: squadron.totalHits,
-      editShipHits: !Object.keys(pf1fs.config.shipTypes).includes(squadron.config.shipType),
-      canAddShip: squadron.ships.length < squadron.config.maxShips,
-    }));
-  }
-
   async _onRollAttribute(event) {
     event.preventDefault();
     const attribute = event.currentTarget.closest(".attribute").dataset.attribute;
-    const squadId = event.currentTarget.closest(".squadron").dataset.id;
-    this.actor.rollAttribute(attribute, squadId, { actor: this.actor });
+    this.actor.rollAttribute(attribute, { actor: this.actor });
   }
 
   async _onShipCreate(event) {
@@ -191,89 +181,63 @@ export class SquadronSheet extends pf1.applications.actor.ActorSheetPF {
     const { id, detail } = re?.groups ?? {};
 
     switch (id) {
-      case "squad-dv":
-      case "squad-av":
-      case "squad-damageBonus":
-      case "squad-morale":
-      case "squad-chaMod":
-      case "squad-profSailor":
-      case "squad-moraleScore":
-      case "squad-lossCount":
-      case "squad-hits":
-      case "squad-maxShips": {
-        const [, attribute] = id.split("-");
-        const squad = actorData.squadrons[detail];
-
-        // combat
-        if (Object.keys(pf1fs.config.combatAttributes).includes(attribute)) {
-          paths.push({
-            path: `@squadrons.${detail}.combat.${attribute}.total`,
-            value: squad.combat[attribute].total,
-          });
-          sources.push({
-            sources: actor.getSourceDetails(`system.squadrons.${detail}.combat.${attribute}.total`),
-            untyped: true,
-          });
-          notes = await getNotes([
-            `${pf1fs.config.changePrefix}.${attribute}`,
-            `${pf1fs.config.changePrefix}.${attribute}.${squad.id}`,
-          ]);
-        }
-        // commodore
-        else if (["chaMod", "profSailor"].includes(attribute)) {
-          paths.push({
-            path: `@squadrons.${detail}.commodore.${attribute}`,
-            value: squad.commodore[attribute],
-          });
-        }
-        // morale score
-        else if (attribute === "moraleScore") {
-          paths.push({
-            path: `@squadrons.${detail}.moraleScore`,
-            value: squad.moraleScore,
-          });
-          notes = await getNotes([
-            `${pf1fs.config.changePrefix}.morale_score`,
-            `${pf1fs.config.changePrefix}.morale_score.${squad.id}`,
-          ]);
-        }
-        // loss count
-        else if (attribute === "lossCount") {
-          paths.push({
-            path: `@squadrons.${detail}.lossCount`,
-            value: squad.lossCount,
-          });
-        }
-        // hits
-        else if (attribute === "hits") {
-          paths.push(
-            {
-              path: `@squadrons.${detail}.totalHits.current`,
-              value: squad.totalHits.current,
-            },
-            {
-              path: `@squadrons.${detail}.totalHits.max`,
-              value: squad.totalHits.max,
-            }
-          );
-          notes = await getNotes([
-            `${pf1fs.config.changePrefix}.hits`,
-            `${pf1fs.config.changePrefix}.hits.${squad.id}`,
-          ]);
-        }
-        // max ships
-        else if (attribute === "maxShips") {
-          paths.push({
-            path: `@squadrons.${detail}.config.maxShips`,
-            value: squad.config.maxShips,
-          });
-          sources.push({
-            sources: actor.getSourceDetails(`system.squadrons.${detail}.config.maxShips`),
-            untyped: true,
-          });
-        }
+      case "dv":
+      case "av":
+      case "damageBonus":
+      case "morale":
+        paths.push({
+          path: `@combat.${id}.total`,
+          value: actorData.combat[id].total,
+        });
+        sources.push({
+          sources: actor.getSourceDetails(`system.combat.${id}.total`),
+          untyped: true,
+        });
+        notes = await getNotes(`${pf1fs.config.changePrefix}.${id}`);
         break;
-      }
+      case "chaMod":
+      case "profSailor":
+        paths.push({
+          path: `@commodore.${id}`,
+          value: actorData.commodore[id],
+        });
+        break;
+      case "moraleScore":
+        paths.push({
+          path: "@moraleScore",
+          value: actorData.moraleScore,
+        });
+        notes = await getNotes(`${pf1fs.config.changePrefix}.morale_score`);
+        break;
+      case "lossCount":
+        paths.push({
+          path: "@lossCount",
+          value: actorData.lossCount,
+        });
+        break;
+      case "hits":
+        paths.push(
+          {
+            path: "@totalHits.current",
+            value: actorData.totalHits.current,
+          },
+          {
+            path: "@totalHits.max",
+            value: actorData.totalHits.max,
+          }
+        );
+        notes = await getNotes(`${pf1fs.config.changePrefix}.hits`);
+        break;
+      case "maxShips":
+        paths.push({
+          path: "@config.maxShips",
+          value: actorData.config.maxShips,
+        });
+        sources.push({
+          sources: actor.getSourceDetails("system.config.maxShips"),
+          untyped: true,
+        });
+        break;
 
       default:
         throw new Error(`Invalid extended tooltip identifier "${fullId}"`);
