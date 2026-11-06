@@ -15,7 +15,8 @@ export const fleetConditions = {
   [`${changePrefix}-upper-hand`]: {
     id: `${changePrefix}-upper-hand`,
     name: "PF1FS.Condition.UpperHand",
-    texture: `icons/svg/regen.svg`,
+    texture: "icons/svg/regen.svg",
+    forSquadron: true,
     mechanics: {
       changes: [
         {
@@ -32,6 +33,7 @@ export const fleetConditions = {
 export const boons = {
   at: {
     label: "PF1FS.Boons.AdvancedTactics",
+    forSquadron: true,
     selectSquad: true,
     takeMultiple: false,
     mechanics: {
@@ -52,6 +54,7 @@ export const boons = {
   },
   dt: {
     label: "PF1FS.Boons.DefensiveTactics",
+    forSquadron: true,
     selectSquad: true,
     takeMultiple: true,
     mechanics: {
@@ -66,6 +69,7 @@ export const boons = {
   },
   dp: {
     label: "PF1FS.Boons.DivineProtection",
+    forSquadron: true,
     selectSquad: true,
     takeMultiple: true,
     mechanics: {
@@ -79,6 +83,7 @@ export const boons = {
   },
   loy: {
     label: "PF1FS.Boons.Loyalty",
+    forSquadron: true,
     selectSquad: false,
     takeMultiple: false,
     mechanics: {
@@ -93,6 +98,7 @@ export const boons = {
   },
   ma: {
     label: "PF1FS.Boons.MagicalArtillery",
+    forSquadron: true,
     selectSquad: false,
     takeMultiple: false,
     mechanics: {
@@ -112,6 +118,7 @@ export const boons = {
   },
   ovw: {
     label: "PF1FS.Boons.Overwhelming",
+    forSquadron: false,
     selectSquad: false,
     takeMultiple: true,
     mechanics: {
@@ -126,6 +133,7 @@ export const boons = {
   },
   rm: {
     label: "PF1FS.Boons.RecklessManeuver",
+    forSquadron: true,
     selectSquad: true,
     takeMultiple: true,
     mechanics: {
@@ -145,6 +153,7 @@ export const boons = {
   },
   ra: {
     label: "PF1FS.Boons.RemorselessAdvance",
+    forSquadron: true,
     selectSquad: true,
     takeMultiple: false,
     mechanics: {
@@ -170,6 +179,7 @@ export const boons = {
   },
   sr: {
     label: "PF1FS.Boons.SwiftRepairs",
+    forSquadron: true,
     selectSquad: false,
     takeMultiple: false,
     mechanics: {
@@ -183,6 +193,7 @@ export const boons = {
   },
   sb: {
     label: "PF1FS.Boons.SwiftBattle",
+    forSquadron: false,
     selectSquad: false,
     takeMultiple: true,
     mechanics: {
@@ -197,6 +208,7 @@ export const boons = {
   },
   ven: {
     label: "PF1FS.Boons.Vengeance",
+    forSquadron: true,
     selectSquad: false,
     takeMultiple: false,
     mechanics: {

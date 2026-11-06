@@ -92,17 +92,18 @@
     },
 
     "Sheet": {
-      "Fleet": "Fleet Sheet"
+      "Fleet": "Fleet Sheet",
+      "Squadron": "Squadron Sheet"
     },
 
-    "NoFleetItemsOnActor": "This actor cannot have Fleet items.",
-    "OnlyFleetItemsOnActor": "Fleet actors can only have Fleet items.",
+    "OnlyModuleItemsOnActor": "Only Fleet Module items are allowed on this actor.",
     "LibWrapperError": "The PF1 Fleet Sheet module requires the 'libWrapper' module. Please install and activate it."
   },
   "TYPES": {
     "Actor": {
       "pf1-fleet-sheet": {
-        "fleet": "Fleet Sheet"
+        "fleet": "Fleet Sheet",
+        "squadron": "Squadron Sheet"
       }
     }
   }

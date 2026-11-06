@@ -6,5 +6,5 @@
 - admirals and commodores must be unique
 - put below behind "strict mode" setting
     - boons that are only 1 per fleet are enforced
-    - books that affect squadrons cant affect the same squadron twice
+    - boons that affect squadrons cant affect the same squadron twice
     - admirals and commodores are all unique

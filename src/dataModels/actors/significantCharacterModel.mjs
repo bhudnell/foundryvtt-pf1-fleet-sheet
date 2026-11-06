@@ -14,6 +14,7 @@ export class SignificantCharacterModel extends foundry.abstract.DataModel {
       boon: new fields.SchemaField({
         key: new fields.StringField({ choices: Object.keys(pf1fs.config.boons) }),
         squadronId: new fields.StringField(),
+        active: new fields.BooleanField({ initial: false }),
       }),
     };
   }

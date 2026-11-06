@@ -23,10 +23,22 @@
 
     <div class="character-summary flexrow">
       <div>
-        <input type="text" name="system.homePort" value="{{ system.homePort }}" data-tooltip="PF1FS.HomePort" placeholder="{{localize "PF1FS.HomePort"}}" />
+        <input
+          type="text"
+          name="system.homePort"
+          value="{{ system.homePort }}"
+          data-tooltip="PF1FS.HomePort"
+          placeholder="{{localize 'PF1FS.HomePort'}}"
+        />
       </div>
       <div>
-        <input type="text" name="system.flagship" value="{{ system.flagship }}" data-tooltip="PF1FS.Flagship" placeholder="{{localize "PF1FS.Flagship"}}" />
+        <input
+          type="text"
+          name="system.flagship"
+          value="{{ system.flagship }}"
+          data-tooltip="PF1FS.Flagship"
+          placeholder="{{localize 'PF1FS.Flagship'}}"
+        />
       </div>
     </div>
 
@@ -118,18 +130,22 @@
           </div>
           <div class="item-detail item-boon">
             <select name="system.significantCharacters.{{ idx }}.boon.key">
-              {{selectOptions boonOptions selected=boonKey}}
+              {{selectOptions boonOptions selected=boon.key}}
             </select>
           </div>
           <div class="item-detail item-squadron">
             {{#if showSquadron}}
             <select name="system.significantCharacters.{{ idx }}.boon.squadronId">
-              {{selectOptions @root.squadronOptions selected=squadronId}}
+              {{selectOptions @root.squadronOptions selected=boon.squadronId}}
             </select>
-            {{else if (eq boonKey 'loy')}}
-            <input type="checkbox" name="system.loyaltyActive" {{checked @root.system.loyaltyActive}} data-tooltip={{localize "PF1.Active"}} />
-            {{else if (eq boonKey 'ven')}}
-            <input type="checkbox" name="system.vengeanceActive" {{checked @root.system.vengeanceActive}} data-tooltip={{localize "PF1.Active"}} />
+            {{else if (or (eq boon.key 'loy') (eq boon.key 'ven'))}}
+            <input
+              type="checkbox"
+              name="system.significantCharacters.{{ idx }}.boon.active"
+              {{checked
+              boon.active}}
+              data-tooltip="{{localize 'PF1.Active'}}"
+            />
             {{else}}
             <span>-</span>
             {{/if}}

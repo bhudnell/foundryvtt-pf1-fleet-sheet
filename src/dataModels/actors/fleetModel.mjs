@@ -1,5 +1,7 @@
+import { ActorProxyModel } from "./actorProxyModel.mjs";
 import { CommanderModel } from "./commanderModel.mjs";
 import { SignificantCharacterModel } from "./significantCharacterModel.mjs";
+import { SquadronModel } from "./squadronModel.mjs";
 import { SquadronModelDeprecated } from "./squadronModelDeprecated.mjs";
 
 export class FleetModel extends foundry.abstract.TypeDataModel {
@@ -12,9 +14,7 @@ export class FleetModel extends foundry.abstract.TypeDataModel {
       flagship: new fields.StringField(),
       homePort: new fields.StringField(),
       significantCharacters: new fields.ArrayField(new fields.EmbeddedDataField(SignificantCharacterModel)),
-      squadrons: new fields.ArrayField(new fields.EmbeddedDataField(SquadronModelDeprecated)),
-      loyaltyActive: new fields.BooleanField({ initial: false }),
-      vengeanceActive: new fields.BooleanField({ initial: false }),
+      squadronProxies: new fields.ArrayField(new fields.EmbeddedDataField(ActorProxyModel)),
 
       notes: new fields.SchemaField({
         value: new fields.HTMLField({ required: false, blank: true }),
@@ -23,6 +23,11 @@ export class FleetModel extends foundry.abstract.TypeDataModel {
       settings: new fields.SchemaField({
         useInfamy: new fields.BooleanField(),
       }),
+
+      // TODO deprecated for v2, remove eventually
+      squadrons: new fields.ArrayField(new fields.EmbeddedDataField(SquadronModelDeprecated)),
+      loyaltyActive: new fields.BooleanField({ initial: false }),
+      vengeanceActive: new fields.BooleanField({ initial: false }),
     };
   }
 

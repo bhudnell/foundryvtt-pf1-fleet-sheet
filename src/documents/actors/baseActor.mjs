@@ -215,47 +215,6 @@ export class BaseActor extends pf1.documents.actor.ActorBasePF {
     return conditions;
   }
 
-  get allNotes() {
-    const allNotes = [];
-
-    // add significant character notes
-    for (const char of this.system.significantCharacters) {
-      const boon = pf1fs.config.boons[char.boon.key];
-      const squadId = char.boon.squadronId;
-
-      if (!boon || (boon.selectSquad && !squadId) || !boon.mechanics.contextNotes) {
-        continue;
-      }
-
-      const sigCharNotes = [];
-      for (const note of boon.mechanics.contextNotes) {
-        const noteCopy = { ...note };
-        if (boon.selectSquad) {
-          noteCopy.target += `.${squadId}`;
-        }
-        sigCharNotes.push(new pf1.components.ContextNote(noteCopy, { parent: this }));
-      }
-      allNotes.push({ notes: sigCharNotes, item: null });
-    }
-
-    // add condition notes
-    for (const [con, v] of Object.entries(this.system.conditions)) {
-      const condition = pf1fs.config.fleetConditions[con];
-
-      if (!v || !condition || !condition.mechanics.contextNotes) {
-        continue;
-      }
-
-      const conditionNotes = [];
-      for (const note of condition.mechanics.contextNotes) {
-        conditionNotes.push(new pf1.components.ContextNote(note, { parent: this }));
-      }
-      allNotes.push({ notes: conditionNotes, item: null });
-    }
-
-    return allNotes;
-  }
-
   getContextNotes(context, all = true) {
     const result = this.allNotes;
 

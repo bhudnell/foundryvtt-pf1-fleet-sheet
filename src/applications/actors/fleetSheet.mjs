@@ -41,7 +41,7 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
 
     // selectors
     data.squadronOptions = { "": "" };
-    actorData.squadrons.forEach((squadron) => (data.squadronOptions[squadron.id] = squadron.name));
+    actorData.squadronProxies.forEach((squadron) => (data.squadronOptions[squadron.actor.id] = squadron.actor.name));
 
     data.actorOptions = { "": "" };
     game.actors
@@ -74,18 +74,15 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
       });
 
       return {
-        id: character.id,
+        ...character,
         actorId: character.actorId,
-        location: character.location,
-        boonKey: character.boon.key,
         boonOptions,
         showSquadron: boon?.selectSquad ?? false,
-        squadronId: character.boon.squadronId,
       };
     });
 
     // squadrons
-    data.canAddSquadron = actorData.squadrons.length < actorData.maxSquadrons.total;
+    data.canAddSquadron = actorData.squadronProxies.length < actorData.maxSquadrons.total;
     data.squadrons = this._prepareSquadrons();
 
     // settings
@@ -107,15 +104,18 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
     html.find(".sig-char-delete").on("click", (e) => this._onSigCharDelete(e));
 
     html.find(".squadron-create").on("click", (e) => this._onSquadronCreate(e));
+    html.find(".squadron-edit").on("click", (e) => this._onSquadronEdit(e));
     html.find(".squadron-delete").on("click", (e) => this._onSquadronDelete(e));
   }
 
   _prepareSquadrons() {
-    return this.actor.system.squadrons.map((squadron) => ({
-      ...squadron,
-      totalHits: squadron.totalHits,
-      editShipHits: !Object.keys(pf1fs.config.shipTypes).includes(squadron.config.shipType),
-      canAddShip: squadron.ships.length < squadron.config.maxShips,
+    return this.actor.system.squadronProxies.map(({ id, actor }) => ({
+      id,
+      img: actor.img,
+      name: actor.name,
+      system: {
+        ...actor.system,
+      },
     }));
   }
 
@@ -151,38 +151,67 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
   async _onSquadronCreate(event) {
     event.preventDefault();
 
-    const newIdx = this.actor.system.squadrons.length;
-    const squadrons = foundry.utils.duplicate(this.actor.system.squadrons ?? []);
+    const newSquadron = await Actor.create({
+      name: game.i18n.localize("PF1FS.NewSquadron"),
+      type: pf1fs.config.squadronId,
+      "prototypeToken.actorLink": true,
+    });
+
+    return this._createSquadron(newSquadron._id);
+  }
+
+  async _createSquadron(actorId) {
+    const squadrons = foundry.utils.duplicate(this.actor.system.squadronProxies ?? []);
     squadrons.push({
-      name: game.i18n.format("PF1FS.NewSquadronLabel", { number: newIdx + 1 }),
       id: foundry.utils.randomID(),
-      moraleScore: this.actor.system.settings.useInfamy
-        ? Math.clamp(Math.floor(this.actor.system.infamy / 10), 1, 10)
-        : 3,
+      actor: actorId,
+    });
+
+    // add the fleet link to the squadron
+    const squadron = await fromUuid(`Actor.${actorId}`);
+    await squadron.update({
+      "system.fleet": {
+        id: foundry.utils.randomID(),
+        actor: this.actor._id,
+      },
     });
 
     await this._onSubmit(event, {
-      updateData: { "system.squadrons": squadrons },
+      updateData: { "system.squadronProxies": squadrons },
     });
+  }
 
-    this.activateTab(`${newIdx}`, { group: "squadrons" });
+  async _onSquadronEdit(event) {
+    event.preventDefault();
+    const squadronId = event.currentTarget.closest(".item").dataset.id;
+    const squadron = this.actor.system.squadronProxies.find((squadron) => squadron.id === squadronId);
+
+    squadron.actor.sheet.render(true, { focus: true });
   }
 
   async _onSquadronDelete(event) {
     event.preventDefault();
 
-    const squadronId = event.currentTarget.closest(".squadron").dataset.id;
-    const squadrons = foundry.utils.duplicate(this.actor.system.squadrons ?? []);
+    const squadronId = event.currentTarget.closest(".item").dataset.id;
+    const squadrons = foundry.utils.duplicate(this.actor.system.squadronProxies ?? []);
     const deletedSquadron = squadrons.findSplice((squadron) => squadron.id === squadronId);
+    const deletedSquadronActor = this.actor.system.squadronProxies.find(
+      (squadron) => squadron.id === deletedSquadron.id
+    ).actor;
 
     await this._onDelete({
       button: event.currentTarget,
-      title: game.i18n.format("PF1FS.DeleteSquadronTitle", { name: deletedSquadron.name }),
-      content: `<p>${game.i18n.localize("PF1FS.DeleteSquadronConfirmation")}</p>`,
-      onDelete: () =>
-        this._onSubmit(event, {
-          updateData: { "system.squadrons": squadrons },
-        }),
+      title: game.i18n.format("PF1KS.DeleteSquadronTitle", { name: deletedSquadronActor?.name }),
+      content: `<p>${game.i18n.localize("PF1KS.DeleteSquadronConfirmation")}</p>`,
+      onDelete: async () => {
+        await this._onSubmit(event, {
+          updateData: { "system.squadronProxies": squadrons },
+        });
+
+        await deletedSquadronActor.update({
+          "system.-=fleet": null,
+        });
+      },
     });
   }
 
@@ -208,6 +237,7 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
   }
 
   // overrides
+  // todo needed?
   async _updateObject(event, formData) {
     const changed = foundry.utils.expandObject(formData);
 
@@ -223,17 +253,34 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
     return super._updateObject(event, changed);
   }
 
-  // todo needed?
-  _focusTabByItem(item) {
-    let tabId;
-    switch (item.type) {
-      default:
-        tabId = "summary";
+  // allows dropping squadrons onto fleets
+  async _onDropActor(event, data) {
+    event.preventDefault();
+
+    const actorData = await Actor.fromDropData(data);
+
+    if (actorData.type !== pf1fs.config.squadronId) {
+      return false;
     }
 
-    if (tabId) {
-      this.activateTab(tabId, "primary");
+    // squadron is already linked
+    if (actorData.system.fleet) {
+      ui.notifications.warn("PF1KS.SquadronAlreadyLinked", { localize: true });
+      return false;
     }
+
+    const source = actorData._stats.compendiumSource.split(".")[0];
+
+    let squadron;
+    if (source === "Actor") {
+      squadron = await fromUuid(data.uuid);
+    } else {
+      squadron = await Actor.create(actorData.toObject());
+    }
+
+    const created = await this._createSquadron(squadron._id);
+    this.activateTab("squadrons", { group: "primary" });
+    return created;
   }
 
   async _getTooltipContext(fullId, context) {

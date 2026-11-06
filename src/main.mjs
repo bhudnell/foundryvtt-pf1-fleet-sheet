@@ -1,8 +1,11 @@
 import { FleetSheet } from "./applications/actors/fleetSheet.mjs";
+import { SquadronSheet } from "./applications/actors/squadronSheet.mjs";
 import * as Config from "./config/_module.mjs";
 import * as PF1FS from "./config/config.mjs";
 import { FleetModel } from "./dataModels/actors/fleetModel.mjs";
+import { SquadronModel } from "./dataModels/actors/squadronModel.mjs";
 import { FleetActor } from "./documents/actors/fleetActor.mjs";
+import { SquadronActor } from "./documents/actors/squadronActor.mjs";
 import { getChangeFlat } from "./hooks/getChangeFlat.mjs";
 import { moduleToObject } from "./util/utils.mjs";
 
@@ -18,7 +21,7 @@ Hooks.on("preCreateItem", (item, data, context, user) => {
 
   // module actors
   if ([PF1FS.fleetId, PF1FS.squadronId].includes(item.actor.type)) {
-    ui.notifications.error("PF1FS.OnlyFleetItemsOnActor", { localize: true });
+    ui.notifications.error("PF1FS.OnlyModuleItemsOnActor", { localize: true });
     return false;
   }
 });
@@ -53,35 +56,45 @@ Hooks.once("libWrapper.Ready", () => {
 
 Hooks.on("pf1GetChangeFlat", getChangeFlat);
 
+// TODO need to migrate chat messages to move squad id to actor id and delete old actor id
 Hooks.on("renderChatMessage", (message, jq) => {
   if (message.flags?.[PF1FS.moduleId]?.attackCard) {
     const card = jq.find(".pf1fs.attack-card")[0];
     const actorId = card.dataset.actorId;
     const actor = fromUuidSync(`Actor.${actorId}`);
-    const squadId = card.dataset.squadId;
+
     jq.find("button.roll-hit").on("click", (e) => {
       e.preventDefault();
-      actor.rollDamage(true, squadId);
+      actor.rollDamage(true);
     });
     jq.find("button.roll-miss").on("click", (e) => {
       e.preventDefault();
-      actor.rollDamage(false, squadId);
+      actor.rollDamage(false);
     });
   }
 });
 
 Hooks.once("init", () => {
   CONFIG.Actor.documentClasses[PF1FS.fleetId] = FleetActor;
+  CONFIG.Actor.documentClasses[PF1FS.squadronId] = SquadronActor;
 
   pf1.documents.actor.FleetActor = FleetActor;
+  pf1.documents.actor.SquadronActor = SquadronActor;
 
   CONFIG.Actor.dataModels[PF1FS.fleetId] = FleetModel;
+  CONFIG.Actor.dataModels[PF1FS.squadronId] = SquadronModel;
 
   pf1.applications.actor.FleetSheet = FleetSheet;
+  pf1.applications.actor.SquadronSheet = SquadronSheet;
 
   Actors.registerSheet(PF1FS.moduleId, FleetSheet, {
     label: game.i18n.localize("PF1FS.Sheet.Fleet"),
     types: [PF1FS.fleetId],
+    makeDefault: true,
+  });
+  Actors.registerSheet(PF1FS.moduleId, SquadronSheet, {
+    label: game.i18n.localize("PF1FS.Sheet.Squadron"),
+    types: [PF1FS.squadronId],
     makeDefault: true,
   });
 
@@ -102,6 +115,7 @@ Hooks.once("init", () => {
 });
 
 Hooks.once("setup", () => {
+  // TODO
   // re-prepare fleets once all their dependencies are prepared
   game.actors.filter((a) => a.type === PF1FS.fleetId).forEach((a) => a.prepareData());
 });
@@ -115,6 +129,8 @@ Hooks.once("ready", () => {
     "fleet-sheet-summary": `modules/${PF1FS.moduleId}/templates/actors/fleet/parts/summary.hbs`,
     "fleet-sheet-squadrons": `modules/${PF1FS.moduleId}/templates/actors/fleet/parts/squadrons.hbs`,
     "fleet-sheet-settings": `modules/${PF1FS.moduleId}/templates/actors/fleet/parts/settings.hbs`,
+
+    "squadron-sheet-summary": `modules/${PF1FS.moduleId}/templates/actors/squadron/parts/summary.hbs`,
   });
 });
 
