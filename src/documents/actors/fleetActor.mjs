@@ -1,3 +1,4 @@
+import { syncManager } from "../../util/syncManager.mjs";
 import { DefaultChange } from "../../util/utils.mjs";
 
 import { BaseActor } from "./baseActor.mjs";
@@ -101,5 +102,23 @@ export class FleetActor extends BaseActor {
     }
 
     return allNotes;
+  }
+
+  prepareData() {
+    super.prepareData();
+
+    if (!this.isToken && !syncManager.active) {
+      syncManager.run(this, () => {
+        this._syncSquadrons();
+      });
+    }
+  }
+
+  _syncSquadrons() {
+    this.system.squadronProxies?.forEach((proxy) => {
+      if (proxy.actor) {
+        syncManager.prepare(proxy.actor);
+      }
+    });
   }
 }

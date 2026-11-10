@@ -1,3 +1,4 @@
+import { syncManager } from "../../util/syncManager.mjs";
 import { DefaultChange } from "../../util/utils.mjs";
 
 import { BaseActor } from "./baseActor.mjs";
@@ -186,7 +187,7 @@ export class SquadronActor extends BaseActor {
     );
 
     // significant character boons
-    const fleet = this.system.fleet.actor;
+    const fleet = this.system.fleet?.actor;
     if (fleet) {
       for (const char of fleet.system.significantCharacters) {
         const boon = pf1fs.config.boons[char.boon.key];
@@ -224,7 +225,7 @@ export class SquadronActor extends BaseActor {
   }
 
   _prepareConditionChanges(changes) {
-    const fleet = this.system.fleet.actor;
+    const fleet = this.system.fleet?.actor;
     if (!fleet) {
       return;
     }
@@ -247,7 +248,7 @@ export class SquadronActor extends BaseActor {
   get allNotes() {
     const allNotes = [];
 
-    const fleet = this.system.fleet.actor;
+    const fleet = this.system.fleet?.actor;
     if (!fleet) {
       return allNotes;
     }
@@ -288,5 +289,22 @@ export class SquadronActor extends BaseActor {
     }
 
     return allNotes;
+  }
+
+  prepareData() {
+    super.prepareData();
+
+    if (!this.isToken && !syncManager.active) {
+      syncManager.run(this, () => {
+        this._syncFleet();
+      });
+    }
+  }
+
+  _syncFleet() {
+    const fleet = this.system.fleet?.actor;
+    if (fleet) {
+      syncManager.prepare(fleet);
+    }
   }
 }
