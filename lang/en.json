@@ -36,7 +36,7 @@
     "MoraleCheck": "Morale Check",
     "Morale": "Morale",
     "LossCount": "Loss Count",
-    "NewSquadronLabel": "New Squadron {number}",
+    "NewSquadron": "New Squadron",
     "CreateSquadron": "Create Squadron",
     "DeleteSquadron": "Delete Squadron",
     "DeleteSquadronTitle": "Delete Squadron: {name}",

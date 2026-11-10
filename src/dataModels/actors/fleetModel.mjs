@@ -9,7 +9,7 @@ export class FleetModel extends foundry.abstract.TypeDataModel {
     const fields = foundry.data.fields;
     return {
       xp: new fields.NumberField({ integer: true }),
-      infamy: new fields.NumberField({ integer: true }),
+      infamy: new fields.NumberField({ integer: true, initial: 0 }),
       admiral: new fields.EmbeddedDataField(CommanderModel),
       flagship: new fields.StringField(),
       homePort: new fields.StringField(),

@@ -103,7 +103,7 @@
           <label>{{localize "PF1.Disabled"}}</label>
         </div>
         <div class="item-controls one-button">
-          {{#if (and system.canAddShip @root.owner)}}
+          {{#if @root.owner}}
           <a class="ship-create" data-tooltip="PF1FS.AddShip">
             <i class="fa-solid fa-plus"></i>
           </a>
@@ -111,22 +111,22 @@
         </div>
       </li>
 
-      {{#each system.ships as |ship sidx|}}
+      {{#each system.ships as |ship idx|}}
       <li class="flexrow item ship" data-id="{{ ship.id }}">
         <div class="item-detail item-ship-name">
           <span
             class="value text-box direct{{#if ship.disabled}} disabled{{/if}}"
-            name="system.ships.{{ sidx }}.name"
+            name="system.ships.{{ idx }}.name"
             data-dtype="String"
             >{{ ship.name }}</span
           >
         </div>
         <div class="item-detail item-hits flexrow">
-          <span class="value text-box direct" name="system.ships.{{ sidx }}.currentHits" data-dtype="Number">{{
+          <span class="value text-box direct" name="system.ships.{{ idx }}.currentHits" data-dtype="Number">{{
             ship.currentHits
           }}</span>
           <span class="flex0">/</span>
-          <span>{{ system.config.maxShipHits }}</span>
+          <span>{{ @root.system.config.maxShipHits }}</span>
         </div>
         <div class="item-detail item-disabled">
           {{#if ship.disabled}}
@@ -155,7 +155,7 @@
     </div>
     <div class="info-box">
       <h5>{{ localize "PF1FS.HitsPerShip" }}</h5>
-      {{#if system.editShipHits}}
+      {{#if system.config.editShipHits}}
       <span class="value text-box direct" name="system.config.maxShipHits" data-dtype="Number">{{
         system.config.maxShipHits
       }}</span>

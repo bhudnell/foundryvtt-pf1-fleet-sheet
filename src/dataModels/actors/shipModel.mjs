@@ -9,7 +9,7 @@ export class ShipModel extends foundry.abstract.DataModel {
     };
   }
 
-  prepareDerivedData() {
-    this.disabled = this.currentHits < 1;
+  get disabled() {
+    return this.currentHits < 1;
   }
 }

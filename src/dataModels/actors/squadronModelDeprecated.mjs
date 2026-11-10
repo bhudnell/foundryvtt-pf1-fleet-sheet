@@ -26,8 +26,6 @@ export class SquadronModelDeprecated extends foundry.abstract.DataModel {
     }
     this.config.maxShips = 3;
 
-    this.ships.forEach((ship) => ship.prepareDerivedData());
-
     this.combat = {
       dv: { total: 10 },
       av: { total: 0 },

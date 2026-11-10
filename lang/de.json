@@ -3,7 +3,7 @@
     "HomePort": "Heimathafen",
     "Flagship": "Flagschiff",
     "MaxSquadrons": "Max. Geschwader",
-    "Infamy":"Verruf",
+    "Infamy": "Verruf",
 
     "Admiral": "Admiral",
     "Commodore": "Kommodore",
@@ -22,14 +22,14 @@
     "MoraleScore": "Moral",
     "Ships": "Schiffe",
     "Hits": "Treffer",
-    "HitsPerShip":"Treffer pro Schiff",
+    "HitsPerShip": "Treffer pro Schiff",
     "ShipType": "Schiffstyp",
     "MaxShips": "Max. Schiffe",
     "TotalHits": "Treffer gesamt",
     "DV": "Verteidigung",
     "AV": "Angriff",
     "MoraleCheck": "Moral Check",
-    "NewSquadronLabel": "Neues Geschwader {number}",
+    "NewSquadron": "Neues Geschwader",
     "CreateSquadron": "Geschwader erstellen",
     "DeleteSquadron": "Geschwader löschen",
     "DeleteSquadronTitle": "Geschwader löschen: {name}",
@@ -42,28 +42,28 @@
 
     "Ship": {
       "Raft": "Floß",
-      "Rowboat":"Ruderboot",
+      "Rowboat": "Ruderboot",
       "ShipsBoat": "Beiboot",
-      "Keelboat":"Knarr",
-      "Junk":"Dschunke",
-      "Longship":"Langschiff",
-      "SailingShip":"Segelschiff",
-      "Galley":"Galeere",
-      "Warship":"Kriegsschiff"
+      "Keelboat": "Knarr",
+      "Junk": "Dschunke",
+      "Longship": "Langschiff",
+      "SailingShip": "Segelschiff",
+      "Galley": "Galeere",
+      "Warship": "Kriegsschiff"
     },
 
     "Boons": {
-      "AdvancedTactics":"Verbesserte Taktiken",
-      "DefensiveTactics":"Defensivtaktiken",
-      "DivineProtection":"Göttlicher Schutz",
-      "Loyalty":"Loyalität",
-      "MagicalArtillery":"Magische Artilllerie",
-      "Overwhelming":"Überwältigend",
-      "RecklessManeuver":"Tollkühne Manöver",
-      "RemorselessAdvance":"Gnadenloses Vorrücken",
-      "SwiftRepairs":"Schnelle Reparatur",
-      "SwiftBattle":"Schnelle Schlachtbereitschaft",
-      "Vengeance":"Vergeltung"
+      "AdvancedTactics": "Verbesserte Taktiken",
+      "DefensiveTactics": "Defensivtaktiken",
+      "DivineProtection": "Göttlicher Schutz",
+      "Loyalty": "Loyalität",
+      "MagicalArtillery": "Magische Artilllerie",
+      "Overwhelming": "Überwältigend",
+      "RecklessManeuver": "Tollkühne Manöver",
+      "RemorselessAdvance": "Gnadenloses Vorrücken",
+      "SwiftRepairs": "Schnelle Reparatur",
+      "SwiftBattle": "Schnelle Schlachtbereitschaft",
+      "Vengeance": "Vergeltung"
     },
 
     "Settings": {

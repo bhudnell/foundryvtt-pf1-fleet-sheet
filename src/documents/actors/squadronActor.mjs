@@ -264,11 +264,7 @@ export class SquadronActor extends BaseActor {
 
       const sigCharNotes = [];
       for (const note of boon.mechanics.contextNotes) {
-        const noteCopy = { ...note };
-        if (boon.selectSquad) {
-          noteCopy.target += `.${squadId}`;
-        }
-        sigCharNotes.push(new pf1.components.ContextNote(noteCopy, { parent: this }));
+        sigCharNotes.push(new pf1.components.ContextNote(note, { parent: this }));
       }
       allNotes.push({ notes: sigCharNotes, item: null });
     }

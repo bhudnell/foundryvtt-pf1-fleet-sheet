@@ -310,6 +310,12 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
     const { id, detail } = re?.groups ?? {};
 
     switch (id) {
+      case "xp":
+        // TODO
+        break;
+      case "infamy":
+        // TODO
+        break;
       case "chaMod":
         paths.push({
           path: "@admiral.chaMod",

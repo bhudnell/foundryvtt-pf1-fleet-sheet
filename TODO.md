@@ -1,7 +1,16 @@
-- More than 6 Squadrons are hard to see as the window size needs to be adjusted. (sources tab on items has similar problem and uses second row to fix it)
+- journal for upper hand condition
+- maybe make upper hand right click work?
+- should significant characters move to a different tab?
+- error on squadron tab saying too many squadrons
+- left/right click for squadrons needs to be disabled like in kingdom sheet
+- fleet squadron tab needs spacing fixes, new icons, etc, missing localization strings
+
+- squadron ships list error when too many ships
+
+
+
 - module setting to set the profession sailor tag (default to "sailor")
 - pass DC to Moral Check Roll (this should be possible since v12 at least for skills and saves, probably can be adapted for morale checks)
-- Allow rearrangement of squadrones via drag and drop (similar to sources)
 - boons that affect squadrons cant affect the same squadron twice
 - admirals and commodores must be unique
 - put below behind "strict mode" setting

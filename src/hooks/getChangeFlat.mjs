@@ -3,51 +3,32 @@ export function getChangeFlat(result, target, modifierType, value, actor) {
     return result;
   }
 
-  switch (target) {
-    case `${pf1fs.config.changePrefix}.max_squadrons`:
+  const realTarget = target.slice(pf1fs.config.changePrefix.length + 1);
+
+  switch (realTarget) {
+    case "max_squadrons":
       result.push("system.maxSquadrons.total");
       break;
-    case `${pf1fs.config.changePrefix}.initiative`:
+    case "initiative":
       result.push("system.init.total");
       break;
+
+    case "dv":
+    case "av":
+    case "damageBonus":
+    case "morale":
+      result.push(`system.combat.${realTarget}.total`);
+      break;
+    case "morale_score":
+      result.push("system.moraleScore");
+      break;
+    case "hits":
+      result.push("system.totalHits.current");
+      break;
+    case "max_ships":
+      result.push("system.config.maxShips");
+      break;
   }
-
-  // squadron stuff TODO rework
-  // const squadrons = actor.system.squadrons;
-  // const squadronRegExp = new RegExp(`${pf1fs.config.changePrefix}\\.(?<bonus>[\\w]+)(?:\\.(?<id>\\w+))?$`);
-  // const squadronRes = squadronRegExp.exec(target);
-  // if (squadronRes) {
-  //   const { bonus, id } = squadronRes.groups;
-  //   const indexes = id ? [squadrons.findIndex((squad) => squad.id === id)] : squadrons.keys();
-
-  //   // combat modifiers
-  //   if (Object.keys(pf1fs.config.combatAttributes).includes(bonus)) {
-  //     for (const idx of indexes) {
-  //       result.push(`system.squadrons.${idx}.combat.${bonus}.total`);
-  //     }
-  //   }
-
-  //   // morale score
-  //   if (bonus === "morale_score") {
-  //     for (const idx of indexes) {
-  //       result.push(`system.squadrons.${idx}.moraleScore`);
-  //     }
-  //   }
-
-  //   // hits
-  //   if (bonus === "hits") {
-  //     for (const idx of indexes) {
-  //       result.push(`system.squadrons.${idx}.totalHits.current`); // TODO this might be bad
-  //     }
-  //   }
-
-  //   // max ships
-  //   if (bonus === "max_ships") {
-  //     for (const idx of indexes) {
-  //       result.push(`system.squadrons.${idx}.config.maxShips`);
-  //     }
-  //   }
-  // }
 
   return result;
 }

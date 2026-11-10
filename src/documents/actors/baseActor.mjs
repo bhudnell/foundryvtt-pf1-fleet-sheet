@@ -302,4 +302,19 @@ export class BaseActor extends pf1.documents.actor.ActorBasePF {
 
     return result;
   }
+
+  async _preCreate(data, context, user) {
+    await super._preCreate(data, context, user);
+
+    const tokenUpdate = {};
+
+    // Link token data by default
+    if (data.prototypeToken?.actorLink === undefined) {
+      tokenUpdate.actorLink = true;
+    }
+
+    if (!foundry.utils.isEmpty(tokenUpdate)) {
+      this.prototypeToken.updateSource(tokenUpdate);
+    }
+  }
 }

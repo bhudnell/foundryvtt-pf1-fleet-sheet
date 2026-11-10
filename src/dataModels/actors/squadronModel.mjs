@@ -25,13 +25,9 @@ export class SquadronModel extends foundry.abstract.TypeDataModel {
     };
   }
 
-  prepareDerivedData() {
-    if (Object.keys(pf1fs.config.shipTypes).includes(this.config.shipType)) {
-      this.config.maxShipHits = pf1fs.config.maxShipHits[this.config.shipType];
-    }
+  prepareBaseData() {
     this.config.maxShips = 3;
-
-    this.ships.forEach((ship) => ship.prepareDerivedData());
+    this.config.editShipHits = true;
 
     this.combat = {
       dv: { total: 10 },
@@ -39,6 +35,13 @@ export class SquadronModel extends foundry.abstract.TypeDataModel {
       damageBonus: { total: 0 },
       morale: { total: 0 },
     };
+  }
+
+  prepareDerivedData() {
+    if (Object.keys(pf1fs.config.shipTypes).includes(this.config.shipType)) {
+      this.config.maxShipHits = pf1fs.config.maxShipHits[this.config.shipType];
+      this.config.editShipHits = false;
+    }
   }
 
   get totalHits() {
