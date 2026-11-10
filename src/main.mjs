@@ -7,6 +7,7 @@ import { SquadronModel } from "./dataModels/actors/squadronModel.mjs";
 import { FleetActor } from "./documents/actors/fleetActor.mjs";
 import { SquadronActor } from "./documents/actors/squadronActor.mjs";
 import { getChangeFlat } from "./hooks/getChangeFlat.mjs";
+import { migrate as moduleDataMigration } from "./migrations/index.mjs";
 import { moduleToObject } from "./util/utils.mjs";
 
 export { PF1FS as config };
@@ -14,6 +15,7 @@ globalThis.pf1fs = moduleToObject({
   config: PF1FS,
 });
 
+// keeps module items/actors separate from non-module items/actors
 Hooks.on("preCreateItem", (item, data, context, user) => {
   if (!item.actor) {
     return;
@@ -26,6 +28,7 @@ Hooks.on("preCreateItem", (item, data, context, user) => {
   }
 });
 
+// register libwrapper stuff
 Hooks.once("libWrapper.Ready", () => {
   console.log(`${PF1FS.moduleId} | Registering LibWrapper Hooks`);
 
@@ -45,6 +48,9 @@ Hooks.once("libWrapper.Ready", () => {
         }
       });
 
+      if (this.object.actor.type === PF1FS.squadronId) {
+        return {};
+      }
       if (this.object.actor.type === PF1FS.fleetId) {
         return fleet;
       }
@@ -54,27 +60,32 @@ Hooks.once("libWrapper.Ready", () => {
   );
 });
 
+// assign change targets to data paths to update
 Hooks.on("pf1GetChangeFlat", getChangeFlat);
 
 // TODO need to migrate chat messages to move squad id to actor id and delete old actor id
-Hooks.on("renderChatMessage", (message, jq) => {
-  if (message.flags?.[PF1FS.moduleId]?.attackCard) {
-    const card = jq.find(".pf1fs.attack-card")[0];
+// TODO also make sure this cant be simplified
+// roll squadron damage from chat card
+Hooks.on("renderChatMessageHTML", (message, html) => {
+  if (message.getFlag(PF1FS.moduleId, "attackCard")) {
+    const card = html.querySelector(".pf1fs.attack-card");
     const actorId = card.dataset.actorId;
     const actor = fromUuidSync(`Actor.${actorId}`);
 
-    jq.find("button.roll-hit").on("click", (e) => {
+    html.querySelector("button.roll-hit").addEventListener("click", (e) => {
       e.preventDefault();
       actor.rollDamage(true);
     });
-    jq.find("button.roll-miss").on("click", (e) => {
+
+    html.querySelector("button.roll-miss").addEventListener("click", (e) => {
       e.preventDefault();
       actor.rollDamage(false);
     });
   }
 });
 
-Hooks.once("init", () => {
+// module actor registration
+Hooks.once("pf1PostInit", () => {
   CONFIG.Actor.documentClasses[PF1FS.fleetId] = FleetActor;
   CONFIG.Actor.documentClasses[PF1FS.squadronId] = SquadronActor;
 
@@ -112,18 +123,6 @@ Hooks.once("init", () => {
       },
     }))
   );
-});
-
-Hooks.once("setup", () => {
-  // TODO
-  // re-prepare fleets once all their dependencies are prepared
-  game.actors.filter((a) => a.type === PF1FS.fleetId).forEach((a) => a.prepareData());
-});
-
-Hooks.once("ready", () => {
-  if (!game.modules.get("lib-wrapper")?.active && game.user.isGM) {
-    ui.notifications.error("PF1FS.LibWrapperError");
-  }
 
   loadTemplates({
     "fleet-sheet-summary": `modules/${PF1FS.moduleId}/templates/actors/fleet/parts/summary.hbs`,
@@ -134,6 +133,16 @@ Hooks.once("ready", () => {
   });
 });
 
+// module migrations
+Hooks.once("pf1PostReady", () => {
+  moduleDataMigration();
+
+  if (!game.modules.get("lib-wrapper")?.active && game.user.isGM) {
+    ui.notifications.error("PF1FS.LibWrapperError");
+  }
+});
+
+// localize config strings
 Hooks.once("i18nInit", () => {
   const toLocalize = ["combatAttributes", "shipTypes", "settings"];
 
@@ -173,4 +182,86 @@ Hooks.once("i18nInit", () => {
 
   doLocalizeKeys(pf1fs.config.boons, ["label"]);
   doLocalizeKeys(pf1fs.config.fleetConditions, ["name"]);
+});
+
+// cleaning up links on fleet/squadron deletion
+Hooks.on("deleteActor", async (actor, options, userId) => {
+  if (userId !== game.users.activeGM?.id) {
+    return;
+  }
+
+  // if deleting a squadron, delete the linked fleet's proxy if it exists
+  if (actor.type === pf1fs.config.squadronId && actor.system.fleet) {
+    const fleetActor = game.actors.get(actor.system.fleet.actor.id);
+    const proxyPath = "squadronProxies";
+
+    const squadrons = foundry.utils.duplicate(fleetActor.system.squadronProxies ?? []);
+    squadrons.findSplice((squadron) => squadron.actor === actor.id);
+
+    await fleetActor.update({ "system.squadronProxies": squadrons });
+  }
+
+  // if deleting a fleet, unset the fleet fields in all linked squadrons
+  if (actor.type === pf1fs.config.fleetId && actor.system.squadronProxies.length) {
+    const updates = actor.system.squadronProxies.map((squadron) => ({
+      _id: squadron.actor._id,
+      "system.-=fleet": null,
+    }));
+
+    const updated = await Actor.implementation.updateDocuments(updates);
+  }
+});
+
+// remove squadron links on duplicated fleets
+Hooks.on("preCreateActor", async (actor, data, options, userId) => {
+  // only for cloning
+  if (!actor._stats.duplicateSource) {
+    return;
+  }
+
+  // if fleet, clear squadron proxies and warn that it happened
+  if (actor.type === PF1FS.fleetId) {
+    if (actor.system.squadronProxies.length) {
+      actor.updateSource({ "system.squadronProxies": [] });
+      ui.notifications.warn("PF1FS.ClearedSquadronLinks", { localize: true });
+    }
+  }
+});
+
+// ask to also link duplicated squadron to fleet
+Hooks.on("createActor", async (actor, options, userId) => {
+  // only for cloning
+  if (!actor._stats.duplicateSource) {
+    return;
+  }
+
+  // if squadron, add proxy to fleet
+  if (actor.type !== PF1FS.squadronId) {
+    return;
+  }
+
+  const linkedFleet = await fromUuid(actor.system.fleet?.actor.uuid);
+  if (!linkedFleet) {
+    return;
+  }
+
+  const confirm = await foundry.applications.api.DialogV2.confirm({
+    window: { title: "PF1FS.MaintainFleetLink", icon: "fa-solid fa-link" },
+    classes: ["pf1-v2", "pf1fs"],
+    content: `<p>${game.i18n.localize("PF1FS.MaintainFleetLinkConfirmation")}</p>`,
+    rejectClose: false,
+    modal: true, // Require dialog to be resolved
+  });
+
+  if (confirm) {
+    const proxies = foundry.utils.duplicate(linkedFleet.system.squadronProxies ?? []);
+    proxies.push({
+      id: foundry.utils.randomID(),
+      actor: actor.id,
+    });
+
+    await linkedFleet.update({ "system.squadronProxies": proxies });
+  } else {
+    await actor.update({ "system.-=fleet": null });
+  }
 });
