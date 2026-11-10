@@ -88,3 +88,25 @@ export class DefaultChange extends pf1.components.ItemChange {
     super(data, options);
   }
 }
+
+export function registerSetting(
+  { config = true, defaultValue = null, key, scope = "world", settingType = String },
+  { skipReady = false } = {}
+) {
+  const doIt = () =>
+    game.settings.register(pf1fs.config.moduleId, key, {
+      name: `${pf1fs.config.moduleId}.settings.${key}.name`,
+      hint: `${pf1fs.config.moduleId}.settings.${key}.hint`,
+      default: defaultValue,
+      scope,
+      requiresReload: false,
+      config,
+      type: settingType,
+    });
+
+  game.ready || skipReady ? doIt() : Hooks.once("ready", doIt);
+}
+
+export function log(msg) {
+  console.log(`${pf1fs.config.moduleId} - ${msg}`);
+}
