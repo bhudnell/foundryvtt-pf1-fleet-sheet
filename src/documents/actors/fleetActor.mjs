@@ -42,9 +42,9 @@ export class FleetActor extends BaseActor {
 
   _prepareConditionChanges(changes) {
     for (const [con, v] of Object.entries(this.system.conditions)) {
-      const condition = pf1fs.config.fleetConditions[con];
+      const condition = pf1.registry.conditions.get(con);
 
-      if (!v || !condition || condition.forSquadron || !condition.mechanics.changes) {
+      if (!v || !condition || condition.flags?.[pf1fs.config.moduleId].forSquadron || !condition.mechanics.changes) {
         continue;
       }
 
@@ -58,7 +58,7 @@ export class FleetActor extends BaseActor {
     this.system.conditions = {};
     const conditions = this.system.conditions;
 
-    for (const condition of Object.keys(pf1fs.config.fleetConditions)) {
+    for (const condition of pf1.registry.conditions.keys().filter((c) => c.startsWith(pf1fs.config.changePrefix))) {
       conditions[condition] = this.statuses.has(condition);
     }
   }
@@ -88,9 +88,14 @@ export class FleetActor extends BaseActor {
 
     // add condition notes
     for (const [con, v] of Object.entries(this.system.conditions)) {
-      const condition = pf1fs.config.fleetConditions[con];
+      const condition = pf1.registry.conditions.get(con);
 
-      if (!v || !condition || condition.forSquadron || !condition.mechanics.contextNotes) {
+      if (
+        !v ||
+        !condition ||
+        condition.flags?.[pf1fs.config.moduleId].forSquadron ||
+        !condition.mechanics.contextNotes
+      ) {
         continue;
       }
 

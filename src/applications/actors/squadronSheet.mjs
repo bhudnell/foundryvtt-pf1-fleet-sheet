@@ -141,19 +141,6 @@ export class SquadronSheet extends pf1.applications.actor.ActorSheetPF {
     return super._updateObject(event, changed);
   }
 
-  // todo needed?
-  _focusTabByItem(item) {
-    let tabId;
-    switch (item.type) {
-      default:
-        tabId = "summary";
-    }
-
-    if (tabId) {
-      this.activateTab(tabId, "primary");
-    }
-  }
-
   async _getTooltipContext(fullId, context) {
     const actor = this.actor;
     const actorData = actor.system;

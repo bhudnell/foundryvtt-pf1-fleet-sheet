@@ -11,25 +11,6 @@ export const combatAttributes = {
   morale: "PF1FS.Morale",
 };
 
-export const fleetConditions = {
-  [`${changePrefix}-upper-hand`]: {
-    id: `${changePrefix}-upper-hand`,
-    name: "PF1FS.Condition.UpperHand",
-    texture: "icons/svg/regen.svg",
-    forSquadron: true,
-    mechanics: {
-      changes: [
-        {
-          formula: 1,
-          target: `${changePrefix}.av`,
-          type: "untyped",
-        },
-      ],
-    },
-    journal: "TODO",
-  },
-};
-
 export const boons = {
   at: {
     label: "PF1FS.Boons.AdvancedTactics",

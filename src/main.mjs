@@ -107,19 +107,6 @@ Hooks.once("pf1PostInit", () => {
   });
 
   foundry.utils.mergeObject(pf1.config, Object.assign({}, Config));
-  CONFIG.statusEffects.push(
-    ...Object.values(PF1FS.fleetConditions).map((c) => ({
-      id: c.id,
-      name: c.name,
-      icon: c.texture,
-      get label() {
-        return this.name;
-      },
-      set label(name) {
-        this.name = name;
-      },
-    }))
-  );
 
   loadTemplates({
     "fleet-sheet-summary": `modules/${PF1FS.moduleId}/templates/actors/fleet/parts/summary.hbs`,
@@ -127,6 +114,31 @@ Hooks.once("pf1PostInit", () => {
     "fleet-sheet-settings": `modules/${PF1FS.moduleId}/templates/actors/fleet/parts/settings.hbs`,
 
     "squadron-sheet-summary": `modules/${PF1FS.moduleId}/templates/actors/squadron/parts/summary.hbs`,
+  });
+});
+
+Hooks.on("pf1RegisterConditions", (registry, model) => {
+  registry.register(PF1FS.moduleId, `${PF1FS.changePrefix}-upper-hand`, {
+    name: "PF1FS.Condition.UpperHand",
+    texture: "icons/svg/regen.svg",
+    journal: "TODO",
+    flags: {
+      [PF1FS.moduleId]: {
+        forSquadron: true,
+      },
+    },
+    mechanics: {
+      changes: [
+        {
+          formula: 1,
+          target: `${PF1FS.changePrefix}.av`,
+          type: "untyped",
+        },
+      ],
+    },
+    hud: {
+      include: [PF1FS.fleetId],
+    },
   });
 });
 
@@ -178,7 +190,6 @@ Hooks.once("i18nInit", () => {
   }
 
   doLocalizeKeys(pf1fs.config.boons, ["label"]);
-  doLocalizeKeys(pf1fs.config.fleetConditions, ["name"]);
 });
 
 // cleaning up links on fleet/squadron deletion

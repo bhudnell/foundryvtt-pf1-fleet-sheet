@@ -148,7 +148,7 @@ export class BaseActor extends pf1.documents.actor.ActorBasePF {
       toCreate = [];
 
     for (const [conditionId, value] of Object.entries(conditions)) {
-      const currentCondition = pf1fs.config.fleetConditions[conditionId];
+      const currentCondition = pf1.registry.conditions.get(conditionId);
       if (currentCondition === undefined) {
         console.error("Unrecognized condition:", conditionId);
         delete conditions[conditionId];

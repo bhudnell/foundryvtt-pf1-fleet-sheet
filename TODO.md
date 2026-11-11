@@ -1,11 +1,15 @@
 - journal for upper hand condition
-- maybe make upper hand right click work?
+
+
 - should significant characters move to a different tab?
 - error on squadron tab saying too many squadrons
 - left/right click for squadrons needs to be disabled like in kingdom sheet
-- fleet squadron tab needs spacing fixes, new icons, etc, missing localization strings
+- squadron tab needs spacing fixes, new icons, etc, missing localization strings
+- initiative should be rollable
+
 
 - squadron ships list error when too many ships
+- summary tab needs UI work
 
 
 

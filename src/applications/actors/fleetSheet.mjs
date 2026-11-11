@@ -52,13 +52,16 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
     data.showInfamy = actorData.settings.useInfamy;
 
     // conditions
-    data.conditions = Object.values(pf1fs.config.fleetConditions).map((cond) => ({
-      id: cond.id,
-      img: cond.texture,
-      active: actorData.conditions[cond.id] ?? false,
-      label: cond.name,
-      compendium: cond.journal,
-    }));
+    data.conditions = pf1.registry.conditions
+      .values()
+      .filter((c) => c.id.startsWith(pf1fs.config.changePrefix))
+      .map((cond) => ({
+        id: cond.id,
+        img: cond.texture,
+        active: actorData.conditions[cond.id] ?? false,
+        label: cond.name,
+        compendium: cond.journal,
+      }));
 
     // significant characters
     data.sigChars = actorData.significantCharacters.map((character) => {
@@ -75,6 +78,7 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
 
       return {
         ...character,
+        id: character.id,
         actorId: character.actorId,
         boonOptions,
         showSquadron: boon?.selectSquad ?? false,
@@ -174,6 +178,7 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
         id: foundry.utils.randomID(),
         actor: this.actor._id,
       },
+      "system.moraleScore": this.actor.system.settings.useInfamy ? Math.floor(this.actor.system.infamy / 10) : 3,
     });
 
     await this._onSubmit(event, {
@@ -237,12 +242,11 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
   }
 
   // overrides
-  // todo needed?
   async _updateObject(event, formData) {
     const changed = foundry.utils.expandObject(formData);
 
     if (changed.system) {
-      const keepPaths = ["system.significantCharacters", "system.squadrons"];
+      const keepPaths = ["system.significantCharacters"];
 
       const itemData = this.actor.toObject();
       for (const path of keepPaths) {
@@ -311,10 +315,16 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
 
     switch (id) {
       case "xp":
-        // TODO
+        paths.push({
+          path: "@xp",
+          value: actorData.xp,
+        });
         break;
       case "infamy":
-        // TODO
+        paths.push({
+          path: "@infamy",
+          value: actorData.infamy,
+        });
         break;
       case "chaMod":
         paths.push({
