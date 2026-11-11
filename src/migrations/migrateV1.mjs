@@ -49,4 +49,17 @@ export class MigrateV1 extends BaseMigrate {
   }
 
   static getItemUpdateData(item) {}
+
+  static async migrateChatMessage(message) {
+    if (!message.getFlag(pf1fs.config.moduleId, "attackCard")) {
+      return;
+    }
+
+    log(`migrating message '${message._id}'`);
+
+    const squadId = message.content.match(/data-squad-id="([^"]+)"/)?.[1];
+    await message.setFlag(pf1fs.config.moduleId, "actorUuid", `Actor.${squadId}`);
+
+    log("...finished migrating message");
+  }
 }

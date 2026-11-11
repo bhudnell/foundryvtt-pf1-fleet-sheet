@@ -63,21 +63,18 @@ Hooks.once("libWrapper.Ready", () => {
 // assign change targets to data paths to update
 Hooks.on("pf1GetChangeFlat", getChangeFlat);
 
-// TODO need to migrate chat messages to move squad id to actor id and delete old actor id
-// TODO also make sure this cant be simplified
 // roll squadron damage from chat card
 Hooks.on("renderChatMessageHTML", (message, html) => {
   if (message.getFlag(PF1FS.moduleId, "attackCard")) {
-    const card = html.querySelector(".pf1fs.attack-card");
-    const actorId = card.dataset.actorId;
-    const actor = fromUuidSync(`Actor.${actorId}`);
+    const actorUuid = message.getFlag(PF1FS.moduleId, "actorUuid");
+    const actor = fromUuidSync(actorUuid);
 
-    html.querySelector("button.roll-hit").addEventListener("click", (e) => {
+    html.querySelector("button.roll-hit")?.addEventListener("click", (e) => {
       e.preventDefault();
       actor.rollDamage(true);
     });
 
-    html.querySelector("button.roll-miss").addEventListener("click", (e) => {
+    html.querySelector("button.roll-miss")?.addEventListener("click", (e) => {
       e.preventDefault();
       actor.rollDamage(false);
     });

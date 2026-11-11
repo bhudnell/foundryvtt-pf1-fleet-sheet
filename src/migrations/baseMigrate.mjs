@@ -20,6 +20,10 @@ export class BaseMigrate {
     throw new Error("must be overridden");
   }
 
+  static async migrateChatMessage(message) {
+    throw new Error("must be overridden");
+  }
+
   static async preMigration() {}
 
   static async postMigration() {}
@@ -101,12 +105,23 @@ export class BaseMigrate {
     log("...finished migrating synthetic actors");
   }
 
+  static async migrateChatMessages() {
+    log("migrating chat messages");
+
+    for (const message of game.messages) {
+      await this.migrateChatMessage(message);
+    }
+
+    log("...finished migrating chat messages");
+  }
+
   static async migrateWorld() {
     await this.preMigration();
     await this.migrateWorldItems();
     await this.migratePacks();
     await this.migrateWorldActors();
     await this.migrateSyntheticActors();
+    await this.migrateChatMessages();
     await this.postMigration();
   }
 }

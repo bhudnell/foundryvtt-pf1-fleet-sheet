@@ -64,14 +64,14 @@ export class SquadronActor extends BaseActor {
     }
 
     const chatTemplate = `modules/${pf1fs.config.moduleId}/templates/chat/attribute-roll.hbs`;
-    const chatTemplateData = { properties: props, isAttack: attribute === "av", actorId: this._id };
+    const chatTemplateData = { properties: props, isAttack: attribute === "av" };
 
     const mData = foundry.utils.mergeObject(
       {
         type: "check",
         style: CONST.CHAT_MESSAGE_STYLES.OTHER,
         rolls: [roll],
-        flags: { [pf1fs.config.moduleId]: { attackCard: attribute === "av" } },
+        flags: { [pf1fs.config.moduleId]: { attackCard: attribute === "av", actorUuid: this.uuid } },
       },
       messageData
     );
