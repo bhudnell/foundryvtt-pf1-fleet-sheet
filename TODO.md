@@ -5,7 +5,6 @@
 - error on squadron tab saying too many squadrons
 - left/right click for squadrons needs to be disabled like in kingdom sheet
 - squadron tab needs spacing fixes, new icons, etc, missing localization strings
-- initiative should be rollable
 
 
 - squadron ships list error when too many ships

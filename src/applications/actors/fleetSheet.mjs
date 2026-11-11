@@ -340,11 +340,11 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
         break;
       case "init":
         paths.push({
-          path: "@init.total",
-          value: actorData.init.total,
+          path: "@attributes.init.total",
+          value: actorData.attributes.init.total,
         });
         sources.push({
-          sources: actor.getSourceDetails("system.init.total"),
+          sources: actor.getSourceDetails("system.attributes.init.total"),
           untyped: true,
         });
         notes = await getNotes([`${pf1fs.config.changePrefix}.initiative`]);

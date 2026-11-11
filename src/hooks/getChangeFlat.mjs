@@ -10,7 +10,7 @@ export function getChangeFlat(result, target, modifierType, value, actor) {
       result.push("system.maxSquadrons.total");
       break;
     case "initiative":
-      result.push("system.init.total");
+      result.push("system.attributes.init.total");
       break;
 
     case "dv":

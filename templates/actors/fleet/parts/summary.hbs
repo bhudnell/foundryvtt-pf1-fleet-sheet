@@ -80,9 +80,11 @@
         <h5>{{localize "PF1FS.ProfSailor" }}</h5>
         <span class="value">{{ system.admiral.profSailor }}</span>
       </div>
-      <div class="info-box" data-tooltip-extended="init">
-        <h5>{{ localize "PF1.Initiative" }}</h5>
-        <span class="value">{{ system.init.total }}</span>
+      <div class="info-box attribute initiative" data-tooltip-extended="init">
+        <h5>
+          <a class="rollable">{{localize "PF1.Initiative"}}</a>
+        </h5>
+        <span class="value">{{ system.attributes.init.total }}</span>
       </div>
       <div class="info-box" data-tooltip-extended="maxSquadrons">
         <h5>{{ localize "PF1FS.MaxSquadrons" }}</h5>

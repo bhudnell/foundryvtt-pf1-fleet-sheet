@@ -32,8 +32,10 @@ export class FleetModel extends foundry.abstract.TypeDataModel {
   }
 
   prepareBaseData() {
-    this.init = {
-      total: 0,
+    this.attributes = {
+      init: {
+        total: 0,
+      },
     };
     this.maxSquadrons = {
       total: 0,
