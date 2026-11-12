@@ -8,7 +8,7 @@ export const combatAttributes = {
   dv: "PF1FS.DV",
   av: "PF1FS.AV",
   damageBonus: "PF1FS.Damage",
-  morale: "PF1FS.Morale",
+  morale: "PF1FS.MoraleCheck",
 };
 
 export const boons = {

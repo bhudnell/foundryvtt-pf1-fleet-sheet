@@ -1,5 +1,7 @@
 {
   "PF1FS": {
+    "FleetManagement": "Fleet Management",
+
     "HomePort": "Home Port",
     "Flagship": "Flagship",
     "MaxSquadrons": "Max Squadrons",
@@ -34,7 +36,6 @@
     "AV": "Attack Value",
     "Damage": "Damage",
     "MoraleCheck": "Morale Check",
-    "Morale": "Morale",
     "LossCount": "Loss Count",
     "NewSquadron": "New Squadron",
     "CreateSquadron": "Create Squadron",

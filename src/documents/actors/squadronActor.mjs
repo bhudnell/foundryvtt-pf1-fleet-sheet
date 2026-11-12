@@ -202,6 +202,22 @@ export class SquadronActor extends BaseActor {
         }
       }
     }
+
+    // from commodore
+    system.commodore.actor?.changes
+      .filter((c) => c.target?.startsWith(pf1fs.config.changePrefix))
+      .forEach((c) =>
+        changes.push(new DefaultChange(c.value, c.target, `${game.i18n.localize("PF1FS.Commodore")} (${c.flavor})`))
+      );
+
+    // from admiral
+    if (fleet) {
+      fleet.system.admiral.actor?.changes
+        .filter((c) => c.target?.startsWith(pf1fs.config.changePrefix))
+        .forEach((c) =>
+          changes.push(new DefaultChange(c.value, c.target, `${game.i18n.localize("PF1FS.Admiral")} (${c.flavor})`))
+        );
+    }
   }
 
   getSourceDetails(path) {

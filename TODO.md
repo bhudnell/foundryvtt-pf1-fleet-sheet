@@ -1,5 +1,5 @@
 - journal for upper hand condition
-- Admiral/Commodore should function like race from a PC. 
+- Admiral/Commodore should function like race from a PC.
 
 
 - squadron tab needs spacing fixes, new icons, etc

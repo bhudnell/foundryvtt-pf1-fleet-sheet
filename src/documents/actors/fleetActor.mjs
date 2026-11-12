@@ -38,6 +38,13 @@ export class FleetActor extends BaseActor {
         changes.push(new pf1.components.ItemChange({ ...change, flavor: boon.label }));
       }
     }
+
+    // from admiral
+    system.admiral.actor?.changes
+      .filter((c) => c.target?.startsWith(pf1fs.config.changePrefix))
+      .forEach((c) =>
+        changes.push(new DefaultChange(c.value, c.target, `${game.i18n.localize("PF1FS.Admiral")} (${c.flavor})`))
+      );
   }
 
   _prepareConditionChanges(changes) {
