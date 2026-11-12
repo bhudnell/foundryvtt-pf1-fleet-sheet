@@ -144,28 +144,53 @@
       {{/each}}
     </ol>
   </ol>
+</section>
 
-  {{!-- Ship Configuration --}}
-  <div class="info-box-joined">
-    <div class="info-box">
-      <h5>{{localize "PF1FS.ShipType" }}</h5>
-      <select name="system.config.shipType">
-        {{selectOptions shipTypeOptions selected=system.config.shipType}}
-      </select>
+<hr />
+
+<footer data-tooltip-extended="ships" data-tooltip-direction="UP">
+  <div class="list-counts">
+    <div class="info-box-joined stats ships">
+      <div class="info-box">
+        <h5>{{localize "PF1FS.ShipType" }}</h5>
+        <select name="system.config.shipType">
+          {{selectOptions shipTypeOptions selected=system.config.shipType}}
+        </select>
+      </div>
+      <div class="info-box">
+        <h5>{{ localize "PF1FS.HitsPerShip" }}</h5>
+        {{#if system.config.editShipHits}}
+        <span class="value text-box direct" name="system.config.maxShipHits" data-dtype="Number">{{
+          system.config.maxShipHits
+        }}</span>
+        {{else}}
+        <span class="value">{{ system.config.maxShipHits }}</span>
+        {{/if}}
+      </div>
+      <div class="info-box">
+        <h5>{{ localize "PF1FS.CurrentShips" }}</h5>
+        <span class="value">{{ shipCount.current }}</span>
+      </div>
+      <div class="info-box">
+        <h5>{{ localize "PF1FS.MaxShips" }}</h5>
+        <span class="value">{{ shipCount.max }}</span>
+      </div>
     </div>
-    <div class="info-box">
-      <h5>{{ localize "PF1FS.HitsPerShip" }}</h5>
-      {{#if system.config.editShipHits}}
-      <span class="value text-box direct" name="system.config.maxShipHits" data-dtype="Number">{{
-        system.config.maxShipHits
-      }}</span>
-      {{else}}
-      <span class="value">{{ system.config.maxShipHits }}</span>
+
+    {{#if shipCount.issues}}
+    <div class="info-box-joined issues" style="--issues:{{ shipCount.issues }};">
+      {{#if shipCount.missing}}
+      <div class="info-box missing">
+        <h5>{{localize "PF1.Missing"}}</h5>
+        <span class="value">{{ shipCount.missing }}</span>
+      </div>
+      {{else if shipCount.excess}}
+      <div class="info-box excess">
+        <h5>{{localize "PF1.Excess"}}</h5>
+        <span class="value">{{ shipCount.excess }}</span>
+      </div>
       {{/if}}
     </div>
-    <div class="info-box" data-tooltip-extended="maxShips">
-      <h5>{{ localize "PF1FS.MaxShips" }}</h5>
-      <span class="value">{{ system.config.maxShips }}</span>
-    </div>
+    {{/if}}
   </div>
-</section>
+</footer>

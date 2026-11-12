@@ -48,6 +48,9 @@ export class SquadronSheet extends pf1.applications.actor.ActorSheetPF {
       .filter((actor) => actor.permission > 0 && (actor.type === "character" || actor.type === "npc"))
       .forEach((actor) => (data.actorOptions[actor.id] = actor.name));
 
+    // ships
+    data.shipCount = this.actor.getShipCount();
+
     return data;
   }
 

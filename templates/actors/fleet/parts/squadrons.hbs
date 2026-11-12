@@ -47,15 +47,19 @@
 
 <hr />
 
-<footer data-tooltip-extended="squadrons">
-  <div class="squadron-counts">
-    <div class="info-box-joined stats">
+<footer data-tooltip-extended="squadrons" data-tooltip-direction="UP">
+  <div class="list-counts">
+    <div class="info-box-joined stats squadrons">
       <div class="info-box">
         <h5>{{ localize "PF1.Current" }}</h5>
         <span class="value">{{ squadronCount.current }}</span>
       </div>
       <div class="info-box">
+        {{#if showInfamy}}
+        <h5>{{localize "PF1FS.Infamy" }}</h5>
+        {{else}}
         <h5>{{localize "PF1.Base" }}</h5>
+        {{/if}}
         <span class="value">{{ squadronCount.base }}</span>
       </div>
       <div class="info-box">

@@ -72,13 +72,17 @@
     }
   }
 
-  .squadron-counts {
+  .list-counts {
     display: flex;
     flex-flow: row nowrap;
     gap: 3px;
 
-    .stats {
+    .stats.squadrons {
       flex: 5;
+    }
+
+    .stats.ships {
+      flex: 4;
     }
 
     .issues {

@@ -26,6 +26,7 @@ export class SquadronModel extends foundry.abstract.TypeDataModel {
   }
 
   prepareBaseData() {
+    this.config.currentShips = 0;
     this.config.maxShips = 3;
     this.config.editShipHits = true;
 
@@ -42,6 +43,8 @@ export class SquadronModel extends foundry.abstract.TypeDataModel {
       this.config.maxShipHits = pf1fs.config.maxShipHits[this.config.shipType];
       this.config.editShipHits = false;
     }
+
+    this.config.currentShips = this.ships.length;
   }
 
   get totalHits() {

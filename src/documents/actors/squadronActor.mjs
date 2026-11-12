@@ -261,6 +261,33 @@ export class SquadronActor extends BaseActor {
 
   prepareConditions() {}
 
+  getShipCount() {
+    const result = {
+      current: this.system.config.currentShips,
+      max: this.system.config.maxShips,
+      issues: 0,
+      // Count totals
+      get discrepancy() {
+        return this.max - this.current;
+      },
+      get missing() {
+        return Math.max(0, this.discrepancy);
+      },
+      get excess() {
+        return Math.max(0, -this.discrepancy);
+      },
+    };
+
+    if (result.missing > 0 || result.excess) {
+      result.issues += 1;
+    }
+    if (result.disabled > 0) {
+      result.issues += 1;
+    }
+
+    return result;
+  }
+
   get allNotes() {
     const allNotes = [];
 

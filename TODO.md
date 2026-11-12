@@ -5,7 +5,6 @@
 - squadron tab needs spacing fixes, new icons, etc
 
 
-- squadron ships list error when too many ships
 - summary tab needs UI work
 
 
