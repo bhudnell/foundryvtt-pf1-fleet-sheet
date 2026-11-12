@@ -1,4 +1,4 @@
-.app.sheet.fleet.actor {
+.app.sheet.pf1fs.actor {
   .tab.summary {
     .character-summary {
       > div:nth-child(2) {
@@ -7,18 +7,6 @@
 
       > div {
         flex: 0 0 50%;
-      }
-    }
-
-    .info-box > div.value {
-      flex-direction: row;
-
-      .separator {
-        padding: 0 4px;
-      }
-
-      :not(.separator) {
-        flex: 1;
       }
     }
 
@@ -79,77 +67,8 @@
       }
     }
 
-    .subdetails-body {
-      gap: 8px;
-
-      h3 {
-        border: unset;
-        margin: 0;
-      }
-    }
-  }
-
-  .tab.squadrons {
-    > header {
-      display: flex;
-      flex-flow: row nowrap;
-      gap: 4px;
-
-      .tabs {
-        flex: 1;
-        display: flex;
-        flex-flow: row wrap;
-        gap: 4px;
-
-        .item {
-          padding: 0 4px;
-        }
-      }
-
-      .squadron-create {
-        flex: 0;
-        font-size: var(--font-size-16);
-        line-height: 1.5;
-        white-space: nowrap;
-      }
-
-      .disabled {
-        pointer-events: none;
-        opacity: 0.6;
-      }
-    }
-
-    .header {
-      flex: 0;
-      display: flex;
-      gap: 3px;
-
-      /* > img {
-        height: 100%;
-        flex: 0 0 42px;
-      } */
-
-      > h1 {
-        flex: 3 0 300px;
-        margin: 0;
-        line-height: 1.5em;
-
-        > input {
-          height: 100%;
-        }
-      }
-
-      .inputs {
-        flex: 2 0 100px;
-        gap: 1px;
-      }
-
-      .squadron-controls {
-        flex: 0 0 42px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
+    .sig-chars-body {
+      overflow: hidden;
     }
   }
 

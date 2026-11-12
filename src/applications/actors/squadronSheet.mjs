@@ -5,7 +5,7 @@ export class SquadronSheet extends pf1.applications.actor.ActorSheetPF {
     const options = super.defaultOptions;
     return {
       ...options,
-      classes: [...options.classes, "fleet"],
+      classes: [...options.classes, "pf1fs", "squadron"],
       tabs: [
         {
           navSelector: "nav.tabs[data-group='primary']",

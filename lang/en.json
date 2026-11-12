@@ -38,6 +38,7 @@
     "LossCount": "Loss Count",
     "NewSquadron": "New Squadron",
     "CreateSquadron": "Create Squadron",
+    "EditSquadron": "Edit Squadron",
     "DeleteSquadron": "Delete Squadron",
     "DeleteSquadronTitle": "Delete Squadron: {name}",
     "DeleteSquadronConfirmation": "Are you sure you want to delete this squadron?",

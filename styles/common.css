@@ -1,9 +1,4 @@
-.app.sheet.fleet {
-  .sheet-navigation .item.icon {
-    flex: 0 0;
-    padding: 0 8px;
-  }
-
+.app.sheet.pf1fs {
   .item-controls {
     flex: 0 0 68px;
 
@@ -18,6 +13,10 @@
     &.five-button {
       flex: 0 0 110px;
     }
+  }
+
+  .no-events {
+    pointer-events: none;
   }
 
   .item-detail {
@@ -35,11 +34,11 @@
     &.item-location {
       flex: 0 0 150px;
     }
-    
+
     &.item-boon {
       flex: 0 0 150px;
     }
-    
+
     &.item-squadron {
       flex: 0 0 150px;
     }
@@ -56,16 +55,16 @@
   }
 }
 
-.app.sheet.fleet input[type="number"] {
+.app.sheet.pf1fs input[type="number"] {
   text-align: center;
 }
 
-.app.sheet.fleet .info-box select {
+.app.sheet.pf1fs .info-box select {
   flex: 0 0 21.5px;
   text-align: -webkit-center;
   border: unset;
 }
 
-.app.sheet.fleet :is(span.text-box, input.text-box) {
-  width: 100%;
+.app.sheet.pf1fs :is(span.text-box, input.text-box) {
+  width: unset;
 }

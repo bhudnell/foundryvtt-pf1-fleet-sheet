@@ -1,9 +1,8 @@
 - journal for upper hand condition
+- Admiral/Commodore should function like race from a PC. 
 
 
-- should significant characters move to a different tab?
 - error on squadron tab saying too many squadrons
-- left/right click for squadrons needs to be disabled like in kingdom sheet
 - squadron tab needs spacing fixes, new icons, etc, missing localization strings
 
 

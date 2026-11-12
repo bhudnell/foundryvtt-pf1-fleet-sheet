@@ -63,37 +63,37 @@
   </div>
 </div>
 
-<section class="subdetails-body">
-  <div class="flexcol">
-    <h3>{{localize "PF1FS.Admiral"}}</h3>
+<div class="flexcol">
+  <h3>{{localize "PF1FS.Admiral"}}</h3>
 
-    <select name="system.admiral.actor">
-      {{selectOptions actorOptions selected=system.admiral.actorId}}
-    </select>
+  <select name="system.admiral.actor">
+    {{selectOptions actorOptions selected=system.admiral.actorId}}
+  </select>
 
-    <div class="info-box-joined">
-      <div class="info-box" data-tooltip-extended="chaMod">
-        <h5>{{ localize "PF1.AbilityChaMod" }}</h5>
-        <span class="value">{{ system.admiral.chaMod }}</span>
-      </div>
-      <div class="info-box" data-tooltip-extended="profSailor">
-        <h5>{{localize "PF1FS.ProfSailor" }}</h5>
-        <span class="value">{{ system.admiral.profSailor }}</span>
-      </div>
-      <div class="info-box attribute initiative" data-tooltip-extended="init">
-        <h5>
-          <a class="rollable">{{localize "PF1.Initiative"}}</a>
-        </h5>
-        <span class="value">{{ system.attributes.init.total }}</span>
-      </div>
-      <div class="info-box" data-tooltip-extended="maxSquadrons">
-        <h5>{{ localize "PF1FS.MaxSquadrons" }}</h5>
-        <span class="value">{{ system.maxSquadrons.total }}</span>
-      </div>
+  <div class="info-box-joined">
+    <div class="info-box" data-tooltip-extended="chaMod">
+      <h5>{{ localize "PF1.AbilityChaMod" }}</h5>
+      <span class="value">{{ system.admiral.chaMod }}</span>
+    </div>
+    <div class="info-box" data-tooltip-extended="profSailor">
+      <h5>{{localize "PF1FS.ProfSailor" }}</h5>
+      <span class="value">{{ system.admiral.profSailor }}</span>
+    </div>
+    <div class="info-box attribute initiative" data-tooltip-extended="init">
+      <h5>
+        <a class="rollable">{{localize "PF1.Initiative"}}</a>
+      </h5>
+      <span class="value">{{ system.attributes.init.total }}</span>
+    </div>
+    <div class="info-box" data-tooltip-extended="maxSquadrons">
+      <h5>{{ localize "PF1FS.MaxSquadrons" }}</h5>
+      <span class="value">{{ system.maxSquadrons.total }}</span>
     </div>
   </div>
-  <div>
-    <h3>{{localize "PF1FS.SigCharacters"}}</h3>
+</div>
+
+<section class="subdetails-body">
+  <div class="sig-chars-body">
     <ol class="item-groups-list">
       <ol class="item-list">
         <li class="item-list-header flexrow">

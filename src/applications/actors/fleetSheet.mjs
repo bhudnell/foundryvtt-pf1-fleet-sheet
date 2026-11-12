@@ -5,7 +5,7 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
     const options = super.defaultOptions;
     return {
       ...options,
-      classes: [...options.classes, "fleet"],
+      classes: [...options.classes, "pf1fs", "fleet"],
       tabs: [
         {
           navSelector: "nav.tabs[data-group='primary']",
@@ -206,8 +206,8 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
 
     await this._onDelete({
       button: event.currentTarget,
-      title: game.i18n.format("PF1KS.DeleteSquadronTitle", { name: deletedSquadronActor?.name }),
-      content: `<p>${game.i18n.localize("PF1KS.DeleteSquadronConfirmation")}</p>`,
+      title: game.i18n.format("PF1FS.DeleteSquadronTitle", { name: deletedSquadronActor?.name }),
+      content: `<p>${game.i18n.localize("PF1FS.DeleteSquadronConfirmation")}</p>`,
       onDelete: async () => {
         await this._onSubmit(event, {
           updateData: { "system.squadronProxies": squadrons },
@@ -269,7 +269,7 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
 
     // squadron is already linked
     if (actorData.system.fleet) {
-      ui.notifications.warn("PF1KS.SquadronAlreadyLinked", { localize: true });
+      ui.notifications.warn("PF1FS.SquadronAlreadyLinked", { localize: true });
       return false;
     }
 
