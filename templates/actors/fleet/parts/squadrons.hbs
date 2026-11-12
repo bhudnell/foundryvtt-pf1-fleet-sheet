@@ -44,3 +44,48 @@
     {{/each}}
   </ol>
 </ol>
+
+<hr />
+
+<footer data-tooltip-extended="squadrons">
+  <div class="squadron-counts">
+    <div class="info-box-joined stats">
+      <div class="info-box">
+        <h5>{{ localize "PF1.Current" }}</h5>
+        <span class="value">{{ squadronCount.current }}</span>
+      </div>
+      <div class="info-box">
+        <h5>{{localize "PF1.Base" }}</h5>
+        <span class="value">{{ squadronCount.base }}</span>
+      </div>
+      <div class="info-box">
+        <h5>{{localize "PF1FS.Admiral" }}</h5>
+        <span class="value">{{ squadronCount.admiral }}</span>
+      </div>
+      <div class="info-box">
+        <h5>{{localize "PF1.Bonus" }}</h5>
+        <span class="value">{{ squadronCount.bonus }}</span>
+      </div>
+      <div class="info-box">
+        <h5>{{ localize "PF1.MaxShort" }}</h5>
+        <span class="value">{{ squadronCount.max }}</span>
+      </div>
+    </div>
+
+    {{#if squadronCount.issues}}
+    <div class="info-box-joined issues" style="--issues:{{ squadronCount.issues }};">
+      {{#if squadronCount.missing}}
+      <div class="info-box missing">
+        <h5>{{localize "PF1.Missing"}}</h5>
+        <span class="value">{{ squadronCount.missing }}</span>
+      </div>
+      {{else if squadronCount.excess}}
+      <div class="info-box excess">
+        <h5>{{localize "PF1.Excess"}}</h5>
+        <span class="value">{{ squadronCount.excess }}</span>
+      </div>
+      {{/if}}
+    </div>
+    {{/if}}
+  </div>
+</footer>

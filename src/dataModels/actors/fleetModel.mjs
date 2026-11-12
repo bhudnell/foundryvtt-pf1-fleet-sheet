@@ -37,12 +37,15 @@ export class FleetModel extends foundry.abstract.TypeDataModel {
         total: 0,
       },
     };
-    this.maxSquadrons = {
-      total: 0,
+    this.squadronCount = {
+      max: 0,
+      current: 0,
     };
   }
 
-  prepareDerivedData() {}
+  prepareDerivedData() {
+    this.squadronCount.current = this.squadronProxies.length;
+  }
 
   get skills() {
     return {};

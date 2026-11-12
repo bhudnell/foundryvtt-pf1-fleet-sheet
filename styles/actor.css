@@ -72,6 +72,24 @@
     }
   }
 
+  .squadron-counts {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 3px;
+
+    .stats {
+      flex: 5;
+    }
+
+    .issues {
+      flex: var(--issues);
+
+      .excess {
+        box-shadow: 0 0 8px red;
+      }
+    }
+  }
+
   .tab.settings {
     > ul {
       list-style: none;

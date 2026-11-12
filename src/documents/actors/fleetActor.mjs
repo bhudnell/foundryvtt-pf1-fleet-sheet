@@ -63,6 +63,39 @@ export class FleetActor extends BaseActor {
     }
   }
 
+  getSquadronCount() {
+    const result = {
+      ...this.system.squadronCount,
+      base: 0,
+      admiral: 0,
+      bonus: 0,
+      issues: 0,
+      // Count totals
+      get discrepancy() {
+        return this.max - this.current;
+      },
+      get missing() {
+        return Math.max(0, this.discrepancy);
+      },
+      get excess() {
+        return Math.max(0, -this.discrepancy);
+      },
+    };
+
+    result.base = this.system.settings.useInfamy ? Math.floor(this.system.infamy / 10) : 3;
+    result.admiral = this.system.admiral.chaMod;
+    result.bonus = result.max - result.base - result.admiral;
+
+    if (result.missing > 0 || result.excess) {
+      result.issues += 1;
+    }
+    if (result.disabled > 0) {
+      result.issues += 1;
+    }
+
+    return result;
+  }
+
   get allNotes() {
     const allNotes = [];
 

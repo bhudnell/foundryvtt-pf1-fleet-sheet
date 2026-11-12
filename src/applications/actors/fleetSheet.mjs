@@ -86,7 +86,7 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
     });
 
     // squadrons
-    data.canAddSquadron = actorData.squadronProxies.length < actorData.maxSquadrons.total;
+    data.squadronCount = this.actor.getSquadronCount();
     data.squadrons = this._prepareSquadrons();
 
     // settings
@@ -349,13 +349,19 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
         });
         notes = await getNotes([`${pf1fs.config.changePrefix}.initiative`]);
         break;
-      case "maxSquadrons":
-        paths.push({
-          path: "@maxSquadrons.total",
-          value: actorData.maxSquadrons.total,
-        });
+      case "squadrons":
+        paths.push(
+          {
+            path: "@squadronCount.max",
+            value: actorData.squadronCount.max,
+          },
+          {
+            path: "@squadronCount.current",
+            value: actorData.squadronCount.current,
+          }
+        );
         sources.push({
-          sources: actor.getSourceDetails("system.maxSquadrons.total"),
+          sources: actor.getSourceDetails("system.squadronCount.max"),
           untyped: true,
         });
         notes = await getNotes([`${pf1fs.config.changePrefix}.max_squadrons`]);

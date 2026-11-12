@@ -66,5 +66,5 @@
 }
 
 .app.sheet.pf1fs :is(span.text-box, input.text-box) {
-  width: unset;
+  width: 100%;
 }

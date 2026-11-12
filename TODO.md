@@ -2,8 +2,7 @@
 - Admiral/Commodore should function like race from a PC. 
 
 
-- error on squadron tab saying too many squadrons
-- squadron tab needs spacing fixes, new icons, etc, missing localization strings
+- squadron tab needs spacing fixes, new icons, etc
 
 
 - squadron ships list error when too many ships
