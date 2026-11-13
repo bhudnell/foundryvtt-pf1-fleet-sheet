@@ -1,7 +1,30 @@
 name: Conditions
 _id: jyOfxZMnOwBBTbJr
-pages: []
+pages:
+  - sort: 100000
+    name: Upper Hand
+    type: text
+    _id: Xm56owQSSHpwRshM
+    system: {}
+    title:
+      show: true
+      level: 1
+    image: {}
+    text:
+      format: 1
+      content: >-
+        <p>At the start of a battle phase, each fleet's admiral makes a
+        Profession (sailor) check to determine initiative. The admiral whose
+        result is higher gains the upper hand in that battle phase, which grants
+        all of his squadrons a +1 bonus on attack rolls. This Profession
+        (sailor) check is made at the start of each battle phase.</p>
+    video:
+      controls: true
+      volume: 0.5
+    src: null
+    category: null
+    _key: '!journal.pages!jyOfxZMnOwBBTbJr.Xm56owQSSHpwRshM'
 sort: 0
-_key: '!journal!jyOfxZMnOwBBTbJr'
 categories: []
+_key: '!journal!jyOfxZMnOwBBTbJr'
 

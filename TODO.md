@@ -1,6 +1,3 @@
-- journal for upper hand condition
-
-
 - squadron tab needs spacing fixes, new icons, etc
 
 

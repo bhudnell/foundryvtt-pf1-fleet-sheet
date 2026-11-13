@@ -121,7 +121,7 @@ Hooks.on("pf1RegisterConditions", (registry, model) => {
   registry.register(PF1FS.moduleId, `${PF1FS.changePrefix}-upper-hand`, {
     name: "PF1FS.Condition.UpperHand",
     texture: "icons/svg/regen.svg",
-    journal: "TODO",
+    journal: "Compendium.pf1-fleet-sheet.rules.JournalEntry.jyOfxZMnOwBBTbJr.JournalEntryPage.Xm56owQSSHpwRshM",
     flags: {
       [PF1FS.moduleId]: {
         forSquadron: true,
