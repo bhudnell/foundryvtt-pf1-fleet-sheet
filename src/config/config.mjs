@@ -4,6 +4,8 @@ export const changePrefix = "pf1fs";
 export const fleetId = `${moduleId}.fleet`;
 export const squadronId = `${moduleId}.squadron`;
 
+export const validOfficerActorTypes = ["character", "npc"];
+
 export const combatAttributes = {
   dv: "PF1FS.DV",
   av: "PF1FS.AV",

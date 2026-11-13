@@ -24,35 +24,47 @@
       <h5>{{localize "PF1FS.TotalHits" }}</h5>
       <span class="value">{{ system.totalHits.current }} / {{ system.totalHits.max }}</span>
     </div>
+    <div class="info-box">
+      <h5>{{localize "PF1FS.IsMercenary" }}</h5>
+      <div class="value">
+        <input type="checkbox" name="system.isMercenary" {{checked system.isMercenary}} />
+      </div>
+    </div>
   </div>
 
   {{!-- Commodore --}}
-  <div class="flexcol">
-    <h3>{{localize "PF1FS.Commodore"}}</h3>
+  <h3>{{localize "PF1FS.Commodore"}}</h3>
+  <div class="officer">
+    <div class="officer-controls">
+      {{#if (and @root.owner commodore)}}
+      <a class="officer-control commodore-edit" data-tooltip="PF1FS.EditCommodore"
+        ><i class="fa-solid fa-edit" inert></i
+      ></a>
+      <a class="officer-control commodore-delete" data-tooltip="PF1FS.DeleteCommodore"
+        ><i class="fa-solid fa-trash" inert></i
+      ></a>
+      {{/if}}
+    </div>
 
-    <select name="system.commodore.actor">
-      {{selectOptions @root.actorOptions selected=system.commodore.actorId}}
-    </select>
+    <div class="image" style="background-image: url(&quot;{{ commodore.img }}&quot;)"></div>
+
+    <div class="name">
+      <h2>{{ commodore.name }}</h2>
+    </div>
 
     <div class="info-box-joined">
       <div class="info-box" data-tooltip-extended="chaMod">
         <h5>{{ localize "PF1.AbilityChaMod" }}</h5>
-        <span class="value">{{ system.commodore.chaMod }}</span>
+        <span class="value">{{ commodore.chaMod }}</span>
       </div>
       <div class="info-box" data-tooltip-extended="profSailor">
         <h5>{{localize "PF1FS.ProfSailor" }}</h5>
-        <span class="value">{{ system.commodore.profSailor }}</span>
+        <span class="value">{{ commodore.profSailor }}</span>
       </div>
       <div class="info-box">
         <h5>{{localize "PF1FS.IsSignificant" }}</h5>
         <div class="value">
-          <input type="checkbox" name="system.commodore.isSignificant" {{checked system.commodore.isSignificant}} />
-        </div>
-      </div>
-      <div class="info-box">
-        <h5>{{localize "PF1FS.IsMercenary" }}</h5>
-        <div class="value">
-          <input type="checkbox" name="system.isMercenary" {{checked system.isMercenary}} />
+          <input type="checkbox" name="system.commodore.isSignificant" {{checked commodore.isSignificant}} />
         </div>
       </div>
     </div>

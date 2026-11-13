@@ -63,21 +63,31 @@
   </div>
 </div>
 
-<div class="flexcol">
-  <h3>{{localize "PF1FS.Admiral"}}</h3>
+<h3>{{localize "PF1FS.Admiral"}}</h3>
+<div class="officer">
+  <div class="officer-controls">
+    {{#if (and @root.owner admiral)}}
+    <a class="officer-control admiral-edit" data-tooltip="PF1FS.EditAdmiral"><i class="fa-solid fa-edit" inert></i></a>
+    <a class="officer-control admiral-delete" data-tooltip="PF1FS.DeleteAdmiral"
+      ><i class="fa-solid fa-trash" inert></i
+    ></a>
+    {{/if}}
+  </div>
 
-  <select name="system.admiral.actor">
-    {{selectOptions actorOptions selected=system.admiral.actorId}}
-  </select>
+  <div class="image" style="background-image: url(&quot;{{ admiral.img }}&quot;)"></div>
+
+  <div class="name">
+    <h2>{{ admiral.name }}</h2>
+  </div>
 
   <div class="info-box-joined">
     <div class="info-box" data-tooltip-extended="chaMod">
       <h5>{{ localize "PF1.AbilityChaMod" }}</h5>
-      <span class="value">{{ system.admiral.chaMod }}</span>
+      <span class="value">{{ admiral.chaMod }}</span>
     </div>
     <div class="info-box" data-tooltip-extended="profSailor">
       <h5>{{localize "PF1FS.ProfSailor" }}</h5>
-      <span class="value">{{ system.admiral.profSailor }}</span>
+      <span class="value">{{ admiral.profSailor }}</span>
     </div>
     <div class="info-box attribute initiative" data-tooltip-extended="init">
       <h5>

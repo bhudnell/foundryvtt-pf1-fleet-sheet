@@ -50,6 +50,13 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
 
     // summary
     data.showInfamy = actorData.settings.useInfamy;
+    if (actorData.admiral.actor) {
+      data.admiral = {
+        ...actorData.admiral.actor,
+        chaMod: actorData.admiral.chaMod,
+        profSailor: actorData.admiral.profSailor,
+      };
+    }
 
     // conditions
     data.conditions = pf1.registry.conditions
@@ -104,6 +111,9 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
   activateListeners(html) {
     super.activateListeners(html);
 
+    html.find(".admiral-edit").on("click", (e) => this._onAdmiralEdit(e));
+    html.find(".admiral-delete").on("click", (e) => this._onAdmiralDelete(e));
+
     html.find(".sig-char-create").on("click", (e) => this._onSigCharCreate(e));
     html.find(".sig-char-delete").on("click", (e) => this._onSigCharDelete(e));
 
@@ -121,6 +131,20 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
         ...actor.system,
       },
     }));
+  }
+
+  async _onAdmiralEdit(event) {
+    event.preventDefault();
+
+    this.actor.system.admiral.actor.sheet.render(true, { focus: true });
+  }
+
+  async _onAdmiralDelete(event) {
+    event.preventDefault();
+
+    this._onSubmit(event, {
+      updateData: { "system.admiral.actor": null },
+    });
   }
 
   async _onSigCharCreate(event) {
@@ -257,34 +281,36 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
     return super._updateObject(event, changed);
   }
 
-  // allows dropping squadrons onto fleets
+  // allows dropping admiral and squadrons onto fleets
   async _onDropActor(event, data) {
     event.preventDefault();
 
     const actorData = await Actor.fromDropData(data);
 
-    if (actorData.type !== pf1fs.config.squadronId) {
-      return false;
+    if (pf1fs.config.validOfficerActorTypes.includes(actorData.type)) {
+      await this._onSubmit(event, {
+        updateData: { "system.admiral.actor": actorData._id },
+      });
+    } else if (actorData.type === pf1fs.config.squadronId) {
+      // squadron is already linked
+      if (actorData.system.fleet) {
+        ui.notifications.warn("PF1FS.SquadronAlreadyLinked", { localize: true });
+        return false;
+      }
+
+      const source = actorData._stats.compendiumSource.split(".")[0];
+
+      let squadron;
+      if (source === "Actor") {
+        squadron = await fromUuid(data.uuid);
+      } else {
+        squadron = await Actor.create(actorData.toObject());
+      }
+
+      const created = await this._createSquadron(squadron._id);
+      this.activateTab("squadrons", { group: "primary" });
+      return created;
     }
-
-    // squadron is already linked
-    if (actorData.system.fleet) {
-      ui.notifications.warn("PF1FS.SquadronAlreadyLinked", { localize: true });
-      return false;
-    }
-
-    const source = actorData._stats.compendiumSource.split(".")[0];
-
-    let squadron;
-    if (source === "Actor") {
-      squadron = await fromUuid(data.uuid);
-    } else {
-      squadron = await Actor.create(actorData.toObject());
-    }
-
-    const created = await this._createSquadron(squadron._id);
-    this.activateTab("squadrons", { group: "primary" });
-    return created;
   }
 
   async _getTooltipContext(fullId, context) {

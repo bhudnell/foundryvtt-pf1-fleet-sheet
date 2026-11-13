@@ -48,6 +48,16 @@ export class SquadronSheet extends pf1.applications.actor.ActorSheetPF {
       .filter((actor) => actor.permission > 0 && (actor.type === "character" || actor.type === "npc"))
       .forEach((actor) => (data.actorOptions[actor.id] = actor.name));
 
+    // commodore
+    if (actorData.commodore.actor) {
+      data.commodore = {
+        ...actorData.commodore.actor,
+        chaMod: actorData.commodore.chaMod,
+        profSailor: actorData.commodore.profSailor,
+        isSignificant: actorData.commodore.isSignificant,
+      };
+    }
+
     // ships
     data.shipCount = this.actor.getShipCount();
 
@@ -59,6 +69,9 @@ export class SquadronSheet extends pf1.applications.actor.ActorSheetPF {
 
     html.find(".attribute .rollable").on("click", (e) => this._onRollAttribute(e));
 
+    html.find(".commodore-edit").on("click", (e) => this._onCommodoreEdit(e));
+    html.find(".commodore-delete").on("click", (e) => this._onCommodoreDelete(e));
+
     html.find(".ship-create").on("click", (e) => this._onShipCreate(e));
     html.find(".ship-delete").on("click", (e) => this._onShipDelete(e));
   }
@@ -67,6 +80,20 @@ export class SquadronSheet extends pf1.applications.actor.ActorSheetPF {
     event.preventDefault();
     const attribute = event.currentTarget.closest(".attribute").dataset.attribute;
     this.actor.rollAttribute(attribute, { actor: this.actor });
+  }
+
+  async _onCommodoreEdit(event) {
+    event.preventDefault();
+
+    this.actor.system.commodore.actor.sheet.render(true, { focus: true });
+  }
+
+  async _onCommodoreDelete(event) {
+    event.preventDefault();
+
+    this._onSubmit(event, {
+      updateData: { "system.commodore.actor": null },
+    });
   }
 
   async _onShipCreate(event) {
@@ -142,6 +169,19 @@ export class SquadronSheet extends pf1.applications.actor.ActorSheetPF {
     }
 
     return super._updateObject(event, changed);
+  }
+
+  // allows dropping commodore onto squadrons
+  async _onDropActor(event, data) {
+    event.preventDefault();
+
+    const actorData = await Actor.fromDropData(data);
+
+    if (pf1fs.config.validOfficerActorTypes.includes(actorData.type)) {
+      await this._onSubmit(event, {
+        updateData: { "system.commodore.actor": actorData._id },
+      });
+    }
   }
 
   async _getTooltipContext(fullId, context) {
