@@ -1,4 +1,3 @@
-- squadron tab needs spacing fixes, new icons, etc
 
 
 - summary tab needs UI work

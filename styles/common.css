@@ -9,10 +9,6 @@
     &.two-button {
       flex: 0 0 48px;
     }
-
-    &.five-button {
-      flex: 0 0 110px;
-    }
   }
 
   .no-events {
@@ -26,11 +22,15 @@
       height: 24px;
     }
 
-    /* sig char stuff */
+    &.item-number {
+      flex: 0 0 32px;
+    }
+
     &.item-actor {
       flex: 1;
     }
 
+    /* sig char stuff */
     &.item-location {
       flex: 0 0 150px;
     }
@@ -44,6 +44,15 @@
     }
 
     /* squadron stuff */
+    &.item-ship-type {
+      flex: 0 0 80px;
+    }
+
+    &.item-hits {
+      flex: 0 0 64px;
+    }
+
+    /* ship stuff */
     &.item-ship-name {
       flex: 1;
 

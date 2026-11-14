@@ -130,6 +130,8 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
       name: actor.name,
       system: {
         ...actor.system,
+        totalHits: actor.system.totalHits,
+        shipType: pf1fs.config.shipTypes[actor.system.config.shipType],
       },
     }));
   }

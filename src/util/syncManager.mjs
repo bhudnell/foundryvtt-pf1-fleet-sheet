@@ -44,7 +44,7 @@ class SyncManager {
   prepare(document) {
     document.reset();
     if (game.ready && document.sheet.rendered) {
-      document.sheet.render(true);
+      document.sheet.render(false);
     }
   }
 }

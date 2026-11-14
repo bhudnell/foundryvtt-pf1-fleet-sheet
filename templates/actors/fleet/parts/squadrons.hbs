@@ -4,17 +4,23 @@
       <div class="item-name">
         <h3>{{ localize "PF1FS.Squadrons" }}</h3>
       </div>
-      <div class="item-detail item-size">
+      <div class="item-detail item-hits">
         <label>{{localize "PF1FS.TotalHits"}}</label>
       </div>
-      <div class="item-detail item-population">
+      <div class="item-detail item-number" data-tooltip="PF1FS.MoraleScore"><i class="ra ra-beer"></i></div>
+      <div class="item-detail item-ship-type">
         <label>{{localize "PF1FS.ShipType"}}</label>
       </div>
-      <div class="item-detail item-number" data-tooltip="PF1FS.LossCount"><i class="fa-solid fa-coins"></i></div>
-      <div class="item-detail item-number" data-tooltip="PF1FS.IsMercenary"><i class="ra ra-queen-crown"></i></div>
-      <div class="item-detail item-number" data-tooltip="PF1FS.Commodore">
-        <i class="fa-solid fa-scale-balanced"></i>
+      <div class="item-detail item-number" data-tooltip="PF1FS.IsMercenary"><i class="ra ra-dervish-swords"></i></div>
+
+      <div class="item-detail item-actor">
+        <label>{{localize "PF1FS.Commodore"}}</label>
       </div>
+
+      <div class="item-detail item-number" data-tooltip="PF1FS.AV"><i class="ra ra-sword"></i></div>
+      <div class="item-detail item-number" data-tooltip="PF1FS.DV"><i class="ra ra-shield"></i></div>
+      <div class="item-detail item-number" data-tooltip="PF1FS.MoraleCheck"><i class="ra ra-horn-call"></i></div>
+
       <div class="item-detail item-controls two-button">
         <a class="item-control squadron-create" data-tooltip="PF1FS.CreateSquadron">
           <i class="fa-solid fa-plus"></i>
@@ -27,11 +33,23 @@
         <div class="item-image" style="background-image: url('{{ img }}')"></div>
         <span>{{ name }}</span>
       </div>
-      <span class="item-detail item-size">{{ system.totalHits.current }} / {{ system.totalHits.max }}</span>
-      <span class="item-detail item-population">{{ system.config.shipType }}</span>
-      <span class="item-detail item-number">{{ system.lossCount }}</span>
-      <span class="item-detail item-number">{{ system.isMercenary }}</span>
-      <span class="item-detail item-number">{{ system.commodore.name }}</span>
+      <span class="item-detail item-hits">{{ system.totalHits.current }} / {{ system.totalHits.max }}</span>
+      <span class="item-detail item-number">{{ system.moraleScore }}</span>
+      <span class="item-detail item-ship-type">{{ system.shipType }}</span>
+      <span class="item-detail item-number">
+        {{#if system.isMercenary}}
+        <i class="fas fa-check"></i>
+        {{else}}
+        <i class="fas fa-times"></i>
+        {{/if}}
+      </span>
+
+      <span class="item-detail item-actor">{{ system.commodore.name }}</span>
+
+      <span class="item-detail item-number">{{ system.combat.av.total }}</span>
+      <span class="item-detail item-number">{{ system.combat.dv.total }}</span>
+      <span class="item-detail item-number">{{ system.combat.morale.total }}</span>
+
       <div class="flexrow item-detail item-controls two-button">
         <a class="item-control squadron-edit" data-tooltip="PF1FS.EditSquadron">
           <i class="fa-solid fa-pen-to-square"></i>
