@@ -124,6 +124,44 @@
     .sig-chars-body {
       overflow: hidden;
     }
+
+    .sheet-header {
+      display: flex;
+      flex-flow: row;
+
+      img.profile {
+        flex: 0 0 100px;
+        height: 100px;
+        width: 100px;
+        border-right: var(--pf1-border-groove);
+      }
+
+      .char-name > input {
+        width: calc(100% - 2px);
+      }
+
+      .summary > li:nth-child(2) {
+        border-right: none;
+      }
+
+      li {
+        width: 50%;
+        height: 30px;
+        white-space: nowrap;
+        gap: 3px;
+        border-bottom: none;
+
+        > label {
+          min-width: 35%;
+        }
+
+        > input[type="text"] {
+          text-align: center;
+          opacity: 1;
+          pointer-events: none;
+        }
+      }
+    }
   }
 
   .list-counts {

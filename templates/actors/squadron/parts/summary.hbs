@@ -1,117 +1,117 @@
-<div class="summary-header">
-  <img class="profile" src="{{ img }}" data-edit="img" />
+<header class="sheet-header flexrow">
+  <img class="squadron profile" src="{{ img }}" data-edit="img" />
 
-  <div class="flexcol basic-info">
-    <div class="flexrow name-xp">
-      <h1 class="char-name">
-        <input type="text" name="name" value="{{ name }}" />
-      </h1>
+  <div class="header-details flexcol">
+    <h1 class="char-name">
+      <input type="text" name="name" value="{{ name }}" />
+    </h1>
+
+    <div class="flexcol">
+      <ul class="summary">
+        <li data-tooltip-extended="hits">
+          <label>{{localize "PF1FS.TotalHits" }}</label>
+          <input type="text" value="{{ system.totalHits.current }} / {{ system.totalHits.max }}" readonly />
+        </li>
+        <li data-tooltip-extended="moraleScore">
+          <label>{{localize "PF1FS.MoraleScore" }}</label>
+          {{numberInput system.moraleScore name="system.moraleScore" step=1 min=0 max=10}}
+        </li>
+      </ul>
+      <ul class="summary">
+        <li data-tooltip-extended="lossCount">
+          <label>{{localize "PF1FS.LossCount" }}</label>
+          {{numberInput system.lossCount name="system.lossCount" step=1 min=0}}
+        </li>
+        <li>
+          <input id="isMercenary" type="checkbox" name="system.isMercenary" {{checked system.isMercenary}} />
+          <label for="isMercenary">{{localize "PF1FS.IsMercenary" }}</label>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+{{!-- Commodore --}}
+<div class="info-box-header">
+  <h3>{{localize "PF1FS.Commodore"}}</h3>
+  <div class="officer">
+    <div class="officer-info">
+      {{#if commodore}}
+      <div class="officer-controls">
+        {{#if @root.owner}}
+        <a class="officer-control commodore-edit" data-tooltip="PF1FS.EditCommodore"
+          ><i class="fa-solid fa-edit" inert></i
+        ></a>
+        <a class="officer-control commodore-delete" data-tooltip="PF1FS.DeleteCommodore"
+          ><i class="fa-solid fa-trash" inert></i
+        ></a>
+        {{/if}}
+      </div>
+
+      <div class="image" style="background-image: url(&quot;{{ commodore.img }}&quot;)"></div>
+
+      <div class="name">
+        <h2>{{ commodore.name }}</h2>
+      </div>
+      {{else}}
+      <button class="commodore-select" type="button" data-tooltip="{{localize 'PF1FS.SelectCommodore'}}">
+        {{localize "PF1FS.SelectCommodore"}}
+      </button>
+      {{/if}}
+    </div>
+
+    <div class="info-box-joined">
+      <div class="info-box" data-tooltip-extended="chaMod">
+        <h5>{{ localize "PF1.AbilityChaMod" }}</h5>
+        <span class="value">{{ commodore.chaMod }}</span>
+      </div>
+      <div class="info-box" data-tooltip-extended="profSailor">
+        <h5>{{localize "PF1FS.ProfSailor" }}</h5>
+        <span class="value">{{ commodore.profSailor }}</span>
+      </div>
+      <div class="info-box">
+        <h5>{{localize "PF1FS.IsSignificant" }}</h5>
+        <div class="value">
+          <input type="checkbox" name="system.commodore.isSignificant" {{checked commodore.isSignificant}} />
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<section class="subdetails-body">
-  <div class="flexrow inputs">
-    <div class="info-box" data-tooltip-extended="moraleScore">
-      <h5>{{localize "PF1FS.MoraleScore" }}</h5>
-      <span class="value text-box direct" name="system.moraleScore" data-dtype="Number">{{ system.moraleScore }}</span>
-    </div>
-    <div class="info-box" data-tooltip-extended="lossCount">
-      <h5>{{localize "PF1FS.LossCount" }}</h5>
-      <span class="value text-box direct" name="system.lossCount" data-dtype="Number">{{ system.lossCount }}</span>
-    </div>
-    <div class="info-box" data-tooltip-extended="hits">
-      <h5>{{localize "PF1FS.TotalHits" }}</h5>
-      <span class="value">{{ system.totalHits.current }} / {{ system.totalHits.max }}</span>
-    </div>
-    <div class="info-box">
-      <h5>{{localize "PF1FS.IsMercenary" }}</h5>
-      <div class="value">
-        <input type="checkbox" name="system.isMercenary" {{checked system.isMercenary}} />
-      </div>
-    </div>
-  </div>
-
-  {{!-- Commodore --}}
+{{!-- Combat Modifiers --}}
+<div class="attributes flexrow">
   <div class="info-box-header">
-    <h3>{{localize "PF1FS.Commodore"}}</h3>
-    <div class="officer">
-      <div class="officer-info">
-        {{#if commodore}}
-        <div class="officer-controls">
-          {{#if @root.owner}}
-          <a class="officer-control commodore-edit" data-tooltip="PF1FS.EditCommodore"
-            ><i class="fa-solid fa-edit" inert></i
-          ></a>
-          <a class="officer-control commodore-delete" data-tooltip="PF1FS.DeleteCommodore"
-            ><i class="fa-solid fa-trash" inert></i
-          ></a>
-          {{/if}}
-        </div>
-
-        <div class="image" style="background-image: url(&quot;{{ commodore.img }}&quot;)"></div>
-
-        <div class="name">
-          <h2>{{ commodore.name }}</h2>
-        </div>
-        {{else}}
-        <button class="commodore-select" type="button" data-tooltip="{{localize 'PF1FS.SelectCommodore'}}">
-          {{localize "PF1FS.SelectCommodore"}}
-        </button>
-        {{/if}}
+    <h3>{{localize "PF1.Combat"}}</h3>
+    <div class="info-box-joined">
+      <div class="info-box" data-tooltip-extended="dv">
+        <h5>{{localize "PF1FS.DV" }}</h5>
+        <span class="value">{{ system.combat.dv.total }}</span>
       </div>
-
-      <div class="info-box-joined">
-        <div class="info-box" data-tooltip-extended="chaMod">
-          <h5>{{ localize "PF1.AbilityChaMod" }}</h5>
-          <span class="value">{{ commodore.chaMod }}</span>
-        </div>
-        <div class="info-box" data-tooltip-extended="profSailor">
-          <h5>{{localize "PF1FS.ProfSailor" }}</h5>
-          <span class="value">{{ commodore.profSailor }}</span>
-        </div>
-        <div class="info-box">
-          <h5>{{localize "PF1FS.IsSignificant" }}</h5>
-          <div class="value">
-            <input type="checkbox" name="system.commodore.isSignificant" {{checked commodore.isSignificant}} />
-          </div>
-        </div>
+      <div class="info-box" data-tooltip-extended="av">
+        <h5 class="attribute" data-attribute="av">
+          <a class="rollable"></a>
+          <span>{{ localize "PF1FS.AV" }}</span>
+        </h5>
+        <span class="value">{{ numberFormat system.combat.av.total sign=true }}</span>
+      </div>
+      <div class="info-box" data-tooltip-extended="damageBonus">
+        <h5>{{ localize "PF1.DamageBonus" }}</h5>
+        <span class="value">{{ numberFormat system.combat.damageBonus.total sign=true }}</span>
+      </div>
+      <div class="info-box" data-tooltip-extended="morale">
+        <h5 class="attribute" data-attribute="morale">
+          <a class="rollable"></a>
+          <span>{{ localize "PF1FS.MoraleCheck" }}</span>
+        </h5>
+        <span class="value">{{ numberFormat system.combat.morale.total sign=true }}</span>
       </div>
     </div>
   </div>
+</div>
 
-  {{!-- Combat Modifiers --}}
-  <div class="attributes flex0">
-    <div class="info-box-header">
-      <h3>{{localize "PF1.Combat"}}</h3>
-      <div class="info-box-joined">
-        <div class="info-box" data-tooltip-extended="dv">
-          <h5>{{localize "PF1FS.DV" }}</h5>
-          <span class="value">{{ system.combat.dv.total }}</span>
-        </div>
-        <div class="info-box" data-tooltip-extended="av">
-          <h5 class="attribute" data-attribute="av">
-            <a class="rollable"></a>
-            <span>{{ localize "PF1FS.AV" }}</span>
-          </h5>
-          <span class="value">{{ numberFormat system.combat.av.total sign=true }}</span>
-        </div>
-        <div class="info-box" data-tooltip-extended="damageBonus">
-          <h5>{{ localize "PF1.DamageBonus" }}</h5>
-          <span class="value">{{ numberFormat system.combat.damageBonus.total sign=true }}</span>
-        </div>
-        <div class="info-box" data-tooltip-extended="morale">
-          <h5 class="attribute" data-attribute="morale">
-            <a class="rollable"></a>
-            <span>{{ localize "PF1FS.MoraleCheck" }}</span>
-          </h5>
-          <span class="value">{{ numberFormat system.combat.morale.total sign=true }}</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  {{!-- Ships List --}}
+{{!-- Ships List --}}
+<section class="subdetails-body">
   <ol class="item-groups-list">
     <ol class="item-list">
       <li class="item-list-header flexrow">

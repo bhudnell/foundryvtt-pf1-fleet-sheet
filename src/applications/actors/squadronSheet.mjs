@@ -14,6 +14,8 @@ export class SquadronSheet extends pf1.applications.actor.ActorSheetPF {
           group: "primary",
         },
       ],
+      height: 730,
+      width: 670,
     };
   }
 
