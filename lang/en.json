@@ -8,9 +8,11 @@
     "Infamy": "Infamy",
 
     "Admiral": "Admiral",
+    "SelectAdmiral": "Select Admiral",
     "EditAdmiral": "Edit Admiral",
     "DeleteAdmiral": "Delete Admiral",
     "Commodore": "Commodore",
+    "SelectCommodore": "Select Commodore",
     "EditCommodore": "Edit Commodore",
     "DeleteCommodore": "Delete Commodore",
     "ProfSailor": "Prof. (Sailor)",

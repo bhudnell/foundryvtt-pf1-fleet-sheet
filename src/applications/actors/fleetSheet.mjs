@@ -111,6 +111,7 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
   activateListeners(html) {
     super.activateListeners(html);
 
+    html.find(".admiral-select").on("click", (e) => this._onAdmiralSelect(e));
     html.find(".admiral-edit").on("click", (e) => this._onAdmiralEdit(e));
     html.find(".admiral-delete").on("click", (e) => this._onAdmiralDelete(e));
 
@@ -133,6 +134,23 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
     }));
   }
 
+  async _onAdmiralSelect(event) {
+    const targetActorId = await pf1.utils.dialog.getActor({
+      actors: game.actors.filter(
+        (a) =>
+          pf1fs.config.validOfficerActorTypes.includes(a.type) &&
+          a.testUserPermission(game.user, CONST.DOCUMENT_OWNERSHIP_LEVELS.LIMITED)
+      ),
+    });
+
+    const targetActor = game.actors.get(targetActorId);
+    if (!targetActor) {
+      return;
+    }
+
+    this.actor.update({ "system.admiral.actor": targetActor._id });
+  }
+
   async _onAdmiralEdit(event) {
     event.preventDefault();
 
@@ -142,9 +160,7 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
   async _onAdmiralDelete(event) {
     event.preventDefault();
 
-    this._onSubmit(event, {
-      updateData: { "system.admiral.actor": null },
-    });
+    this.actor.update({ "system.admiral.actor": null });
   }
 
   async _onSigCharCreate(event) {
@@ -153,9 +169,7 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
     const sigChars = foundry.utils.duplicate(this.actor.system.significantCharacters ?? []);
     sigChars.push({});
 
-    await this._onSubmit(event, {
-      updateData: { "system.significantCharacters": sigChars },
-    });
+    this.actor.update({ "system.significantCharacters": sigChars });
   }
 
   async _onSigCharDelete(event) {
@@ -169,10 +183,7 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
       button: event.currentTarget,
       title: game.i18n.localize("PF1FS.DeleteSigChar"),
       content: `<p>${game.i18n.localize("PF1FS.DeleteSigCharConfirmation")}</p>`,
-      onDelete: () =>
-        this._onSubmit(event, {
-          updateData: { "system.significantCharacters": sigChars },
-        }),
+      onDelete: () => this.actor.update({ "system.significantCharacters": sigChars }),
     });
   }
 
@@ -205,9 +216,7 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
       "system.moraleScore": this.actor.system.settings.useInfamy ? Math.floor(this.actor.system.infamy / 10) : 3,
     });
 
-    await this._onSubmit(event, {
-      updateData: { "system.squadronProxies": squadrons },
-    });
+    this.actor.update({ "system.squadronProxies": squadrons });
   }
 
   async _onSquadronEdit(event) {
@@ -233,13 +242,8 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
       title: game.i18n.format("PF1FS.DeleteSquadronTitle", { name: deletedSquadronActor?.name }),
       content: `<p>${game.i18n.localize("PF1FS.DeleteSquadronConfirmation")}</p>`,
       onDelete: async () => {
-        await this._onSubmit(event, {
-          updateData: { "system.squadronProxies": squadrons },
-        });
-
-        await deletedSquadronActor.update({
-          "system.-=fleet": null,
-        });
+        await this.actor.update({ "system.squadronProxies": squadrons });
+        await deletedSquadronActor.update({ "system.-=fleet": null });
       },
     });
   }
@@ -287,30 +291,28 @@ export class FleetSheet extends pf1.applications.actor.ActorSheetPF {
 
     const actorData = await Actor.fromDropData(data);
 
-    if (pf1fs.config.validOfficerActorTypes.includes(actorData.type)) {
-      await this._onSubmit(event, {
-        updateData: { "system.admiral.actor": actorData._id },
-      });
-    } else if (actorData.type === pf1fs.config.squadronId) {
-      // squadron is already linked
-      if (actorData.system.fleet) {
-        ui.notifications.warn("PF1FS.SquadronAlreadyLinked", { localize: true });
-        return false;
-      }
-
-      const source = actorData._stats.compendiumSource.split(".")[0];
-
-      let squadron;
-      if (source === "Actor") {
-        squadron = await fromUuid(data.uuid);
-      } else {
-        squadron = await Actor.create(actorData.toObject());
-      }
-
-      const created = await this._createSquadron(squadron._id);
-      this.activateTab("squadrons", { group: "primary" });
-      return created;
+    if (actorData.type !== pf1fs.config.squadronId) {
+      return;
     }
+
+    // squadron is already linked
+    if (actorData.system.fleet) {
+      ui.notifications.warn("PF1FS.SquadronAlreadyLinked", { localize: true });
+      return false;
+    }
+
+    const source = actorData._stats.compendiumSource.split(".")[0];
+
+    let squadron;
+    if (source === "Actor") {
+      squadron = await fromUuid(data.uuid);
+    } else {
+      squadron = await Actor.create(actorData.toObject());
+    }
+
+    const created = await this._createSquadron(squadron._id);
+    this.activateTab("squadrons", { group: "primary" });
+    return created;
   }
 
   async _getTooltipContext(fullId, context) {

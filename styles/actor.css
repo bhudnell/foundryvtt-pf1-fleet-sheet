@@ -68,39 +68,51 @@
     }
 
     .officer {
-      flex: 1;
-      margin: 3px 0;
       display: flex;
+      flex: 1;
       gap: 4px;
 
-      .image {
-        flex: 0 0 48px;
-        background: no-repeat center;
-        background-size: contain;
-        height: 48px;
-      }
-
-      .name {
+      .officer-info {
         flex: 1;
-
-        > h2 {
-          height: 100%;
-          display: flex;
-          align-items: center;
-        }
-      }
-
-      .officer-controls {
+        margin: 4px 0;
         display: flex;
-        flex: 0 20px;
-        flex-flow: column nowrap;
-        justify-content: space-evenly;
+        gap: 4px;
 
-        .officer-control {
-          font-size: var(--font-size-12);
-          color: var(--pf1-control-color);
-          display: inline-flex;
-          justify-content: center;
+        .image {
+          flex: 0 0 40px;
+          background: no-repeat center;
+          background-size: contain;
+          height: 40px;
+        }
+
+        .name {
+          flex: 1;
+
+          > h2 {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            margin: unset;
+            border-bottom: unset;
+          }
+        }
+
+        .officer-controls {
+          display: flex;
+          flex: 0 20px;
+          flex-flow: column nowrap;
+          justify-content: space-evenly;
+
+          .officer-control {
+            font-size: var(--font-size-12);
+            color: var(--pf1-control-color);
+            display: inline-flex;
+            justify-content: center;
+          }
+        }
+
+        button {
+          height: 40px;
         }
       }
     }

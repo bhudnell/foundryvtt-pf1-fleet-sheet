@@ -69,6 +69,7 @@ export class SquadronSheet extends pf1.applications.actor.ActorSheetPF {
 
     html.find(".attribute .rollable").on("click", (e) => this._onRollAttribute(e));
 
+    html.find(".commodore-select").on("click", (e) => this._onCommodoreSelect(e));
     html.find(".commodore-edit").on("click", (e) => this._onCommodoreEdit(e));
     html.find(".commodore-delete").on("click", (e) => this._onCommodoreDelete(e));
 
@@ -82,6 +83,23 @@ export class SquadronSheet extends pf1.applications.actor.ActorSheetPF {
     this.actor.rollAttribute(attribute, { actor: this.actor });
   }
 
+  async _onCommodoreSelect(event) {
+    const targetActorId = await pf1.utils.dialog.getActor({
+      actors: game.actors.filter(
+        (a) =>
+          pf1fs.config.validOfficerActorTypes.includes(a.type) &&
+          a.testUserPermission(game.user, CONST.DOCUMENT_OWNERSHIP_LEVELS.LIMITED)
+      ),
+    });
+
+    const targetActor = game.actors.get(targetActorId);
+    if (!targetActor) {
+      return;
+    }
+
+    this.actor.update({ "system.commodore.actor": targetActor._id });
+  }
+
   async _onCommodoreEdit(event) {
     event.preventDefault();
 
@@ -91,9 +109,7 @@ export class SquadronSheet extends pf1.applications.actor.ActorSheetPF {
   async _onCommodoreDelete(event) {
     event.preventDefault();
 
-    this._onSubmit(event, {
-      updateData: { "system.commodore.actor": null },
-    });
+    this.actor.update({ "system.commodore.actor": null });
   }
 
   async _onShipCreate(event) {
@@ -110,9 +126,7 @@ export class SquadronSheet extends pf1.applications.actor.ActorSheetPF {
       currentHits: maxHits,
     });
 
-    await this._onSubmit(event, {
-      updateData: { "system.ships": ships },
-    });
+    this.actor.update({ "system.ships": ships });
   }
 
   async _onShipDelete(event) {
@@ -127,10 +141,7 @@ export class SquadronSheet extends pf1.applications.actor.ActorSheetPF {
       button: event.currentTarget,
       title: game.i18n.format("PF1FS.DeleteShipTitle", { name: deletedShip.name }),
       content: `<p>${game.i18n.localize("PF1FS.DeleteShipConfirmation")}</p>`,
-      onDelete: () =>
-        this._onSubmit(event, {
-          updateData: { "system.ships": ships },
-        }),
+      onDelete: () => this.actor.update({ "system.ships": ships }),
     });
   }
 
@@ -169,19 +180,6 @@ export class SquadronSheet extends pf1.applications.actor.ActorSheetPF {
     }
 
     return super._updateObject(event, changed);
-  }
-
-  // allows dropping commodore onto squadrons
-  async _onDropActor(event, data) {
-    event.preventDefault();
-
-    const actorData = await Actor.fromDropData(data);
-
-    if (pf1fs.config.validOfficerActorTypes.includes(actorData.type)) {
-      await this._onSubmit(event, {
-        updateData: { "system.commodore.actor": actorData._id },
-      });
-    }
   }
 
   async _getTooltipContext(fullId, context) {
@@ -258,11 +256,17 @@ export class SquadronSheet extends pf1.applications.actor.ActorSheetPF {
         );
         notes = await getNotes(`${pf1fs.config.changePrefix}.hits`);
         break;
-      case "maxShips":
-        paths.push({
-          path: "@config.maxShips",
-          value: actorData.config.maxShips,
-        });
+      case "ships":
+        paths.push(
+          {
+            path: "@config.currentShips",
+            value: actorData.config.currentShips,
+          },
+          {
+            path: "@config.maxShips",
+            value: actorData.config.maxShips,
+          }
+        );
         sources.push({
           sources: actor.getSourceDetails("system.config.maxShips"),
           untyped: true,

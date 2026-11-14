@@ -33,38 +33,48 @@
   </div>
 
   {{!-- Commodore --}}
-  <h3>{{localize "PF1FS.Commodore"}}</h3>
-  <div class="officer">
-    <div class="officer-controls">
-      {{#if (and @root.owner commodore)}}
-      <a class="officer-control commodore-edit" data-tooltip="PF1FS.EditCommodore"
-        ><i class="fa-solid fa-edit" inert></i
-      ></a>
-      <a class="officer-control commodore-delete" data-tooltip="PF1FS.DeleteCommodore"
-        ><i class="fa-solid fa-trash" inert></i
-      ></a>
-      {{/if}}
-    </div>
+  <div class="info-box-header">
+    <h3>{{localize "PF1FS.Commodore"}}</h3>
+    <div class="officer">
+      <div class="officer-info">
+        {{#if commodore}}
+        <div class="officer-controls">
+          {{#if @root.owner}}
+          <a class="officer-control commodore-edit" data-tooltip="PF1FS.EditCommodore"
+            ><i class="fa-solid fa-edit" inert></i
+          ></a>
+          <a class="officer-control commodore-delete" data-tooltip="PF1FS.DeleteCommodore"
+            ><i class="fa-solid fa-trash" inert></i
+          ></a>
+          {{/if}}
+        </div>
 
-    <div class="image" style="background-image: url(&quot;{{ commodore.img }}&quot;)"></div>
+        <div class="image" style="background-image: url(&quot;{{ commodore.img }}&quot;)"></div>
 
-    <div class="name">
-      <h2>{{ commodore.name }}</h2>
-    </div>
-
-    <div class="info-box-joined">
-      <div class="info-box" data-tooltip-extended="chaMod">
-        <h5>{{ localize "PF1.AbilityChaMod" }}</h5>
-        <span class="value">{{ commodore.chaMod }}</span>
+        <div class="name">
+          <h2>{{ commodore.name }}</h2>
+        </div>
+        {{else}}
+        <button class="commodore-select" type="button" data-tooltip="{{localize 'PF1FS.SelectCommodore'}}">
+          {{localize "PF1FS.SelectCommodore"}}
+        </button>
+        {{/if}}
       </div>
-      <div class="info-box" data-tooltip-extended="profSailor">
-        <h5>{{localize "PF1FS.ProfSailor" }}</h5>
-        <span class="value">{{ commodore.profSailor }}</span>
-      </div>
-      <div class="info-box">
-        <h5>{{localize "PF1FS.IsSignificant" }}</h5>
-        <div class="value">
-          <input type="checkbox" name="system.commodore.isSignificant" {{checked commodore.isSignificant}} />
+
+      <div class="info-box-joined">
+        <div class="info-box" data-tooltip-extended="chaMod">
+          <h5>{{ localize "PF1.AbilityChaMod" }}</h5>
+          <span class="value">{{ commodore.chaMod }}</span>
+        </div>
+        <div class="info-box" data-tooltip-extended="profSailor">
+          <h5>{{localize "PF1FS.ProfSailor" }}</h5>
+          <span class="value">{{ commodore.profSailor }}</span>
+        </div>
+        <div class="info-box">
+          <h5>{{localize "PF1FS.IsSignificant" }}</h5>
+          <div class="value">
+            <input type="checkbox" name="system.commodore.isSignificant" {{checked commodore.isSignificant}} />
+          </div>
         </div>
       </div>
     </div>
